@@ -8,18 +8,37 @@ export default class WorkerTicket extends Component {
 
         //getting the index from the workerDV
         ev.dataTransfer.setData("src", this.props.workerDB3[this.props.i1].id);
-    
+
+
+    }
+
+    draging = (ev) => {
+
+        //    console.log(ev.pageX);
+        //    console.log(ev.target);
+
+        var markerDiv = document.getElementById('markerDiv')
+
+        if (markerDiv !== null) {
+
+            markerDiv.remove()
+
+        }
+
+
+
     }
 
     render() {
         return (
             <div id={`ticket${this.props.i1}`}
                 className='ticketDiv'
-                style={{ borderColor: `${this.props.workerDB3[this.props.i1].color}`}}
+                style={{ borderColor: `${this.props.workerDB3[this.props.i1].color}` }}
                 draggable='true'
                 onDragStart={this.drag}
-                >
-                    
+                onDrag={this.draging}
+            >
+
 
                 {this.props.workerDB3[this.props.i1].name}
 

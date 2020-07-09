@@ -25,6 +25,7 @@
   border: 0px solid black;
   width: 1.5rem;
   align-items: center;
+  
 }
 
 .postBodyDiv{
@@ -32,6 +33,7 @@
 }
 
 .dropAreaDiv{
+  display: flex;
   width: 720px;
   border: 1px solid black;
   margin-bottom: 1px;
