@@ -10,9 +10,9 @@ export default class ShiftMarker extends Component {
 
             return 0
 
-        } else if (this.props.axisX1 - dropAreaLeft + this.shiftLength() > 718) {
+        } else if (this.props.axisX1 - dropAreaLeft + this.shiftLength() > 720) {
 
-            var start = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth - this.shiftLength() - 4
+            var start = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth - this.shiftLength() - 2
 
             return start
 
@@ -29,7 +29,7 @@ export default class ShiftMarker extends Component {
 
     shiftLength = () => {
 
-        var shiftLength = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth / 3
+        var shiftLength = 240
 
         return shiftLength
 
@@ -41,18 +41,24 @@ export default class ShiftMarker extends Component {
         return (
             <div id='markerDiv'
                 style={
-                    {
+                    { 
                         position: 'relative',
-                        height: '16px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        height: '18px',
                         width: `${this.shiftLength()}px`,
-                        border: '1px solid blue',
+                        border: '0px solid blue',
                         left: `${this.shiftStart()}px`,
                         zIndex: '-1',
+                        backgroundColor: '#ffaaaa'
                     }
-
-
                 }
             >
+
+            <div> {this.shiftStart()} </div>
+
+                <div> {this.shiftStart()+this.shiftLength()} </div>
 
             </div>
         )
