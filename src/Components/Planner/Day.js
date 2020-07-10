@@ -7,6 +7,7 @@ export default class Day extends Component {
 
         this.props.placeMarker4(localDayInd2, localPostInd2)
 
+
     }
 
     deleteMarker3 = () => {

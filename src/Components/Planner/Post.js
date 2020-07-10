@@ -7,10 +7,10 @@ export default class Post extends Component {
         super(props)
 
         this.state = {
-            axisX: undefined
+            axisX: undefined,
+            
         }
     }
-
 
     allowDrop = (ev) => {
 
@@ -42,7 +42,7 @@ export default class Post extends Component {
 
         // console.log(this.props.dayInd2);
         // console.log(this.props.postInd1);
-        
+
 
         if (this.state.axisX !== ev.pageX) {
 
@@ -76,22 +76,12 @@ export default class Post extends Component {
         console.log('post ' + this.props.postInd1);
         console.log('x ' + ev.pageX);
 
-        //getBoundingClientRect
 
         let workerInd1 = src
         let dayInd1 = this.props.dayInd2
         let postInd1 = this.props.postInd1
         let axisX1 = ev.pageX
 
-        // *** at app, set markerPlaceDay and markerPlacePost to undefined,
-
-        // var markerDiv = document.getElementById('markerDiv')
-
-        // if (markerDiv !== null) {
-
-        //     markerDiv.remove()
-
-        // }
 
         this.deleteMarker1()
 
@@ -101,23 +91,27 @@ export default class Post extends Component {
     }
 
     placeMarker1 = () => {
-        
-        
 
         if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
 
+
+        
             return <ShiftMarker
                 axisX1={this.state.axisX}
+        
             />
 
+            
+
         }
+
 
     }
 
     deleteMarker1 = () => {
 
         // *** at app, set markerPlaceDay and markerPlacePost to undefined,
-      
+
 
         // var markerDiv = document.getElementById('markerDiv')
 
@@ -130,7 +124,7 @@ export default class Post extends Component {
         //console.log('leave');
 
         this.props.deleteMarker2()
-        
+
 
     }
 
@@ -139,10 +133,19 @@ export default class Post extends Component {
         console.log('adding shift');
 
         this.props.addShiftToDB2(workerInd2, dayInd2, postInd2, axisX2)
-        
+
+    }
+
+    getAxisX = () => {
+
+        console.log('pressed');
     }
 
     render() {
+
+        
+
+
         return (
             <div>
 
@@ -150,14 +153,20 @@ export default class Post extends Component {
 
                     <div>{this.props.shiftSet3[this.props.dayInd2].shifts[this.props.postInd1].name}</div>
 
+
+
                     <div className='dropAreaDiv'
-                        id={`dropDay${this.props.dayInd2}post${this.props.postInd1}`}
+                        id={`dropDay${this.props.dayInd2}Post${this.props.postInd1}`}
+                        ref={el => (this.container = el)}
                         onDragOver={this.allowDrop}
                         onDrop={this.drop}
                         onDragLeave={this.deleteMarker1}
                     >
                         {this.placeMarker1()}
                     </div>
+
+                    
+
 
                 </div>
 

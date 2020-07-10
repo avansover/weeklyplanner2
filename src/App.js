@@ -26,13 +26,14 @@ export default class App extends Component {
       shiftsDB: [],
 
       workerDB: [
-        { id: 0, name: 'Amir', color: '#ff0000' },
-        { id: 1, name: 'Nadav', color: '#00aa00' },
-        { id: 2, name: 'David', color: '#0000ff' },
+        { id: 0, name: 'John Doe1', color: '#ff0000' },
+        { id: 1, name: 'John Doe2', color: '#00aa00' },
+        { id: 2, name: 'John Doe3', color: '#0000ff' },
       ],
 
       markerPlaceDay: undefined,
       markerPlacePost: undefined,
+     
 
     }
   }
@@ -46,6 +47,7 @@ export default class App extends Component {
 
       this.setState({ markerPlaceDay: localDayInd4 })
       this.setState({ markerPlacePost: localPostInd4 })
+
 
     }
 
@@ -68,15 +70,21 @@ export default class App extends Component {
     console.log(dayInd5);
     console.log(postInd5);
     console.log(axisX5);
-    
-    
+
+
 
     //this.props.addShiftToDB6()
-    
-}
+
+  }
 
 
   render() {
+
+
+
+
+
+
     return (
       <div>
 
@@ -103,6 +111,7 @@ export default class App extends Component {
 
                 markerPlaceDay1={this.state.markerPlaceDay}
                 markerPlacePost1={this.state.markerPlacePost}
+    
               />
             }} />
             <Route exact path='/personal' component={() => {

@@ -16,6 +16,7 @@ export default class Planner extends Component {
         //console.log('deleteMarker5');
         
         this.props.deleteMarker6()
+        
 
     }
 
@@ -58,6 +59,7 @@ export default class Planner extends Component {
 
                                     markerPlaceDay2={this.props.markerPlaceDay1}
                                     markerPlacePost2={this.props.markerPlacePost1}
+                    
                                 />
                             )
                         })}
