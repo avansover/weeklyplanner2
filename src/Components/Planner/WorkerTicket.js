@@ -6,7 +6,7 @@ export default class WorkerTicket extends Component {
 
         console.log(this.props.workerDB3[this.props.i1])
 
-        //getting the index from the workerDV
+        //getting the index from the workerDB
         ev.dataTransfer.setData("src", this.props.workerDB3[this.props.i1].id);
 
 
@@ -17,13 +17,13 @@ export default class WorkerTicket extends Component {
         //    console.log(ev.pageX);
         //    console.log(ev.target);
 
-        var markerDiv = document.getElementById('markerDiv')
+        // var markerDiv = document.getElementById('markerDiv')
 
-        if (markerDiv !== null) {
+        // if (markerDiv !== null) {
 
-            markerDiv.remove()
+        //     markerDiv.remove()
 
-        }
+        // }
 
 
 

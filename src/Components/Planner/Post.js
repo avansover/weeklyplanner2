@@ -1,59 +1,145 @@
 import React, { Component } from 'react'
-//import ShiftMarker from './ShiftMarker';
+import ShiftMarker from './ShiftMarker';
 
 export default class Post extends Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            axisX: undefined
+        }
+    }
+
+
     allowDrop = (ev) => {
+
+        // *** learn conextAPI
 
         ev.preventDefault();
         //console.log(ev.target);
-        console.log(ev.pageX);
-
-        //return <ShiftMarker />
+        //console.log(ev.pageX);
 
         //var shiftDiv = <ShiftMarker />
-        var markerDivExist = document.getElementById('markerDiv')
+        // var markerDivExist = document.getElementById('markerDiv')
 
-        if (markerDivExist === null) {
+        // if (markerDivExist === null) {
 
-            var markerDiv = document.createElement('div')
-            markerDiv.id = 'markerDiv'
-            markerDiv.style.height = '10px'
-            markerDiv.style.width = '10px'
-            markerDiv.style.border = '1px solid red'
-            markerDiv.style.position = 'relative'
-            markerDiv.style.left = `${ev.pageX-200}px`
-            markerDiv.style.zIndex = '-1'
+        //     var markerDiv = document.createElement('div')
+        //     markerDiv.id = 'markerDiv'
+        //     markerDiv.style.height = '10px'
+        //     markerDiv.style.width = '10px'
+        //     markerDiv.style.border = '1px solid red'
+        //     markerDiv.style.position = 'relative'
+        //     markerDiv.style.left = `${ev.pageX-200}px`
+        //     markerDiv.style.zIndex = '-1'
 
-            //console.log(markerDiv);
+        //     //console.log(markerDiv);
 
-            document.getElementById(`dropDay${this.props.dayInd2}post${this.props.postInd1}`).appendChild(markerDiv)
+        //     document.getElementById(`dropDay${this.props.dayInd2}post${this.props.postInd1}`).appendChild(markerDiv)
+
+        // }
+
+        // console.log(this.props.dayInd2);
+        // console.log(this.props.postInd1);
+        
+
+        if (this.state.axisX !== ev.pageX) {
+
+            this.setState({ axisX: ev.pageX })
+
+            // console.log(this.state.axisX);
 
         }
 
+        let localDayInd1 = this.props.dayInd2
+        let localPostInd1 = this.props.postInd1
+
+        this.props.placeMarker2(localDayInd1, localPostInd1)
+
+    }
+
+    drop = (ev) => {
+
+        // *** learn conextAPI
+
+        console.log('drop');
+
+        ev.preventDefault();
+
+        console.log(ev.target);
+
+        let src = ev.dataTransfer.getData("src");
+
+        console.log('src ' + src);
+        console.log('day ' + this.props.dayInd2);
+        console.log('post ' + this.props.postInd1);
+        console.log('x ' + ev.pageX);
+
+        //getBoundingClientRect
+
+        let workerInd1 = src
+        let dayInd1 = this.props.dayInd2
+        let postInd1 = this.props.postInd1
+        let axisX1 = ev.pageX
+
+        // *** at app, set markerPlaceDay and markerPlacePost to undefined,
+
+        // var markerDiv = document.getElementById('markerDiv')
+
+        // if (markerDiv !== null) {
+
+        //     markerDiv.remove()
+
+        // }
+
+        this.deleteMarker1()
+
+        this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1)
 
 
     }
 
+    placeMarker1 = () => {
+        
+        
 
+        if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
 
-    drop = (ev) => {
+            return <ShiftMarker
+                axisX1={this.state.axisX}
+            />
 
-        ev.preventDefault();
+        }
 
-        //console.log(ev.target);
+    }
 
-        //let src = ev.dataTransfer.getData("src");
+    deleteMarker1 = () => {
 
-        // console.log('src ' + src);
+        // *** at app, set markerPlaceDay and markerPlacePost to undefined,
+      
 
-        // console.log('day ' + this.props.dayInd2);
+        // var markerDiv = document.getElementById('markerDiv')
 
-        // console.log('post ' + this.props.postInd1);
+        // if (markerDiv !== null) {
 
-        // console.log('x ' + ev.pageX);
+        //     markerDiv.remove()
 
+        // }
 
+        //console.log('leave');
+
+        this.props.deleteMarker2()
+        
+
+    }
+
+    addShiftToDB1 = (workerInd2, dayInd2, postInd2, axisX2) => {
+
+        console.log('adding shift');
+
+        this.props.addShiftToDB2(workerInd2, dayInd2, postInd2, axisX2)
+        
     }
 
     render() {
@@ -68,9 +154,9 @@ export default class Post extends Component {
                         id={`dropDay${this.props.dayInd2}post${this.props.postInd1}`}
                         onDragOver={this.allowDrop}
                         onDrop={this.drop}
+                        onDragLeave={this.deleteMarker1}
                     >
-
-
+                        {this.placeMarker1()}
                     </div>
 
                 </div>

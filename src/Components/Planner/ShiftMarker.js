@@ -6,13 +6,17 @@ export default class ShiftMarker extends Component {
             <div id='markerDiv'
                 style={
                     {
+                        position: 'relative',
                         height: '10px',
                         width: '10px',
-                        border: '1px solid red'
+                        border: '1px solid blue',
+                        left: `${this.props.axisX1-198}px`,
+                        zIndex: '-1'
+
                     }
                 }
             >
-                0
+                
             </div>
         )
     }
