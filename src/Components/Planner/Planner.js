@@ -22,7 +22,7 @@ export default class Planner extends Component {
 
     addShiftToDB5 = (workerInd4, dayInd4, postInd4, axisX4) => {
 
-        console.log('addShiftToDB5');
+        //console.log('addShiftToDB5');
 
         this.props.addShiftToDB6(workerInd4, dayInd4, postInd4, axisX4)
         

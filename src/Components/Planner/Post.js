@@ -20,7 +20,8 @@ export default class Post extends Component {
         //console.log(ev.target);
         //console.log(ev.pageX);
 
-        //var shiftDiv = <ShiftMarker />
+        // via createElement
+
         // var markerDivExist = document.getElementById('markerDiv')
 
         // if (markerDivExist === null) {
@@ -36,12 +37,11 @@ export default class Post extends Component {
 
         //     //console.log(markerDiv);
 
-        //     document.getElementById(`dropDay${this.props.dayInd2}post${this.props.postInd1}`).appendChild(markerDiv)
+        //     document.getElementById(`dropDay${this.props.dayInd2}Post${this.props.postInd1}`).appendChild(markerDiv)
 
         // }
 
         // console.log(this.props.dayInd2);
-        // console.log(this.props.postInd1);
 
 
         if (this.state.axisX !== ev.pageX) {
@@ -49,6 +49,16 @@ export default class Post extends Component {
             this.setState({ axisX: ev.pageX })
 
             // console.log(this.state.axisX);
+
+            // via createElement
+
+            // var markerDiv = document.getElementById('markerDiv')
+
+            // if (markerDiv !== null) {
+    
+            //     markerDiv.remove()
+    
+            // }
 
         }
 
@@ -113,15 +123,15 @@ export default class Post extends Component {
         // *** at app, set markerPlaceDay and markerPlacePost to undefined,
 
 
-        // var markerDiv = document.getElementById('markerDiv')
+        var markerDiv = document.getElementById('markerDiv')
 
-        // if (markerDiv !== null) {
+        if (markerDiv !== null) {
 
-        //     markerDiv.remove()
+            markerDiv.remove()
 
-        // }
+        }
 
-        //console.log('leave');
+        console.log('leave');
 
         this.props.deleteMarker2()
 

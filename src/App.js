@@ -33,7 +33,7 @@ export default class App extends Component {
 
       markerPlaceDay: undefined,
       markerPlacePost: undefined,
-     
+
 
     }
   }
@@ -64,12 +64,42 @@ export default class App extends Component {
 
   addShiftToDB7 = (workerInd5, dayInd5, postInd5, axisX5) => {
 
-    console.log('addShiftToDB7');
+    console.log('addShift');
 
     console.log(workerInd5);
     console.log(dayInd5);
     console.log(postInd5);
     console.log(axisX5);
+
+    var shiftLengh = 240
+
+    console.log('clacShift');
+
+    var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft + 120
+
+    console.log(dropAreaLeft);
+
+    if (axisX5 < dropAreaLeft) {
+
+      var start = 0
+
+    } else if (axisX5 - dropAreaLeft + shiftLengh > 720) {
+
+      start = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth - shiftLengh - 2
+
+    } else {
+
+      var realStart = (axisX5 - dropAreaLeft)
+
+      start = (Math.floor((realStart + 1) / 5)) * 5
+
+    }
+
+    console.log('start ' + start);
+
+
+
+
 
 
 
@@ -111,7 +141,7 @@ export default class App extends Component {
 
                 markerPlaceDay1={this.state.markerPlaceDay}
                 markerPlacePost1={this.state.markerPlacePost}
-    
+
               />
             }} />
             <Route exact path='/personal' component={() => {

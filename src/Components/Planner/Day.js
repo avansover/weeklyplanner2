@@ -20,7 +20,7 @@ export default class Day extends Component {
 
     addShiftToDB3 = (workerInd3, dayInd3, postInd3, axisX3) => {
 
-        console.log('addShiftToDB3');
+        //console.log('addShiftToDB3');
 
         this.props.addShiftToDB4(workerInd3, dayInd3, postInd3, axisX3)
         

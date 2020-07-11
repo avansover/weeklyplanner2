@@ -17,6 +17,8 @@ export default class WorkerTicket extends Component {
         //    console.log(ev.pageX);
         //    console.log(ev.target);
 
+        // via createElement
+
         // var markerDiv = document.getElementById('markerDiv')
 
         // if (markerDiv !== null) {
@@ -38,7 +40,6 @@ export default class WorkerTicket extends Component {
                 onDragStart={this.drag}
                 onDrag={this.draging}
             >
-
 
                 {this.props.workerDB3[this.props.i1].name}
 
