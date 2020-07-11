@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ShiftMarker from './ShiftMarker';
+import Shift from './Shift';
 
 export default class Post extends Component {
 
@@ -8,7 +9,7 @@ export default class Post extends Component {
 
         this.state = {
             axisX: undefined,
-            
+
         }
     }
 
@@ -55,9 +56,9 @@ export default class Post extends Component {
             // var markerDiv = document.getElementById('markerDiv')
 
             // if (markerDiv !== null) {
-    
+
             //     markerDiv.remove()
-    
+
             // }
 
         }
@@ -104,17 +105,12 @@ export default class Post extends Component {
 
         if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
 
-
-        
             return <ShiftMarker
                 axisX1={this.state.axisX}
-        
+
             />
 
-            
-
         }
-
 
     }
 
@@ -151,9 +147,10 @@ export default class Post extends Component {
         console.log('pressed');
     }
 
+
     render() {
 
-        
+
 
 
         return (
@@ -161,22 +158,23 @@ export default class Post extends Component {
 
                 <div className='postBodyDiv'>
 
-                    <div>{this.props.shiftSet3[this.props.dayInd2].shifts[this.props.postInd1].name}</div>
+                    <div>{this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].name}</div>
 
 
 
                     <div className='dropAreaDiv'
                         id={`dropDay${this.props.dayInd2}Post${this.props.postInd1}`}
-                        ref={el => (this.container = el)}
                         onDragOver={this.allowDrop}
                         onDrop={this.drop}
                         onDragLeave={this.deleteMarker1}
                     >
                         {this.placeMarker1()}
+                
+                        {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((e, shiftInd) => {
+                            return (<Shift />)
+                        })}
+
                     </div>
-
-                    
-
 
                 </div>
 

@@ -110,7 +110,7 @@ export default class ShiftMarker extends Component {
 
                 <div
                     style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerStart() + 1} {Math.floor((this.markerStart() + 1) / 5) * 5 + 1}
+                > {this.markerStart() + 1}
 
                 </div>
 

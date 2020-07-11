@@ -37,7 +37,7 @@ export default class Day extends Component {
                     </div>
 
                     <div>
-                        {this.props.shiftSet2[this.props.dayInd1].shifts.map((e, postInd) => {
+                        {this.props.shiftSet2[this.props.dayInd1].posts.map((e, postInd) => {
                             return (
                                 <Post
                                     placeMarker2={this.placeMarker3}
