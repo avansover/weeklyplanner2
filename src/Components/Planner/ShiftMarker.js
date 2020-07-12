@@ -2,29 +2,144 @@ import React, { Component } from 'react'
 
 export default class ShiftMarker extends Component {
 
-    markerStart = () => {
+    markerData = () => {
 
-        var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft + 120
+        var markerLength = 240
 
-        if (this.props.axisX1 < dropAreaLeft) {
+        var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
-            return 0
+        //console.log(this.props.localShifts);
 
-        } else if (this.props.axisX1 - dropAreaLeft + this.markerLength() > 720) {
+        var dropAreaAxisX = this.props.axisX1 - dropAreaLeft
 
-            var start = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth - this.markerLength() - 2
+        //console.log(dropAreaAxisX);
 
-            return start
+        //console.log(this.props.localShifts.map((o)=>{return o.shiftStart}))
+
+        var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
+
+        shiftStr.push(720)
+        shiftStr.push(dropAreaAxisX)
+
+        //console.log(shiftStr);
+
+        for (let j = 0; j < shiftStr.length - 1; j++) {
+
+            for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+
+                if (shiftStr[i] > shiftStr[i + 1]) {
+
+                    let tempI = shiftStr[i]
+                    shiftStr[i] = shiftStr[i + 1]
+                    shiftStr[i + 1] = tempI
+
+                }
+
+            }
+
+        }
+
+        //console.log(shiftStr);
+
+        for (let i = 0; i < shiftStr.length; i++) {
+
+            if (shiftStr[i] === dropAreaAxisX) {
+                var mouseIndStr = i
+            }
+
+        }
+
+        //console.log(mouseIndStr);
+
+        var endLimit = shiftStr[mouseIndStr + 1]
+
+        console.log(endLimit);
+
+        // --------------------------------------------------- //
+
+        var shiftend = this.props.localShifts.map((o) => { return o.shiftLength + o.shiftStart })
+
+        shiftend.push(0)
+        shiftend.push(dropAreaAxisX)
+
+        for (let j = 0; j < shiftend.length - 1; j++) {
+
+            for (let i = 0; i < shiftend.length - 1 - j; i++) {
+
+                if (shiftend[i] > shiftend[i + 1]) {
+
+                    let tempI = shiftend[i]
+                    shiftend[i] = shiftend[i + 1]
+                    shiftend[i + 1] = tempI
+
+                }
+
+            }
+
+        }
+
+        for (let i = 0; i < shiftend.length; i++) {
+
+            if (shiftend[i] === dropAreaAxisX) {
+                var mouseIndEnd = i
+            }
+
+        }
+
+        //console.log(shiftend);
+
+        var strLimit = shiftend[mouseIndEnd - 1]
+
+        console.log(strLimit);
+
+        // --------------------------------------------------- //
+
+        if (dropAreaAxisX < strLimit + 120) {
+
+            var markerStart = strLimit
+
+            let gap = endLimit - strLimit
+
+            if (gap < 240) {
+
+                markerStart = strLimit
+
+                markerLength = endLimit - strLimit
+
+            }
+
+
+        } else if (dropAreaAxisX > endLimit - 120) {
+
+            let gap = endLimit - strLimit
+
+            console.log(gap);
+
+            if (gap >= 240) {
+
+                markerStart = endLimit - 240
+
+            } else if (gap < 240) {
+
+
+                markerStart = strLimit
+
+                markerLength = endLimit - strLimit
+
+
+            }
 
         } else {
 
-            var realStart = (this.props.axisX1 - dropAreaLeft)
+            markerStart = dropAreaAxisX - 120
 
-            start = (Math.floor((realStart + 1) / 5)) * 5
-
-            return start
+            markerStart = (Math.floor((markerStart + 1) / 5)) * 5
 
         }
+
+        return { mrkStr: markerStart, mrkLnth: markerLength }
+
+
 
     }
 
@@ -38,7 +153,7 @@ export default class ShiftMarker extends Component {
 
     markerColor = () => {
 
-        if (isNaN(this.markerStart())) {
+        if (isNaN(this.markerData().mrkStr)) {
 
             //console.log('Nan');
 
@@ -59,7 +174,7 @@ export default class ShiftMarker extends Component {
 
     markerDataColor = () => {
 
-        if (isNaN(this.markerStart())) {
+        if (isNaN(this.markerData().mrkStr)) {
 
             //console.log('Nan');
 
@@ -72,7 +187,7 @@ export default class ShiftMarker extends Component {
 
         } else {
 
-            return '#0000ff'
+            return '#ffaaaa'
 
         }
 
@@ -90,6 +205,7 @@ export default class ShiftMarker extends Component {
     render() {
 
 
+
         return (
             <div id='markerDiv'
                 style={
@@ -99,24 +215,25 @@ export default class ShiftMarker extends Component {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         height: '18px',
-                        width: `${this.markerLength()}px`,
+                        width: `${this.markerData().mrkLnth}px`,
                         border: '0px solid blue',
-                        left: `${this.markerStart()}px`,
+                        left: `${this.markerData().mrkStr}px`,
                         zIndex: '-1',
-                        backgroundColor: `${this.markerColor()}`
+                        backgroundColor: `${this.markerDataColor()}`
                     }
                 }
             >
 
                 <div
                     style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerStart() + 1}
+                > {this.markerData().mrkStr + 1}
 
                 </div>
 
                 <div
                     style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerStart() + this.markerLength()} </div>
+                > {this.markerData().mrkStr + this.markerData().mrkLnth} </div>
+
 
             </div>
         )

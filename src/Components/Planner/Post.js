@@ -8,6 +8,7 @@ export default class Post extends Component {
         super(props)
 
         this.state = {
+
             axisX: undefined,
 
         }
@@ -18,6 +19,7 @@ export default class Post extends Component {
         // *** learn conextAPI
 
         ev.preventDefault();
+
         //console.log(ev.target);
         //console.log(ev.pageX);
 
@@ -63,10 +65,21 @@ export default class Post extends Component {
 
         }
 
-        let localDayInd1 = this.props.dayInd2
-        let localPostInd1 = this.props.postInd1
 
-        this.props.placeMarker2(localDayInd1, localPostInd1)
+
+        if (ev.target.className !== 'shiftDiv' && ev.target.className !== 'shiftDataDiv') {
+
+            let localDayInd1 = this.props.dayInd2
+            let localPostInd1 = this.props.postInd1
+
+            this.props.placeMarker2(localDayInd1, localPostInd1)
+
+        }
+
+
+
+
+
 
     }
 
@@ -82,21 +95,31 @@ export default class Post extends Component {
 
         let src = ev.dataTransfer.getData("src");
 
-        console.log('src ' + src);
-        console.log('day ' + this.props.dayInd2);
-        console.log('post ' + this.props.postInd1);
-        console.log('x ' + ev.pageX);
+        console.log(src);
 
+        if (ev.target.className !== 'shiftDiv') {
 
-        let workerInd1 = src
-        let dayInd1 = this.props.dayInd2
-        let postInd1 = this.props.postInd1
-        let axisX1 = ev.pageX
+            console.log('src ' + src);
+            console.log('day ' + this.props.dayInd2);
+            console.log('post ' + this.props.postInd1);
+            console.log('x ' + ev.pageX);
 
+            let workerInd1 = src
+            let dayInd1 = this.props.dayInd2
+            let postInd1 = this.props.postInd1
+            let axisX1 = ev.pageX
+
+            this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1)
+
+            console.log(this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts);
+
+        } if (ev.target.className === 'shiftDiv') {
+
+            console.log('false');
+
+        }
 
         this.deleteMarker1()
-
-        this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1)
 
 
     }
@@ -107,6 +130,7 @@ export default class Post extends Component {
 
             return <ShiftMarker
                 axisX1={this.state.axisX}
+                localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
 
             />
 
@@ -156,6 +180,8 @@ export default class Post extends Component {
         return (
             <div>
 
+
+
                 <div className='postBodyDiv'>
 
                     <div>{this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].name}</div>
@@ -163,15 +189,20 @@ export default class Post extends Component {
 
 
                     <div className='dropAreaDiv'
+                        style={{ display: 'flex', position: "relative" }}
                         id={`dropDay${this.props.dayInd2}Post${this.props.postInd1}`}
                         onDragOver={this.allowDrop}
                         onDrop={this.drop}
                         onDragLeave={this.deleteMarker1}
                     >
                         {this.placeMarker1()}
-                
+
                         {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((e, shiftInd) => {
-                            return (<Shift />)
+                            return (<Shift
+                                key={shiftInd}
+                                localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
+                                shiftInd1={shiftInd}
+                            />)
                         })}
 
                     </div>

@@ -15,7 +15,7 @@ export default class App extends Component {
 
       shiftSet: [
         { name: 'Su', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
+        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [{ workerInd: 2, shiftStart: 150, shiftLength: 20 },{ workerInd: 1, shiftStart: 240, shiftLength: 20 }] }, { name: 'post8', shifts: [] }] },
         { name: 'Tu', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'We', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'Th', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
@@ -40,12 +40,12 @@ export default class App extends Component {
 
     if (this.state.markerPlaceDay !== localDayInd4 || this.state.markerPlacePost !== localPostInd4) {
 
-      // console.log(localDayInd4);
-      // console.log(localPostInd4);
+      //while draging worker ticket over the post componet and...
+      //by compering the local indexes of the post componet to the global index of the mouse
+      //the shift marker will appear in the right day/post while draging over that component
 
       this.setState({ markerPlaceDay: localDayInd4 })
       this.setState({ markerPlacePost: localPostInd4 })
-
 
     }
 
@@ -53,7 +53,8 @@ export default class App extends Component {
 
   deleteMarker7 = () => {
 
-    //console.log('deleteMarker7');
+    //when dropping the shift or leaving the the drop area
+    //the marker is deleted
 
     this.setState({ markerPlaceDay: undefined })
     this.setState({ markerPlacePost: undefined })
@@ -99,17 +100,14 @@ export default class App extends Component {
 
     let tempShiftDB = [...this.state.shiftSet]
 
-    tempShiftDB[dayInd5].posts[postInd5].shifts.push({workerInd: workerInd5, shiftStart: start, shiftLength: shiftLengh})
+    tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerInd: workerInd5, shiftStart: start, shiftLength: shiftLengh })
 
-    this.setState({shiftSet: tempShiftDB})
+    this.setState({ shiftSet: tempShiftDB })
 
 
   }
 
   render() {
-
-
-
 
 
 
