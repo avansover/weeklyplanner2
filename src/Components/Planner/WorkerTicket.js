@@ -4,7 +4,7 @@ export default class WorkerTicket extends Component {
 
     drag = (ev) => {
 
-        console.log(this.props.workerDB3[this.props.i1])
+        //console.log(this.props.workerDB3[this.props.i1])
 
         // --- getting the index from the workerDB ---
 

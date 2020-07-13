@@ -15,11 +15,11 @@ export default class App extends Component {
 
       shiftSet: [
         { name: 'Su', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
+        { name: 'Mo', posts: [{ name: 'post6', shifts: [{ workerId: 2, shiftStart: 210, shiftLength: 90 }, { workerId: 2, shiftStart: 120, shiftLength: 90 }] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
         { name: 'Tu', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'We', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'Th', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Fr', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
+        { name: 'Fr', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }, { name: 'post4', shifts: [] }] },
         { name: 'Sa', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
       ],
 
@@ -68,16 +68,16 @@ export default class App extends Component {
 
   addShiftToDB7 = (workerInd5, dayInd5, postInd5, axisX5) => {
 
-    console.log('addShift');
+    // console.log('addShift');
 
-    console.log(workerInd5);
-    console.log(dayInd5);
-    console.log(postInd5);
-    console.log(axisX5);
-    console.log("");
+    // console.log(workerInd5);
+    // console.log(dayInd5);
+    // console.log(postInd5);
+    // console.log(axisX5);
+    // console.log("");
 
 
-    console.log('clacShift');
+    // console.log('clacShift');
 
     var shiftLength = 240
 
@@ -124,7 +124,7 @@ export default class App extends Component {
 
     var endLimit = shiftStr[mouseIndStr + 1]
 
-    console.log(endLimit);
+    // console.log(endLimit);
 
     // --------------------------------------------------- //
 
@@ -161,7 +161,7 @@ export default class App extends Component {
 
     var strLimit = shiftend[mouseIndEnd - 1]
 
-    console.log(strLimit);
+    // console.log(strLimit);
 
     // --------------------------------------------------- //
 
@@ -213,6 +213,86 @@ export default class App extends Component {
 
     tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength })
 
+    //need to add bubble sorting to that next code
+
+    for (let dayInd = 0; dayInd < tempShiftDB.length; dayInd++) {
+
+      for (let postInd = 0; postInd < tempShiftDB[dayInd].posts.length; postInd++) {
+
+        
+
+        console.log(tempShiftDB[dayInd].posts[postInd].shifts.length);
+
+        // --- need to run the who;e thing twice in order to account for merging 3 shifts ---
+
+        for (let k = 0; k < 2; k++) {
+
+          // --- sorting before merging ---
+
+          for (let j = 0; j < tempShiftDB[dayInd].posts[postInd].shifts.length; j++) {
+
+            for (let i = 0; i < tempShiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
+
+              let firstShift = tempShiftDB[dayInd].posts[postInd].shifts[i]
+              let secondShift = tempShiftDB[dayInd].posts[postInd].shifts[i + 1]
+
+              console.log(tempShiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
+
+              if (firstShift.shiftStart > secondShift.shiftStart) {
+
+                let tempShift = tempShiftDB[dayInd].posts[postInd].shifts[i]
+                tempShiftDB[dayInd].posts[postInd].shifts[i] = tempShiftDB[dayInd].posts[postInd].shifts[i + 1]
+                tempShiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
+
+
+              }
+
+            }
+          }
+
+          // --- merging shifts---
+
+          for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+
+            let firstShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd]
+            let secondShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+            if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+              tempShiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength })
+
+              let localShiftNum = tempShiftDB[dayInd].posts[postInd].shifts.length
+
+              let newMergedShift = tempShiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+              tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+              tempShiftDB[dayInd].posts[postInd].shifts.pop()
+
+            }
+
+
+          }
+
+        }
+
+        // ***
+
+
+      }
+
+    }
+
+
+
+
+
+
+
+
+
     this.setState({ shiftSet: tempShiftDB })
 
 
@@ -230,7 +310,7 @@ export default class App extends Component {
   bringWorkerID7 = (workerID) => {
 
 
-    console.log(workerID);
+    //console.log(workerID);
 
     this.setState({ markerWorkerID: workerID })
 

@@ -169,7 +169,7 @@ export default class Post extends Component {
 
     addShiftToDB1 = (workerInd2, dayInd2, postInd2, axisX2) => {
 
-        console.log('adding shift');
+        //console.log('adding shift');
 
         this.props.addShiftToDB2(workerInd2, dayInd2, postInd2, axisX2)
 

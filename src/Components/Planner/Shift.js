@@ -70,7 +70,7 @@ export default class Shift extends Component {
 
                 <div
                     className='shiftDataDiv'
-                    style={{ zIndex: -1, fontSize: '12px' }}
+                    style={{ zIndex: -1, fontSize: '8px' }}
                 >
                     {this.props.localShifts[this.props.shiftInd1].shiftStart}
                 </div>
@@ -86,7 +86,7 @@ export default class Shift extends Component {
 
                 <div
                     className='shiftDataDiv'
-                    style={{ zIndex: -1, fontSize: '12px' }}
+                    style={{ zIndex: -1, fontSize: '8px' }}
                 >
                     {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
                 </div>
