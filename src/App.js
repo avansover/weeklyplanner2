@@ -15,7 +15,7 @@ export default class App extends Component {
 
       shiftSet: [
         { name: 'Su', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Mo', posts: [{ name: 'post6', shifts: [{ workerId: 2, shiftStart: 210, shiftLength: 90 }, { workerId: 2, shiftStart: 120, shiftLength: 90 }] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
+        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
         { name: 'Tu', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'We', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'Th', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
