@@ -7,17 +7,16 @@ export default class ShiftMarker extends Component {
         var markerLength = 0
         var markerStart = 0
 
-        console.log(markerStart);
-
         var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
         //console.log(this.props.localShifts);
 
+        // since the this.props.axisX1 is undefined for the first few moment,
+        // we get NaN warning on depeneded variables
+
         if (this.props.axisX1 !== undefined) {
 
             var dropAreaAxisX = this.props.axisX1 - dropAreaLeft
-
-
 
             //console.log(dropAreaAxisX);
 
@@ -115,7 +114,6 @@ export default class ShiftMarker extends Component {
 
                 }
 
-
             } else if (dropAreaAxisX > endLimit - 120) {
 
                 let gap = endLimit - strLimit
@@ -130,11 +128,9 @@ export default class ShiftMarker extends Component {
 
                 } else if (gap < 240) {
 
-
                     markerStart = strLimit
 
                     markerLength = endLimit - strLimit
-
 
                 }
 
@@ -153,25 +149,19 @@ export default class ShiftMarker extends Component {
                 markerLength
             )
 
-            console.log(markerStart);
-
         }
 
         return { mrkStr: markerStart, mrkLnth: markerLength }
-
-
 
     }
 
     markerColor = () => {
 
+        // since the this.props.axisX1 is undefined for the first few moment,
+        // we get NaN warning on depeneded variables,
+        // and the marker apears on the left of the drop area
+
         if (this.markerData().mrkLnth === 0) {
-
-            //console.log('Nan');
-
-            //there is a split second when the position of the marker displayed as NaN
-            //for that moment I'll use style that can't be seen
-            //later on I should check why I recive the NaN value
 
             return '#ffffff'
 
@@ -186,18 +176,13 @@ export default class ShiftMarker extends Component {
 
     markerDataColor = () => {
 
+        // since the this.props.axisX1 is undefined for the first few moment,
+        // we get NaN warning on depeneded variables,
+        // and the marker apears on the left of the drop area
+
         if (this.markerData().mrkLnth === 0) {
 
-            console.log('Nan');
-
-            console.log(this.markerData().mrkStr);
-
-            //there is a split second when the position of the marker displayed as NaN
-            //for that moment I'll use style that can't be seen
-            //later on I should check why I recive the NaN value
-
             return '#ffffff'
-
 
         } else {
 
