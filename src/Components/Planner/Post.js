@@ -11,6 +11,11 @@ export default class Post extends Component {
 
             axisX: undefined,
 
+            shiftStartForDrop: undefined,
+            shiftLengthForDrop: undefined,
+
+            tempA: undefined
+
         }
     }
 
@@ -65,8 +70,6 @@ export default class Post extends Component {
 
         }
 
-
-
         if (ev.target.className !== 'shiftDiv' && ev.target.className !== 'shiftDataDiv') {
 
             let localDayInd1 = this.props.dayInd2
@@ -75,11 +78,6 @@ export default class Post extends Component {
             this.props.placeMarker2(localDayInd1, localPostInd1)
 
         }
-
-
-
-
-
 
     }
 
@@ -111,7 +109,7 @@ export default class Post extends Component {
 
             this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1)
 
-            console.log(this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts);
+            //console.log(this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts);
 
         } if (ev.target.className === 'shiftDiv') {
 
@@ -129,12 +127,23 @@ export default class Post extends Component {
         if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
 
             return <ShiftMarker
+                bringMarkerData1={this.bringMarkerData2}
+
                 axisX1={this.state.axisX}
                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
+                dayInd3={this.props.dayInd2}
+                postInd2={this.props.postInd1}
+                markerWorkerID4={this.props.markerWorkerID3}
 
             />
 
         }
+
+    }
+
+    bringMarkerData2 = (shiftStart, shiftLength) => {
+
+        this.props.bringMarkerData3(shiftStart, shiftLength)
 
     }
 
@@ -151,7 +160,7 @@ export default class Post extends Component {
 
         }
 
-        console.log('leave');
+        //console.log('leave');
 
         this.props.deleteMarker2()
 
@@ -197,11 +206,14 @@ export default class Post extends Component {
                     >
                         {this.placeMarker1()}
 
-                        {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((e, shiftInd) => {
+                        {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((o, shiftInd) => {
                             return (<Shift
                                 key={shiftInd}
                                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
                                 shiftInd1={shiftInd}
+                                workerDB4={this.props.workerDB3}
+                                markerWorkerID4={this.props.markerWorkerID3}
+                                shiftData={o}
                             />)
                         })}
 

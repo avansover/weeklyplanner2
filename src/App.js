@@ -15,7 +15,7 @@ export default class App extends Component {
 
       shiftSet: [
         { name: 'Su', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [{ workerInd: 2, shiftStart: 150, shiftLength: 20 },{ workerInd: 1, shiftStart: 240, shiftLength: 20 }] }, { name: 'post8', shifts: [] }] },
+        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [{ workerId: 2, shiftStart: 150, shiftLength: 20 }, { workerId: 1, shiftStart: 240, shiftLength: 20 }] }, { name: 'post8', shifts: [] }] },
         { name: 'Tu', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'We', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'Th', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
@@ -31,6 +31,8 @@ export default class App extends Component {
 
       markerPlaceDay: undefined,
       markerPlacePost: undefined,
+
+      markerWorkerID: undefined,
 
 
     }
@@ -69,47 +71,170 @@ export default class App extends Component {
     console.log(dayInd5);
     console.log(postInd5);
     console.log(axisX5);
+    console.log("");
 
-    var shiftLengh = 240
 
     console.log('clacShift');
 
-    var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft + 120
+    var shiftLength = 240
 
-    console.log(dropAreaLeft);
+    var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
-    if (axisX5 < dropAreaLeft) {
+    //console.log(dropAreaLeft);
 
-      var start = 0
+    var dropAreaAxisX = axisX5 - dropAreaLeft
 
-    } else if (axisX5 - dropAreaLeft + shiftLengh > 720) {
+    //console.log(dropAreaAxisX);
 
-      start = document.getElementsByClassName('dropAreaDiv')[0].offsetWidth - shiftLengh - 2
+    var shiftStr = this.state.shiftSet[dayInd5].posts[postInd5].shifts.map((o, i) => { return o.shiftStart })
 
-    } else {
+    shiftStr.push(720)
+    shiftStr.push(dropAreaAxisX)
 
-      var realStart = (axisX5 - dropAreaLeft)
+    for (let j = 0; j < shiftStr.length - 1; j++) {
 
-      start = (Math.floor((realStart + 1) / 5)) * 5
+      for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+
+        if (shiftStr[i] > shiftStr[i + 1]) {
+
+          let tempI = shiftStr[i]
+          shiftStr[i] = shiftStr[i + 1]
+          shiftStr[i + 1] = tempI
+
+        }
+
+      }
 
     }
 
-    console.log('start ' + start);
+    //console.log(shiftStr);
 
-    console.log(this.state.shiftSet[dayInd5].posts[postInd5].shifts);
+    for (let i = 0; i < shiftStr.length; i++) {
+
+      if (shiftStr[i] === dropAreaAxisX) {
+        var mouseIndStr = i
+      }
+
+    }
+
+    //console.log(mouseIndStr);
+
+    var endLimit = shiftStr[mouseIndStr + 1]
+
+    console.log(endLimit);
+
+    // --------------------------------------------------- //
+
+    var shiftend = this.state.shiftSet[dayInd5].posts[postInd5].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
+
+    shiftend.push(0)
+    shiftend.push(dropAreaAxisX)
+
+    for (let j = 0; j < shiftend.length - 1; j++) {
+
+      for (let i = 0; i < shiftend.length - 1 - j; i++) {
+
+        if (shiftend[i] > shiftend[i + 1]) {
+
+          let tempI = shiftend[i]
+          shiftend[i] = shiftend[i + 1]
+          shiftend[i + 1] = tempI
+
+        }
+
+      }
+
+    }
+
+    for (let i = 0; i < shiftend.length; i++) {
+
+      if (shiftend[i] === dropAreaAxisX) {
+        var mouseIndEnd = i
+      }
+
+    }
+
+    //console.log(shiftend);
+
+    var strLimit = shiftend[mouseIndEnd - 1]
+
+    console.log(strLimit);
+
+    // --------------------------------------------------- //
+
+    if (dropAreaAxisX < strLimit + 120) {
+
+      var shiftStart = strLimit
+
+      let gap = endLimit - strLimit
+
+      if (gap < 240) {
+
+        shiftStart = strLimit
+
+        shiftLength = endLimit - strLimit
+
+      }
+
+
+    } else if (dropAreaAxisX > endLimit - 120) {
+
+      let gap = endLimit - strLimit
+
+      //console.log(gap);
+
+      if (gap >= 240) {
+
+        shiftStart = endLimit - 240
+
+      } else if (gap < 240) {
+
+
+        shiftStart = strLimit
+
+        shiftLength = endLimit - strLimit
+
+
+      }
+
+    } else {
+
+      shiftStart = dropAreaAxisX - 120
+
+      shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
+
+    }
+
 
     let tempShiftDB = [...this.state.shiftSet]
 
-    tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerInd: workerInd5, shiftStart: start, shiftLength: shiftLengh })
+    tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength })
 
     this.setState({ shiftSet: tempShiftDB })
 
 
   }
 
+  bringMarkerData8 = (shiftStart, shiftLength) => {
+
+
+
+    // console.log(shiftStart);
+    // console.log(shiftLength);
+
+  }
+
+  bringWorkerID7 = (workerID) => {
+
+
+    console.log(workerID);
+
+    this.setState({ markerWorkerID: workerID })
+
+  }
+
+
   render() {
-
-
 
     return (
       <div>
@@ -130,9 +255,11 @@ export default class App extends Component {
                 placeMarker6={this.placeMarker7}
                 deleteMarker6={this.deleteMarker7}
                 addShiftToDB6={this.addShiftToDB7}
-
+                bringMarkerData7={this.bringMarkerData8}
+                bringWorkerID6={this.bringWorkerID7}
 
                 workerDB1={this.state.workerDB}
+                markerWorkerID1={this.state.markerWorkerID}
                 shiftSet1={this.state.shiftSet}
 
                 markerPlaceDay1={this.state.markerPlaceDay}

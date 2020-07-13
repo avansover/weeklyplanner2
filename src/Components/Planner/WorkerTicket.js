@@ -6,7 +6,8 @@ export default class WorkerTicket extends Component {
 
         console.log(this.props.workerDB3[this.props.i1])
 
-        //getting the index from the workerDB
+        // --- getting the index from the workerDB ---
+
         ev.dataTransfer.setData("src", this.props.workerDB3[this.props.i1].id);
 
 
@@ -27,7 +28,13 @@ export default class WorkerTicket extends Component {
 
         // }
 
+    }
 
+    bringWorkerID1 = () => {
+
+        //console.log(this.props.workerDB3[this.props.i1].id);
+
+        this.props.bringWorkerID2(this.props.workerDB3[this.props.i1].id)
 
     }
 
@@ -39,6 +46,7 @@ export default class WorkerTicket extends Component {
                 draggable='true'
                 onDragStart={this.drag}
                 onDrag={this.draging}
+                onMouseDown={this.bringWorkerID1}
             >
 
                 {this.props.workerDB3[this.props.i1].name}

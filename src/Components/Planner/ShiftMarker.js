@@ -14,8 +14,6 @@ export default class ShiftMarker extends Component {
 
         //console.log(dropAreaAxisX);
 
-        //console.log(this.props.localShifts.map((o)=>{return o.shiftStart}))
-
         var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
 
         shiftStr.push(720)
@@ -53,7 +51,7 @@ export default class ShiftMarker extends Component {
 
         var endLimit = shiftStr[mouseIndStr + 1]
 
-        console.log(endLimit);
+        //console.log(endLimit);
 
         // --------------------------------------------------- //
 
@@ -90,7 +88,7 @@ export default class ShiftMarker extends Component {
 
         var strLimit = shiftend[mouseIndEnd - 1]
 
-        console.log(strLimit);
+        //console.log(strLimit);
 
         // --------------------------------------------------- //
 
@@ -113,7 +111,7 @@ export default class ShiftMarker extends Component {
 
             let gap = endLimit - strLimit
 
-            console.log(gap);
+            //console.log(gap);
 
             if (gap >= 240) {
 
@@ -137,17 +135,12 @@ export default class ShiftMarker extends Component {
 
         }
 
+        this.props.bringMarkerData1(
+            markerStart,
+            markerLength
+        )
+
         return { mrkStr: markerStart, mrkLnth: markerLength }
-
-
-
-    }
-
-    markerLength = () => {
-
-        var shiftLength = 240
-
-        return shiftLength
 
     }
 
@@ -187,7 +180,7 @@ export default class ShiftMarker extends Component {
 
         } else {
 
-            return '#ffaaaa'
+            return '#000000'
 
         }
 
@@ -219,14 +212,15 @@ export default class ShiftMarker extends Component {
                         border: '0px solid blue',
                         left: `${this.markerData().mrkStr}px`,
                         zIndex: '-1',
-                        backgroundColor: `${this.markerDataColor()}`
+                        backgroundColor: `${this.markerColor()}`,
+
                     }
                 }
             >
 
                 <div
                     style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerData().mrkStr + 1}
+                > {this.markerData().mrkStr}
 
                 </div>
 

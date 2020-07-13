@@ -14,9 +14,9 @@ export default class Planner extends Component {
     deleteMarker5 = () => {
 
         //console.log('deleteMarker5');
-        
+
         this.props.deleteMarker6()
-        
+
 
     }
 
@@ -25,10 +25,25 @@ export default class Planner extends Component {
         //console.log('addShiftToDB5');
 
         this.props.addShiftToDB6(workerInd4, dayInd4, postInd4, axisX4)
-        
+
     }
 
+    bringMarkerData6 = (shiftStart, shiftLength) => {
 
+        this.props.bringMarkerData7(shiftStart, shiftLength)
+
+        // console.log(shiftStart);
+        // console.log(shiftLength);
+
+    }
+
+    bringWorkerID5 = (workerID) => {
+
+        this.props.bringWorkerID6(workerID)
+
+        //console.log(workerID);
+
+    }
 
     render() {
         return (
@@ -38,7 +53,11 @@ export default class Planner extends Component {
 
                     <div>
                         <WorkersBox
+                            bringWorkerID4={this.bringWorkerID5}
+
+
                             workerDB2={this.props.workerDB1}
+                            
                         />
                     </div>
 
@@ -52,14 +71,17 @@ export default class Planner extends Component {
                                     placeMarker4={this.placeMarker5}
                                     deleteMarker4={this.deleteMarker5}
                                     addShiftToDB4={this.addShiftToDB5}
+                                    bringMarkerData5={this.bringMarkerData6}
 
                                     key={dayInd}
                                     shiftSet2={this.props.shiftSet1}
+                                    workerDB2={this.props.workerDB1}
                                     dayInd1={dayInd}
 
                                     markerPlaceDay2={this.props.markerPlaceDay1}
                                     markerPlacePost2={this.props.markerPlacePost1}
-                    
+                                    markerWorkerID2={this.props.markerWorkerID1}
+
                                 />
                             )
                         })}
