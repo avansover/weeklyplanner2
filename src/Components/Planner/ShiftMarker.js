@@ -4,149 +4,168 @@ export default class ShiftMarker extends Component {
 
     markerData = () => {
 
-        var markerLength = 240
+        var markerLength = 0
+        var markerStart = 0
+
+        console.log(markerStart);
 
         var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
         //console.log(this.props.localShifts);
 
-        var dropAreaAxisX = this.props.axisX1 - dropAreaLeft
+        if (this.props.axisX1 !== undefined) {
 
-        //console.log(dropAreaAxisX);
+            var dropAreaAxisX = this.props.axisX1 - dropAreaLeft
 
-        var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
 
-        shiftStr.push(720)
-        shiftStr.push(dropAreaAxisX)
 
-        //console.log(shiftStr);
+            //console.log(dropAreaAxisX);
 
-        for (let j = 0; j < shiftStr.length - 1; j++) {
+            var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
 
-            for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+            shiftStr.push(720)
+            shiftStr.push(dropAreaAxisX)
 
-                if (shiftStr[i] > shiftStr[i + 1]) {
+            //console.log(shiftStr);
 
-                    let tempI = shiftStr[i]
-                    shiftStr[i] = shiftStr[i + 1]
-                    shiftStr[i + 1] = tempI
+            for (let j = 0; j < shiftStr.length - 1; j++) {
 
-                }
+                for (let i = 0; i < shiftStr.length - 1 - j; i++) {
 
-            }
+                    if (shiftStr[i] > shiftStr[i + 1]) {
 
-        }
+                        let tempI = shiftStr[i]
+                        shiftStr[i] = shiftStr[i + 1]
+                        shiftStr[i + 1] = tempI
 
-        //console.log(shiftStr);
-
-        for (let i = 0; i < shiftStr.length; i++) {
-
-            if (shiftStr[i] === dropAreaAxisX) {
-                var mouseIndStr = i
-            }
-
-        }
-
-        //console.log(mouseIndStr);
-
-        var endLimit = shiftStr[mouseIndStr + 1]
-
-        //console.log(endLimit);
-
-        // --------------------------------------------------- //
-
-        var shiftend = this.props.localShifts.map((o) => { return o.shiftLength + o.shiftStart })
-
-        shiftend.push(0)
-        shiftend.push(dropAreaAxisX)
-
-        for (let j = 0; j < shiftend.length - 1; j++) {
-
-            for (let i = 0; i < shiftend.length - 1 - j; i++) {
-
-                if (shiftend[i] > shiftend[i + 1]) {
-
-                    let tempI = shiftend[i]
-                    shiftend[i] = shiftend[i + 1]
-                    shiftend[i + 1] = tempI
+                    }
 
                 }
 
             }
 
-        }
+            //console.log(shiftStr);
 
-        for (let i = 0; i < shiftend.length; i++) {
+            for (let i = 0; i < shiftStr.length; i++) {
 
-            if (shiftend[i] === dropAreaAxisX) {
-                var mouseIndEnd = i
+                if (shiftStr[i] === dropAreaAxisX) {
+                    var mouseIndStr = i
+                }
+
             }
 
-        }
+            //console.log(mouseIndStr);
 
-        //console.log(shiftend);
+            var endLimit = shiftStr[mouseIndStr + 1]
 
-        var strLimit = shiftend[mouseIndEnd - 1]
+            //console.log(endLimit);
 
-        //console.log(strLimit);
+            // --------------------------------------------------- //
 
-        // --------------------------------------------------- //
+            var shiftend = this.props.localShifts.map((o) => { return o.shiftLength + o.shiftStart })
 
-        if (dropAreaAxisX < strLimit + 120) {
+            shiftend.push(0)
+            shiftend.push(dropAreaAxisX)
 
-            var markerStart = strLimit
+            for (let j = 0; j < shiftend.length - 1; j++) {
 
-            let gap = endLimit - strLimit
+                for (let i = 0; i < shiftend.length - 1 - j; i++) {
 
-            if (gap < 240) {
+                    if (shiftend[i] > shiftend[i + 1]) {
+
+                        let tempI = shiftend[i]
+                        shiftend[i] = shiftend[i + 1]
+                        shiftend[i + 1] = tempI
+
+                    }
+
+                }
+
+            }
+
+            for (let i = 0; i < shiftend.length; i++) {
+
+                if (shiftend[i] === dropAreaAxisX) {
+                    var mouseIndEnd = i
+                }
+
+            }
+
+            //console.log(shiftend);
+
+            var strLimit = shiftend[mouseIndEnd - 1]
+
+            //console.log(strLimit);
+
+            // --------------------------------------------------- //
+
+            if (dropAreaAxisX < strLimit + 120) {
 
                 markerStart = strLimit
 
-                markerLength = endLimit - strLimit
+                markerLength = 240
+
+                let gap = endLimit - strLimit
+
+                if (gap < 240) {
+
+                    markerStart = strLimit
+
+                    markerLength = endLimit - strLimit
+
+                }
+
+
+            } else if (dropAreaAxisX > endLimit - 120) {
+
+                let gap = endLimit - strLimit
+
+                //console.log(gap);
+
+                if (gap >= 240) {
+
+                    markerStart = endLimit - 240
+
+                    markerLength = 240
+
+                } else if (gap < 240) {
+
+
+                    markerStart = strLimit
+
+                    markerLength = endLimit - strLimit
+
+
+                }
+
+            } else {
+
+                markerStart = dropAreaAxisX - 120
+
+                markerLength = 240
+
+                markerStart = (Math.floor((markerStart + 1) / 5)) * 5
 
             }
 
+            this.props.bringMarkerData1(
+                markerStart,
+                markerLength
+            )
 
-        } else if (dropAreaAxisX > endLimit - 120) {
-
-            let gap = endLimit - strLimit
-
-            //console.log(gap);
-
-            if (gap >= 240) {
-
-                markerStart = endLimit - 240
-
-            } else if (gap < 240) {
-
-
-                markerStart = strLimit
-
-                markerLength = endLimit - strLimit
-
-
-            }
-
-        } else {
-
-            markerStart = dropAreaAxisX - 120
-
-            markerStart = (Math.floor((markerStart + 1) / 5)) * 5
+            console.log(markerStart);
 
         }
-
-        this.props.bringMarkerData1(
-            markerStart,
-            markerLength
-        )
 
         return { mrkStr: markerStart, mrkLnth: markerLength }
+
+
 
     }
 
     markerColor = () => {
 
-        if (isNaN(this.markerData().mrkStr)) {
+        if (this.markerData().mrkLnth === 0) {
 
             //console.log('Nan');
 
@@ -167,9 +186,11 @@ export default class ShiftMarker extends Component {
 
     markerDataColor = () => {
 
-        if (isNaN(this.markerData().mrkStr)) {
+        if (this.markerData().mrkLnth === 0) {
 
-            //console.log('Nan');
+            console.log('Nan');
+
+            console.log(this.markerData().mrkStr);
 
             //there is a split second when the position of the marker displayed as NaN
             //for that moment I'll use style that can't be seen
@@ -219,14 +240,24 @@ export default class ShiftMarker extends Component {
             >
 
                 <div
-                    style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerData().mrkStr}
-
+                    style={{
+                        color: `${this.markerDataColor()}`,
+                        zIndex: -1,
+                        fontSize: '12px'
+                    }}
+                >
+                    {this.markerData().mrkStr}
                 </div>
 
                 <div
-                    style={{ color: `${this.markerDataColor()}` }}
-                > {this.markerData().mrkStr + this.markerData().mrkLnth} </div>
+                    style={{
+                        color: `${this.markerDataColor()}`,
+                        zIndex: -1,
+                        fontSize: '12px'
+                    }}
+                >
+                    {this.markerData().mrkStr + this.markerData().mrkLnth}
+                </div>
 
 
             </div>

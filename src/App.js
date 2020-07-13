@@ -15,7 +15,7 @@ export default class App extends Component {
 
       shiftSet: [
         { name: 'Su', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
-        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [{ workerId: 2, shiftStart: 150, shiftLength: 20 }, { workerId: 1, shiftStart: 240, shiftLength: 20 }] }, { name: 'post8', shifts: [] }] },
+        { name: 'Mo', posts: [{ name: 'post6', shifts: [] }, { name: 'post7', shifts: [] }, { name: 'post8', shifts: [] }] },
         { name: 'Tu', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'We', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
         { name: 'Th', posts: [{ name: 'post1', shifts: [] }, { name: 'post2', shifts: [] }, { name: 'post3', shifts: [] }] },
@@ -26,10 +26,10 @@ export default class App extends Component {
       workerDB: [
         { id: 0, name: 'draggable 1', color: '#ff0000' },
         { id: 1, name: 'draggable 2', color: '#00aa00' },
-        { id: 2, name: 'draggable 3', color: '#0000ff' },
+        { id: 2, name: 'draggable 3', color: '#6666ff' },
         { id: 3, name: 'draggable 4', color: '#ffff00' },
         { id: 4, name: 'draggable 5', color: '#ff00ff' },
-        { id: 5, name: 'draggable 6', color: '#00ffff' },
+        { id: 6, name: 'draggable 6', color: '#00ffff' },
       ],
 
       markerPlaceDay: undefined,

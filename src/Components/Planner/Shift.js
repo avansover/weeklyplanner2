@@ -5,21 +5,41 @@ export default class Shift extends Component {
 
     shiftColor = () => {
 
-        console.log(this.props.workerDB4[this.props.shiftData.workerId].color)
 
-        console.log(this.props.shiftData.workerId)
-        
-        return `${this.props.workerDB4[this.props.shiftData.workerId].color}`
+        var workerId = parseInt(this.props.shiftData.workerId)
+
+        // console.log(workerId)
+
+        // console.log(this.props.workerDB4)
+
+        // console.log(this.props.workerDB4.filter((o) => (o.id === workerId)));
+
+        var workerFromWrokerDB = this.props.workerDB4.filter((o) => (o.id === workerId))
+
+        // console.log(workerFromWrokerDB[0].color);
+
+        return workerFromWrokerDB[0].color
+
 
     }
 
-    workerID = () => {
+    workerName = () => {
 
-        
+        var workerId = parseInt(this.props.shiftData.workerId)
 
-      
+        // console.log(workerId)
+
+        // console.log(this.props.workerDB4)
+
+        // console.log(this.props.workerDB4.filter((o) => (o.id === workerId)));
+
+        var workerFromWrokerDB = this.props.workerDB4.filter((o) => (o.id === workerId))
+
+        // console.log(workerFromWrokerDB[0].color);
+
+        return workerFromWrokerDB[0].name
+
     }
-
 
     render() {
 
@@ -48,21 +68,28 @@ export default class Shift extends Component {
 
             >
 
-                {/* <div
+                <div
                     className='shiftDataDiv'
+                    style={{ zIndex: -1, fontSize: '12px' }}
                 >
                     {this.props.localShifts[this.props.shiftInd1].shiftStart}
-                </div> */}
-
-                <div>
-                    {this.workerID()}
                 </div>
 
-                {/* <div
+                <div
+                    style={{
+                        zIndex: -1,
+                        fontSize: '12px'
+                    }}
+                >
+                    {this.workerName()}
+                </div>
+
+                <div
                     className='shiftDataDiv'
+                    style={{ zIndex: -1, fontSize: '12px' }}
                 >
                     {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
-                </div> */}
+                </div>
 
             </div>
         )
