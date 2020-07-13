@@ -24,9 +24,12 @@ export default class App extends Component {
       ],
 
       workerDB: [
-        { id: 0, name: 'John Doe1', color: '#ff0000' },
-        { id: 1, name: 'John Doe2', color: '#00aa00' },
-        { id: 2, name: 'John Doe3', color: '#0000ff' },
+        { id: 0, name: 'draggable 1', color: '#ff0000' },
+        { id: 1, name: 'draggable 2', color: '#00aa00' },
+        { id: 2, name: 'draggable 3', color: '#0000ff' },
+        { id: 3, name: 'draggable 4', color: '#ffff00' },
+        { id: 4, name: 'draggable 5', color: '#ff00ff' },
+        { id: 5, name: 'draggable 6', color: '#00ffff' },
       ],
 
       markerPlaceDay: undefined,
