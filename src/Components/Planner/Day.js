@@ -35,6 +35,12 @@ export default class Day extends Component {
 
     }
 
+    swapShifts2 = (srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId) => {
+
+        this.props.swapShifts3(srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId)
+
+    }
+
     render() {
         return (
             <div>
@@ -53,6 +59,7 @@ export default class Day extends Component {
                                     deleteMarker2={this.deleteMarker3}
                                     addShiftToDB2={this.addShiftToDB3}
                                     bringMarkerData3={this.bringMarkerData4}
+                                    swapShifts1={this.swapShifts2}
 
                                     key={postInd}
                                     shiftSet3={this.props.shiftSet2}

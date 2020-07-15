@@ -29,7 +29,7 @@ export default class App extends Component {
         { id: 2, name: 'draggable 3', color: '#6666ff' },
         { id: 3, name: 'draggable 4', color: '#ffff00' },
         { id: 4, name: 'draggable 5', color: '#ff00ff' },
-        { id: 6, name: 'draggable 6', color: '#00ffff' },
+        { id: 124, name: 'draggable 6', color: '#00ffff' },
       ],
 
       markerPlaceDay: undefined,
@@ -211,7 +211,30 @@ export default class App extends Component {
 
     let tempShiftDB = [...this.state.shiftSet]
 
-    tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength })
+    //let shiftAmount = tempShiftDB[dayInd5].posts[postInd5].shifts.length
+
+    tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd5}p${postInd5}s${shiftStart}w${workerInd5}` })
+
+    for (let j = 0; j < tempShiftDB[dayInd5].posts[postInd5].shifts.length; j++) {
+
+      for (let i = 0; i < tempShiftDB[dayInd5].posts[postInd5].shifts.length - 1 - j; i++) {
+
+        let firstShift = tempShiftDB[dayInd5].posts[postInd5].shifts[i]
+        let secondShift = tempShiftDB[dayInd5].posts[postInd5].shifts[i + 1]
+
+        console.log(tempShiftDB[dayInd5].posts[postInd5].shifts[i].shiftStart);
+
+        if (firstShift.shiftStart > secondShift.shiftStart) {
+
+          let tempShift = tempShiftDB[dayInd5].posts[postInd5].shifts[i]
+          tempShiftDB[dayInd5].posts[postInd5].shifts[i] = tempShiftDB[dayInd5].posts[postInd5].shifts[i + 1]
+          tempShiftDB[dayInd5].posts[postInd5].shifts[i + 1] = tempShift
+
+
+        }
+
+      }
+    }
 
     //need to add bubble sorting to that next code
 
@@ -219,9 +242,7 @@ export default class App extends Component {
 
       for (let postInd = 0; postInd < tempShiftDB[dayInd].posts.length; postInd++) {
 
-        
-
-        console.log(tempShiftDB[dayInd].posts[postInd].shifts.length);
+        //console.log(tempShiftDB[dayInd].posts[postInd].shifts.length);
 
         // --- need to run the who;e thing twice in order to account for merging 3 shifts ---
 
@@ -259,7 +280,7 @@ export default class App extends Component {
 
             if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
 
-              tempShiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength })
+              tempShiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd5}p${postInd5}s${firstShift.shiftStart}w${workerInd5}` })
 
               let localShiftNum = tempShiftDB[dayInd].posts[postInd].shifts.length
 
@@ -286,13 +307,6 @@ export default class App extends Component {
     }
 
 
-
-
-
-
-
-
-
     this.setState({ shiftSet: tempShiftDB })
 
 
@@ -313,6 +327,24 @@ export default class App extends Component {
     //console.log(workerID);
 
     this.setState({ markerWorkerID: workerID })
+
+  }
+
+  swapShifts6 = (srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId) => {
+
+    console.log('swap');
+
+    let tempShiftDB = [...this.state.shiftSet]
+
+    tempShiftDB[srcDay].posts[srcPost].shifts[srcShiftInd].workerId = tgtWorkerId
+    tempShiftDB[srcDay].posts[srcPost].shifts[srcShiftInd].shiftId = srcNewShiftId
+
+    tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].workerId = srcWorkerId
+    tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].shiftId = tgtNewShiftId
+
+
+
+    this.setState({ shiftSet: tempShiftDB })
 
   }
 
@@ -340,6 +372,7 @@ export default class App extends Component {
                 addShiftToDB6={this.addShiftToDB7}
                 bringMarkerData7={this.bringMarkerData8}
                 bringWorkerID6={this.bringWorkerID7}
+                swapShifts5={this.swapShifts6}
 
                 workerDB1={this.state.workerDB}
                 markerWorkerID1={this.state.markerWorkerID}

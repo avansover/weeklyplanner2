@@ -85,17 +85,24 @@ export default class Post extends Component {
 
         // *** learn conextAPI
 
-        console.log('drop');
+        //console.log('drop');
 
         ev.preventDefault();
 
-        console.log(ev.target);
+        //console.log(ev.target);
 
+        // --- from ticket ---
         let src = ev.dataTransfer.getData("src");
 
-        console.log(src);
 
-        if (ev.target.className !== 'shiftDiv') {
+        // --- from shift ---
+        let srcClass = ev.dataTransfer.getData("srcClass");
+
+
+
+        if (srcClass === 'ticketDiv' && ev.target.className !== 'shiftDiv') {
+
+            // hundle normal clonning from ticket to planner area drop
 
             console.log('src ' + src);
             console.log('day ' + this.props.dayInd2);
@@ -111,9 +118,87 @@ export default class Post extends Component {
 
             //console.log(this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts);
 
-        } if (ev.target.className === 'shiftDiv') {
+        } else if (srcClass === 'ticketDiv' && ev.target.className === 'shiftDiv') {
 
-            console.log('false');
+            console.log('run over');
+
+        } else if (srcClass === 'shiftDiv' && ev.target.className === 'dropAreaDiv') {
+
+            console.log('transfer');
+
+        } else if (srcClass === 'shiftDiv' && ev.target.className === 'shiftDiv') {
+
+            let srcId = ev.dataTransfer.getData("srcId");
+            let srcDay = ev.dataTransfer.getData("srcDay");
+            let srcPost = ev.dataTransfer.getData("srcPost");
+            let srcWorkerId = ev.dataTransfer.getData("srcWorkerId");
+
+            console.log('swap');
+
+            console.log('srcId ' + srcId);
+
+            console.log('srcDay ' + srcDay);
+            console.log('srcPost ' + srcPost);
+            console.log('srcWorkerId ' + srcWorkerId);
+
+
+            var tgtShiftId = ev.target.id
+            console.log('tgtId ' + tgtShiftId);
+
+            var tgtDay = this.props.dayInd2
+            console.log('tgt day ' + tgtDay);
+
+            var tgtPost = this.props.postInd1
+            console.log('tgt post ' + tgtPost);
+
+            var tgtWorkerId = tgtShiftId.slice(tgtShiftId.indexOf('w') + 1, tgtShiftId.length)
+            console.log('tgtWorkerId ' + tgtWorkerId);
+
+
+            for (let shiftInd = 0; shiftInd < this.props.shiftSet3[srcDay].posts[srcPost].shifts.length; shiftInd++) {
+
+                if (this.props.shiftSet3[srcDay].posts[srcPost].shifts[shiftInd].shiftId === srcId) {
+
+                    console.log('src found');
+                    console.log(this.props.shiftSet3[srcDay].posts[srcPost].shifts[shiftInd]);
+
+                    var srcShiftInd = shiftInd
+
+                }
+
+            }
+
+            for (var shiftInd = 0; shiftInd < this.props.shiftSet3[tgtDay].posts[tgtPost].shifts.length; shiftInd++) {
+
+                if (this.props.shiftSet3[tgtDay].posts[tgtPost].shifts[shiftInd].shiftId === tgtShiftId) {
+
+                    console.log('tgt found');
+                    console.log(this.props.shiftSet3[tgtDay].posts[tgtPost].shifts[shiftInd]);
+
+                    var tgtShiftInd = shiftInd
+
+                }
+
+            }
+
+            console.log(srcShiftInd);
+            console.log(tgtShiftInd);
+
+            console.log('remaking shiftId ');
+
+
+            var srcNewShiftId = srcId.slice(0, srcId.indexOf('w') + 1) + tgtWorkerId
+
+            console.log('newSrcId ' + srcNewShiftId);
+
+            var tgtNewShiftId = tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId
+
+            console.log('newTgtId ' + tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId);
+
+
+
+            this.props.swapShifts1(srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId)
+
 
         }
 
@@ -210,10 +295,12 @@ export default class Post extends Component {
                             return (<Shift
                                 key={shiftInd}
                                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
-                                shiftInd1={shiftInd}
                                 workerDB4={this.props.workerDB3}
                                 markerWorkerID4={this.props.markerWorkerID3}
                                 shiftData={o}
+                                dayInd3={this.props.dayInd2}
+                                postInd2={this.props.postInd1}
+                                shiftInd1={shiftInd}
                             />)
                         })}
 

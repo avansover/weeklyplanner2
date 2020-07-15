@@ -9,7 +9,9 @@ export default class WorkerTicket extends Component {
         // --- getting the index from the workerDB ---
 
         ev.dataTransfer.setData("src", this.props.workerDB3[this.props.i1].id);
+        ev.dataTransfer.setData("srcClass", ev.target.className);
 
+        //console.log(ev.target.className);
 
     }
 
