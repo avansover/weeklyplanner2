@@ -144,10 +144,7 @@ export default class ShiftMarker extends Component {
 
             }
 
-            this.props.bringMarkerData1(
-                markerStart,
-                markerLength
-            )
+         
 
         }
 

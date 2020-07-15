@@ -26,14 +26,7 @@ export default class Day extends Component {
         
     }
 
-    bringMarkerData4 = (shiftStart, shiftLength) => {
-
-        this.props.bringMarkerData5(shiftStart, shiftLength)
-
-        // console.log(shiftStart);
-        // console.log(shiftLength);
-
-    }
+   
 
     swapShifts2 = (srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId) => {
 

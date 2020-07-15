@@ -28,14 +28,7 @@ export default class Planner extends Component {
 
     }
 
-    bringMarkerData6 = (shiftStart, shiftLength) => {
-
-        this.props.bringMarkerData7(shiftStart, shiftLength)
-
-        // console.log(shiftStart);
-        // console.log(shiftLength);
-
-    }
+  
 
     bringWorkerID5 = (workerID) => {
 

@@ -226,11 +226,7 @@ export default class Post extends Component {
 
     }
 
-    bringMarkerData2 = (shiftStart, shiftLength) => {
-
-        this.props.bringMarkerData3(shiftStart, shiftLength)
-
-    }
+  
 
     deleteMarker1 = () => {
 

@@ -211,9 +211,11 @@ export default class App extends Component {
 
     let tempShiftDB = [...this.state.shiftSet]
 
-    //let shiftAmount = tempShiftDB[dayInd5].posts[postInd5].shifts.length
+
 
     tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd5}p${postInd5}s${shiftStart}w${workerInd5}` })
+
+    //sorting after adding shift
 
     for (let j = 0; j < tempShiftDB[dayInd5].posts[postInd5].shifts.length; j++) {
 
@@ -236,7 +238,7 @@ export default class App extends Component {
       }
     }
 
-    //need to add bubble sorting to that next code
+    // --- need to move merging to its designated function
 
     for (let dayInd = 0; dayInd < tempShiftDB.length; dayInd++) {
 
@@ -247,29 +249,6 @@ export default class App extends Component {
         // --- need to run the who;e thing twice in order to account for merging 3 shifts ---
 
         for (let k = 0; k < 2; k++) {
-
-          // --- sorting before merging ---
-
-          for (let j = 0; j < tempShiftDB[dayInd].posts[postInd].shifts.length; j++) {
-
-            for (let i = 0; i < tempShiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
-
-              let firstShift = tempShiftDB[dayInd].posts[postInd].shifts[i]
-              let secondShift = tempShiftDB[dayInd].posts[postInd].shifts[i + 1]
-
-              console.log(tempShiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
-
-              if (firstShift.shiftStart > secondShift.shiftStart) {
-
-                let tempShift = tempShiftDB[dayInd].posts[postInd].shifts[i]
-                tempShiftDB[dayInd].posts[postInd].shifts[i] = tempShiftDB[dayInd].posts[postInd].shifts[i + 1]
-                tempShiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
-
-
-              }
-
-            }
-          }
 
           // --- merging shifts---
 
@@ -299,34 +278,37 @@ export default class App extends Component {
 
         }
 
-        // ***
+
 
 
       }
 
     }
 
+    //this.mergeShifts(tempShiftDB, dayInd5, postInd5, workerInd5)
+    //this.setState({ shiftSet: tempShiftDB })
 
-    this.setState({ shiftSet: tempShiftDB })
+  }
+
+  mergeShifts = (tempShiftDB, dayInd1, postInd1, workerInd1) => {
+
+    console.log('merging');
+
+    console.log(dayInd1);
+    console.log(postInd1);
+    console.log(workerInd1);
+
 
 
   }
 
-  bringMarkerData8 = (shiftStart, shiftLength) => {
-
-
-
-    // console.log(shiftStart);
-    // console.log(shiftLength);
-
-  }
 
   bringWorkerID7 = (workerID) => {
 
-
+    //may use this function later
     //console.log(workerID);
 
-    this.setState({ markerWorkerID: workerID })
+    //this.setState({ markerWorkerID: workerID })
 
   }
 
@@ -342,9 +324,11 @@ export default class App extends Component {
     tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].workerId = srcWorkerId
     tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].shiftId = tgtNewShiftId
 
+    // need ot merge after swaping
 
 
-    this.setState({ shiftSet: tempShiftDB })
+
+    //this.setState({ shiftSet: tempShiftDB })
 
   }
 
