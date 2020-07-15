@@ -76,7 +76,6 @@ export default class App extends Component {
     // console.log(axisX5);
     // console.log("");
 
-
     // console.log('clacShift');
 
     var shiftLength = 240
@@ -211,8 +210,6 @@ export default class App extends Component {
 
     let tempShiftDB = [...this.state.shiftSet]
 
-
-
     tempShiftDB[dayInd5].posts[postInd5].shifts.push({ workerId: workerInd5, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd5}p${postInd5}s${shiftStart}w${workerInd5}` })
 
     //sorting after adding shift
@@ -238,77 +235,8 @@ export default class App extends Component {
       }
     }
 
-    // --- need to move merging to its designated function
-
-    for (let dayInd = 0; dayInd < tempShiftDB.length; dayInd++) {
-
-      for (let postInd = 0; postInd < tempShiftDB[dayInd].posts.length; postInd++) {
-
-        //console.log(tempShiftDB[dayInd].posts[postInd].shifts.length);
-
-        // --- need to run the who;e thing twice in order to account for merging 3 shifts ---
-
-        for (let k = 0; k < 2; k++) {
-
-          // --- merging shifts---
-
-          for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
-
-            let firstShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd]
-            let secondShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
-
-            if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
-
-              tempShiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd5}p${postInd5}s${firstShift.shiftStart}w${workerInd5}` })
-
-              let localShiftNum = tempShiftDB[dayInd].posts[postInd].shifts.length
-
-              let newMergedShift = tempShiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
-
-              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
-
-              tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
-
-              tempShiftDB[dayInd].posts[postInd].shifts.pop()
-
-            }
-
-
-          }
-
-        }
-
-
-
-
-      }
-
-    }
-
-    //this.mergeShifts(tempShiftDB, dayInd5, postInd5, workerInd5)
+    this.mergeShifts(tempShiftDB, dayInd5, postInd5, workerInd5, undefined, undefined, undefined)
     //this.setState({ shiftSet: tempShiftDB })
-
-  }
-
-  mergeShifts = (tempShiftDB, dayInd1, postInd1, workerInd1) => {
-
-    console.log('merging');
-
-    console.log(dayInd1);
-    console.log(postInd1);
-    console.log(workerInd1);
-
-
-
-  }
-
-
-  bringWorkerID7 = (workerID) => {
-
-    //may use this function later
-    //console.log(workerID);
-
-    //this.setState({ markerWorkerID: workerID })
 
   }
 
@@ -324,13 +252,151 @@ export default class App extends Component {
     tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].workerId = srcWorkerId
     tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].shiftId = tgtNewShiftId
 
-    // need ot merge after swaping
-
-
-
-    //this.setState({ shiftSet: tempShiftDB })
+    this.mergeShifts(tempShiftDB, srcDay, srcPost, srcWorkerId, tgtDay, tgtPost, tgtWorkerId)
 
   }
+
+  mergeShifts = (tempShiftDB, dayInd1, postInd1, workerId1, dayInd2, postInd2, workerId2) => {
+
+    console.log('merging');
+
+    console.log(tempShiftDB);
+
+    console.log(dayInd1);
+    console.log(postInd1);
+    console.log(workerId1);
+
+    if (workerId2 === undefined) {
+
+      for (let k = 0; k < 2; k++) {
+
+        // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+
+        for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd1].posts[postInd1].shifts.length - 1; shiftInd++) {
+
+          console.log(tempShiftDB[dayInd1].posts[postInd1].shifts);
+
+          let firstShift = tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd]
+          let secondShift = tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd + 1]
+
+          console.log(firstShift);
+          console.log(secondShift);
+
+          if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd1}p${postInd1}s${firstShift.shiftStart}w${workerId1}` })
+
+            let localShiftNum = tempShiftDB[dayInd1].posts[postInd1].shifts.length
+
+            let newMergedShift = tempShiftDB[dayInd1].posts[postInd1].shifts[localShiftNum - 1]
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd] = newMergedShift
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.splice(shiftInd + 1, 1)
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.pop()
+
+          }
+
+        }
+
+      }
+
+    } else if (workerId2 !== undefined) {
+
+      console.log('merging after swaping');
+
+
+      for (let k = 0; k < 2; k++) {
+
+        for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd2].posts[postInd2].shifts.length - 1; shiftInd++) {
+
+          console.log(tempShiftDB[dayInd2].posts[postInd2].shifts);
+
+          let firstShift = tempShiftDB[dayInd2].posts[postInd2].shifts[shiftInd]
+          let secondShift = tempShiftDB[dayInd2].posts[postInd2].shifts[shiftInd + 1]
+
+          console.log(firstShift);
+          console.log(secondShift);
+
+          if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+            tempShiftDB[dayInd2].posts[postInd2].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd2}p${postInd2}s${firstShift.shiftStart}w${workerId1}` })
+
+            let localShiftNum = tempShiftDB[dayInd2].posts[postInd2].shifts.length
+
+            let newMergedShift = tempShiftDB[dayInd2].posts[postInd2].shifts[localShiftNum - 1]
+
+            tempShiftDB[dayInd2].posts[postInd2].shifts[shiftInd] = newMergedShift
+
+            tempShiftDB[dayInd2].posts[postInd2].shifts.splice(shiftInd + 1, 1)
+
+            tempShiftDB[dayInd2].posts[postInd2].shifts.pop()
+
+          }
+
+        }
+
+        for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd1].posts[postInd1].shifts.length - 1; shiftInd++) {
+
+          console.log(tempShiftDB[dayInd1].posts[postInd1].shifts);
+
+          let firstShift = tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd]
+          let secondShift = tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd + 1]
+
+          console.log(firstShift);
+          console.log(secondShift);
+
+          if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd1}p${postInd1}s${firstShift.shiftStart}w${workerId2}` })
+
+            let localShiftNum = tempShiftDB[dayInd1].posts[postInd1].shifts.length
+
+            let newMergedShift = tempShiftDB[dayInd1].posts[postInd1].shifts[localShiftNum - 1]
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts[shiftInd] = newMergedShift
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.splice(shiftInd + 1, 1)
+
+            tempShiftDB[dayInd1].posts[postInd1].shifts.pop()
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    this.setState({ shiftSet: tempShiftDB })
+
+  }
+
+
+  bringWorkerID7 = (workerID) => {
+
+    //may use this function later
+    //console.log(workerID);
+
+    //this.setState({ markerWorkerID: workerID })
+
+  }
+
+
 
 
   render() {
@@ -354,7 +420,6 @@ export default class App extends Component {
                 placeMarker6={this.placeMarker7}
                 deleteMarker6={this.deleteMarker7}
                 addShiftToDB6={this.addShiftToDB7}
-                bringMarkerData7={this.bringMarkerData8}
                 bringWorkerID6={this.bringWorkerID7}
                 swapShifts5={this.swapShifts6}
 
