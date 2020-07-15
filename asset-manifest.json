@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/weeklyplanner2/static/css/main.4785da76.chunk.css",
-    "main.js": "/weeklyplanner2/static/js/main.c96b2e9b.chunk.js",
-    "main.js.map": "/weeklyplanner2/static/js/main.c96b2e9b.chunk.js.map",
+    "main.js": "/weeklyplanner2/static/js/main.0969b32a.chunk.js",
+    "main.js.map": "/weeklyplanner2/static/js/main.0969b32a.chunk.js.map",
     "runtime-main.js": "/weeklyplanner2/static/js/runtime-main.80a79e7d.js",
     "runtime-main.js.map": "/weeklyplanner2/static/js/runtime-main.80a79e7d.js.map",
     "static/js/2.7aad8951.chunk.js": "/weeklyplanner2/static/js/2.7aad8951.chunk.js",
     "static/js/2.7aad8951.chunk.js.map": "/weeklyplanner2/static/js/2.7aad8951.chunk.js.map",
     "index.html": "/weeklyplanner2/index.html",
-    "precache-manifest.f452e6dbf6fbf872d6bb5781c0192828.js": "/weeklyplanner2/precache-manifest.f452e6dbf6fbf872d6bb5781c0192828.js",
+    "precache-manifest.fcdeaca8d3f4e3f984a1dd7bc18cb963.js": "/weeklyplanner2/precache-manifest.fcdeaca8d3f4e3f984a1dd7bc18cb963.js",
     "service-worker.js": "/weeklyplanner2/service-worker.js",
     "static/css/main.4785da76.chunk.css.map": "/weeklyplanner2/static/css/main.4785da76.chunk.css.map",
     "static/js/2.7aad8951.chunk.js.LICENSE.txt": "/weeklyplanner2/static/js/2.7aad8951.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.80a79e7d.js",
     "static/js/2.7aad8951.chunk.js",
     "static/css/main.4785da76.chunk.css",
-    "static/js/main.c96b2e9b.chunk.js"
+    "static/js/main.0969b32a.chunk.js"
   ]
 }
