@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './App.css';
-import Login from './Components/Login.js'
 import Planner from './Components/Planner/Planner.js'
 import Personal from './Components/Personal/Personal.js'
 import Gistory from './Components/History/Gistory.js'
 import SetPlan from './Components/SetPlan/SetPlan.js'
+import HomePage from './Components/HomePage.js';
+import Login from './Components/Login';
+import SignUp from './Components/SignUp';
+import Worker from './Components/Personal/Worker';
 
 export default class App extends Component {
   constructor(props) {
@@ -371,7 +375,7 @@ export default class App extends Component {
 
 
 
-    this.setState({ shiftSet: tempShiftDB })
+    //this.setState({ shiftSet: tempShiftDB })
 
   }
 
@@ -397,13 +401,64 @@ export default class App extends Component {
 
         <Router>
 
+          <div style={{ display: 'flex', position: "relative" }}>
+
+            <div>
+              <Link to='/login'>
+                <button>log in</button>
+              </Link>
+            </div>
+
+            <div>
+              <Link to='/signup'>
+                <button>signup</button>
+              </Link>
+            </div>
+
+            <div>
+              <Link to='/'>
+                <button>logout</button>
+              </Link>
+            </div>
+
+            <div>
+              hello user
+          </div>
+
+          </div>
+
+          <div style={{ display: 'flex', position: "relative" }}>
+
+            <div>
+              <Link to='/planner'>
+                <button>Planner</button>
+              </Link>
+            </div>
+
+            <div>
+              <Link to='/personal'>
+                <button>Personal</button>
+              </Link>
+            </div>
+
+            <div>
+              <Link to='/setplanner'>
+                <button>Set Planner</button>
+              </Link>
+            </div>
+
+            <div>
+              <Link to='/history'>
+                <button>History</button>
+              </Link>
+            </div>
+
+          </div>
+
           <Switch>
 
-            <Route exact path='/' component={() => {
-              return <Login
 
-              />
-            }} />
+
             <Route exact path='/planner' component={() => {
               return <Planner
                 placeMarker6={this.placeMarker7}
@@ -421,16 +476,31 @@ export default class App extends Component {
 
               />
             }} />
+
             <Route exact path='/personal' component={() => {
               return <Personal
+              workerDB={this.state.workerDB}
 
               />
             }} />
+
+            {this.state.workerDB.map((o,i)=>{return( 
+            <Route exact path={`/worker${o.id}`} key={i} component={() => {
+              return <Worker
+              workerDB={this.state.workerDB}
+              workerID={o.id}
+              key={i}
+              />
+            }} />
+            )})}
+
+
             <Route exact path='/history' component={() => {
               return <Gistory
 
               />
             }} />
+
             <Route exact path='/setplanner' component={() => {
               return <SetPlan
 
@@ -438,7 +508,30 @@ export default class App extends Component {
             }} />
 
 
+            <Route exact path='/' component={() => {
+              return <HomePage
+
+              />
+            }} />
+            <Route exact path='/login' component={() => {
+              return <Login
+
+              />
+            }} />
+            <Route exact path='/signup' component={() => {
+              return <SignUp
+
+              />
+            }} />
+
+
+
           </Switch>
+
+
+
+
+          
 
         </Router>
 

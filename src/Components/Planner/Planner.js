@@ -70,7 +70,6 @@ export default class Planner extends Component {
                                     placeMarker4={this.placeMarker5}
                                     deleteMarker4={this.deleteMarker5}
                                     addShiftToDB4={this.addShiftToDB5}
-                                    bringMarkerData5={this.bringMarkerData6}
                                     swapShifts3={this.swapShifts4}
 
                                     key={dayInd}

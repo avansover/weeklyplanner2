@@ -186,7 +186,6 @@ export default class Post extends Component {
 
             console.log('remaking shiftId ');
 
-
             var srcNewShiftId = srcId.slice(0, srcId.indexOf('w') + 1) + tgtWorkerId
 
             console.log('newSrcId ' + srcNewShiftId);
@@ -194,8 +193,6 @@ export default class Post extends Component {
             var tgtNewShiftId = tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId
 
             console.log('newTgtId ' + tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId);
-
-
 
             this.props.swapShifts1(srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId)
 
@@ -212,8 +209,6 @@ export default class Post extends Component {
         if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
 
             return <ShiftMarker
-                bringMarkerData1={this.bringMarkerData2}
-
                 axisX1={this.state.axisX}
                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
                 dayInd3={this.props.dayInd2}

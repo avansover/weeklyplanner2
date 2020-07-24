@@ -51,7 +51,6 @@ export default class Day extends Component {
                                     placeMarker2={this.placeMarker3}
                                     deleteMarker2={this.deleteMarker3}
                                     addShiftToDB2={this.addShiftToDB3}
-                                    bringMarkerData3={this.bringMarkerData4}
                                     swapShifts1={this.swapShifts2}
 
                                     key={postInd}
