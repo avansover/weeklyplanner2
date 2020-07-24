@@ -41,6 +41,8 @@ export default class App extends Component {
 
       markerWorkerID: undefined,
 
+      higherBarView: 'in'
+
 
     }
   }
@@ -389,6 +391,116 @@ export default class App extends Component {
 
   }
 
+  higherBarView = () => {
+
+    if (this.state.higherBarView === 'in') {
+
+      return (
+
+        <div style={{ display: 'flex', position: "relative" }}>
+
+          <div>
+            <Link to='/login'>
+              <button>log in</button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to='/signup'>
+              <button>signup</button>
+            </Link>
+          </div>
+
+        </div>
+
+      )
+
+    } else if (this.state.higherBarView === 'out') {
+
+      return (
+
+        <div style={{ display: 'flex', position: "relative" }}>
+
+          <div>
+            <Link to='/'>
+              <button onClick={() => this.setState({ higherBarView: 'in' })}>logout</button>
+            </Link>
+          </div>
+
+          <div>
+            hello user
+          </div>
+
+        </div>
+
+      )
+
+    }
+
+  }
+
+  lowerBarView = () => {
+
+    if (this.state.higherBarView === 'in') {
+
+      return (
+
+        <div style={{ display: 'flex', position: "relative" }}>
+
+
+
+        </div>
+
+      )
+
+    } else if (this.state.higherBarView === 'out') {
+
+      return (
+
+        <div style={{ display: 'flex', position: "relative" }}>
+
+          <div>
+            <Link to='/planner'>
+              <button>Planner</button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to='/personal'>
+              <button>Personal</button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to='/setplanner'>
+              <button>Set Planner</button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to='/history'>
+              <button>History</button>
+            </Link>
+          </div>
+
+        </div>
+
+      )
+
+    }
+
+
+
+
+  }
+
+
+  login = () => {
+
+    this.setState({ higherBarView: 'out' })
+
+  }
+
 
 
 
@@ -397,61 +509,20 @@ export default class App extends Component {
     return (
       <div>
 
-        weekly planner
+        
 
         <Router>
 
-          <div style={{ display: 'flex', position: "relative" }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: "column",
+            position: "relative",
 
-            <div>
-              <Link to='/login'>
-                <button>log in</button>
-              </Link>
-            </div>
+          }}>
 
-            <div>
-              <Link to='/signup'>
-                <button>signup</button>
-              </Link>
-            </div>
+            <div style={{alignSelf: 'flex-end'}}>{this.higherBarView()}</div>
 
-            <div>
-              <Link to='/'>
-                <button>logout</button>
-              </Link>
-            </div>
-
-            <div>
-              hello user
-          </div>
-
-          </div>
-
-          <div style={{ display: 'flex', position: "relative" }}>
-
-            <div>
-              <Link to='/planner'>
-                <button>Planner</button>
-              </Link>
-            </div>
-
-            <div>
-              <Link to='/personal'>
-                <button>Personal</button>
-              </Link>
-            </div>
-
-            <div>
-              <Link to='/setplanner'>
-                <button>Set Planner</button>
-              </Link>
-            </div>
-
-            <div>
-              <Link to='/history'>
-                <button>History</button>
-              </Link>
-            </div>
+            <div>{this.lowerBarView()}</div>
 
           </div>
 
@@ -479,20 +550,22 @@ export default class App extends Component {
 
             <Route exact path='/personal' component={() => {
               return <Personal
-              workerDB={this.state.workerDB}
+                workerDB={this.state.workerDB}
 
               />
             }} />
 
-            {this.state.workerDB.map((o,i)=>{return( 
-            <Route exact path={`/worker${o.id}`} key={i} component={() => {
-              return <Worker
-              workerDB={this.state.workerDB}
-              workerID={o.id}
-              key={i}
-              />
-            }} />
-            )})}
+            {this.state.workerDB.map((o, i) => {
+              return (
+                <Route exact path={`/worker${o.id}`} key={i} component={() => {
+                  return <Worker
+                    workerDB={this.state.workerDB}
+                    workerID={o.id}
+                    key={i}
+                  />
+                }} />
+              )
+            })}
 
 
             <Route exact path='/history' component={() => {
@@ -515,7 +588,7 @@ export default class App extends Component {
             }} />
             <Route exact path='/login' component={() => {
               return <Login
-
+                login={this.login}
               />
             }} />
             <Route exact path='/signup' component={() => {
@@ -531,7 +604,7 @@ export default class App extends Component {
 
 
 
-          
+
 
         </Router>
 

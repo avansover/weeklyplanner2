@@ -80,7 +80,7 @@ export default class Shift extends Component {
                         display: 'flex',
                         justifyContent: 'space-between',
                         backgroundColor: `${this.shiftColor()}`,
-                        height: '20px',
+                        height: '23px',
                         borderRadius: '3px',
                         zIndex: 1,
                     }
