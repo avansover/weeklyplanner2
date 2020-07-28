@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Post from './Post'
+import MarkerContextProvider from '../../Context/MarkerContext'
 
 export default class Day extends Component {
 
@@ -13,7 +14,7 @@ export default class Day extends Component {
     deleteMarker3 = () => {
 
         //console.log('deleteMarker3');
-        
+
         this.props.deleteMarker4()
 
     }
@@ -23,10 +24,10 @@ export default class Day extends Component {
         //console.log('addShiftToDB3');
 
         this.props.addShiftToDB4(workerInd3, dayInd3, postInd3, axisX3)
-        
+
     }
 
-   
+
 
     swapShifts2 = (srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId) => {
 
@@ -47,23 +48,24 @@ export default class Day extends Component {
                     <div>
                         {this.props.shiftSet2[this.props.dayInd1].posts.map((e, postInd) => {
                             return (
-                                <Post
-                                    placeMarker2={this.placeMarker3}
-                                    deleteMarker2={this.deleteMarker3}
-                                    addShiftToDB2={this.addShiftToDB3}
-                                    swapShifts1={this.swapShifts2}
+                                <MarkerContextProvider key={postInd}>
+                                    <Post
+                                        placeMarker2={this.placeMarker3}
+                                        deleteMarker2={this.deleteMarker3}
+                                        addShiftToDB2={this.addShiftToDB3}
+                                        swapShifts1={this.swapShifts2}
 
-                                    key={postInd}
-                                    shiftSet3={this.props.shiftSet2}
-                                    workerDB3={this.props.workerDB2}
-                                    postInd1={postInd}
-                                    dayInd2={this.props.dayInd1}
+                                        key={postInd}
+                                        shiftSet3={this.props.shiftSet2}
+                                        workerDB3={this.props.workerDB2}
+                                        postInd1={postInd}
+                                        dayInd2={this.props.dayInd1}
 
-                                    markerPlaceDay3={this.props.markerPlaceDay2}
-                                    markerPlacePost3={this.props.markerPlacePost2}
-                                    markerWorkerID3={this.props.markerWorkerID2}
-
-                                />
+                                        //markerPlaceDay3={this.props.markerPlaceDay2}
+                                        //markerPlacePost3={this.props.markerPlacePost2}
+                                        markerWorkerID3={this.props.markerWorkerID2}
+                                    />
+                                </MarkerContextProvider>
                             )
                         })}
                     </div>

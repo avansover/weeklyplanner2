@@ -5,7 +5,6 @@ export default class Shift extends Component {
 
     shiftColor = () => {
 
-
         var workerId = parseInt(this.props.shiftData.workerId)
 
         // console.log(workerId)
@@ -43,18 +42,14 @@ export default class Shift extends Component {
 
     drag = (ev) => {
 
-
-
         console.log(ev.target);
 
         ev.dataTransfer.setData("srcDay", this.props.dayInd3);
         ev.dataTransfer.setData("srcPost", this.props.postInd2);
         ev.dataTransfer.setData("srcWorkerId", this.props.shiftData.workerId);
         //console.log(this.props.shiftData.workerId);
-
         ev.dataTransfer.setData("srcId", ev.target.id);
         ev.dataTransfer.setData("srcClass", ev.target.className);
-
 
     }
 

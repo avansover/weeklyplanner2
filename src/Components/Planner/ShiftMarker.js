@@ -210,7 +210,7 @@ export default class ShiftMarker extends Component {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        height: '18px',
+                        height: '21px',
                         width: `${this.markerData().mrkLnth}px`,
                         border: '0px solid blue',
                         left: `${this.markerData().mrkStr}px`,

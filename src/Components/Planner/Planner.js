@@ -77,8 +77,8 @@ export default class Planner extends Component {
                                     workerDB2={this.props.workerDB1}
                                     dayInd1={dayInd}
 
-                                    markerPlaceDay2={this.props.markerPlaceDay1}
-                                    markerPlacePost2={this.props.markerPlacePost1}
+                                    //markerPlaceDay2={this.props.markerPlaceDay1}
+                                    //markerPlacePost2={this.props.markerPlacePost1}
                                     markerWorkerID2={this.props.markerWorkerID1}
 
                                 />

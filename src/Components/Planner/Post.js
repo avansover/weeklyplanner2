@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ShiftMarker from './ShiftMarker';
 import Shift from './Shift';
+import { MarkerContext } from '../../Context/MarkerContext';
 
 export default class Post extends Component {
 
@@ -18,6 +19,8 @@ export default class Post extends Component {
 
         }
     }
+
+    static contextType = MarkerContext
 
     allowDrop = (ev) => {
 
@@ -72,10 +75,14 @@ export default class Post extends Component {
 
         if (ev.target.className !== 'shiftDiv' && ev.target.className !== 'shiftDataDiv') {
 
-            let localDayInd1 = this.props.dayInd2
-            let localPostInd1 = this.props.postInd1
+            let localDayInd = this.props.dayInd2
+            let localPostInd = this.props.postInd1
 
-            this.props.placeMarker2(localDayInd1, localPostInd1)
+            this.props.placeMarker2(localDayInd, localPostInd)
+
+            const { placeMarker } = this.context
+
+            placeMarker(localDayInd, localPostInd)
 
         }
 
@@ -97,6 +104,7 @@ export default class Post extends Component {
 
         // --- from shift ---
         let srcClass = ev.dataTransfer.getData("srcClass");
+        let workerId = ev.dataTransfer.getData("srcWorkerId");
 
 
 
@@ -114,7 +122,7 @@ export default class Post extends Component {
             let postInd1 = this.props.postInd1
             let axisX1 = ev.pageX
 
-            this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1)
+            this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1, 'clone')
 
             //console.log(this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts);
 
@@ -124,7 +132,21 @@ export default class Post extends Component {
 
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'dropAreaDiv') {
 
+            console.log('workerId ' + workerId);
+            console.log('day ' + this.props.dayInd2);
+            console.log('post ' + this.props.postInd1);
+            console.log('x ' + ev.pageX);
+
             console.log('transfer');
+
+            let workerInd1 = workerId
+            let dayInd1 = this.props.dayInd2
+            let postInd1 = this.props.postInd1
+            let axisX1 = ev.pageX
+
+            this.addShiftToDB1(workerInd1, dayInd1, postInd1, axisX1, 'transfer')
+
+            //need to delete the 
 
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'shiftDiv') {
 
@@ -206,9 +228,14 @@ export default class Post extends Component {
 
     placeMarker1 = () => {
 
-        if (this.props.dayInd2 === this.props.markerPlaceDay3 && this.props.postInd1 === this.props.markerPlacePost3) {
+        let { globalMarkDay, globalMarkPost } = this.context
+
+        if (this.props.dayInd2 === globalMarkDay && this.props.postInd1 === globalMarkPost) {
+
+            this.placeMarkerT()
 
             return <ShiftMarker
+
                 axisX1={this.state.axisX}
                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
                 dayInd3={this.props.dayInd2}
@@ -221,7 +248,19 @@ export default class Post extends Component {
 
     }
 
-  
+    placeMarkerT = () => {
+
+        //let { globalMarkDay, globalMarkPost } = this.context
+
+        // console.log('testing context');
+        // console.log(globalMarkDay);
+        // console.log(globalMarkPost);
+
+
+
+    }
+
+
 
     deleteMarker1 = () => {
 
@@ -251,16 +290,14 @@ export default class Post extends Component {
 
     }
 
-    getAxisX = () => {
-
-        console.log('pressed');
-    }
-
-
     render() {
 
+        //console.log(this.context);
 
+        //let { globalMarkDay, globalMarkPost } = this.context
 
+        //console.log(globalMarkDay);
+        //console.log(globalMarkPost);
 
         return (
             <div>

@@ -31,7 +31,7 @@ export default class App extends Component {
         { id: 0, name: 'draggable 1', color: '#ff0000' },
         { id: 1, name: 'draggable 2', color: '#00aa00' },
         { id: 2, name: 'draggable 3', color: '#6666ff' },
-        { id: 3, name: 'draggable 4', color: '#ffff00' },
+        { id: 3, name: 'draggable 4', color: '#aaaa00' },
         { id: 4, name: 'draggable 5', color: '#ff00ff' },
         { id: 124, name: 'draggable 6', color: '#00ffff' },
       ],
@@ -421,14 +421,14 @@ export default class App extends Component {
 
         <div style={{ display: 'flex', position: "relative" }}>
 
+          <div style={{marginRight: '10px'}}>
+            hello user
+          </div>
+
           <div>
             <Link to='/'>
               <button onClick={() => this.setState({ higherBarView: 'in' })}>logout</button>
             </Link>
-          </div>
-
-          <div>
-            hello user
           </div>
 
         </div>
@@ -509,20 +509,31 @@ export default class App extends Component {
     return (
       <div>
 
-        
+
 
         <Router>
 
           <div style={{
             display: 'flex',
-            flexDirection: "column",
+            justifyContent: 'flex-end',
             position: "relative",
 
           }}>
 
-            <div style={{alignSelf: 'flex-end'}}>{this.higherBarView()}</div>
+            <div style={{ alignSelf: 'flex-end' }}>{this.higherBarView()}</div>
 
-            <div>{this.lowerBarView()}</div>
+
+
+          </div>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            position: "relative",
+
+          }}>
+
+            <div style={{ alignSelf: 'center' }}>{this.lowerBarView()}</div>
 
           </div>
 
@@ -542,8 +553,8 @@ export default class App extends Component {
                 markerWorkerID1={this.state.markerWorkerID}
                 shiftSet1={this.state.shiftSet}
 
-                markerPlaceDay1={this.state.markerPlaceDay}
-                markerPlacePost1={this.state.markerPlacePost}
+                //markerPlaceDay1={this.state.markerPlaceDay}
+                //markerPlacePost1={this.state.markerPlacePost}
 
               />
             }} />
