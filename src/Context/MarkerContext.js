@@ -14,12 +14,12 @@ export default class MarkerContextProvider extends Component {
     }
 
 
-    placeMarkerCon = (d, p) => {
+    setMarkerIndCon = (dayInd, postInd) => {
 
-        console.log('function inside context');
-        console.log(d);
-        console.log(p);
-        this.setState({globalMarkDay: d, globalMarkPost: p})
+        // console.log('function inside context');
+        // console.log(d);
+        // console.log(p);
+        this.setState({globalMarkDay: dayInd, globalMarkPost: postInd})
 
     }
 
@@ -27,7 +27,7 @@ export default class MarkerContextProvider extends Component {
 
         return (
 
-            <MarkerContext.Provider value={{ ...this.state, placeMarker: this.placeMarkerCon }}>
+            <MarkerContext.Provider value={{ ...this.state, setMarkerInd: this.setMarkerIndCon }}>
 
                 {this.props.children}
 

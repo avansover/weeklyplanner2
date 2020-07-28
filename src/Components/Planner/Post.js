@@ -78,11 +78,11 @@ export default class Post extends Component {
             let localDayInd = this.props.dayInd2
             let localPostInd = this.props.postInd1
 
-            this.props.placeMarker2(localDayInd, localPostInd)
+            //this.props.placeMarker2(localDayInd, localPostInd)
 
-            const { placeMarker } = this.context
+            const { setMarkerInd } = this.context
 
-            placeMarker(localDayInd, localPostInd)
+            setMarkerInd(localDayInd, localPostInd)
 
         }
 
@@ -105,8 +105,6 @@ export default class Post extends Component {
         // --- from shift ---
         let srcClass = ev.dataTransfer.getData("srcClass");
         let workerId = ev.dataTransfer.getData("srcWorkerId");
-
-
 
         if (srcClass === 'ticketDiv' && ev.target.className !== 'shiftDiv') {
 

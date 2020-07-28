@@ -4,12 +4,12 @@ import Day from './Day';
 
 export default class Planner extends Component {
 
-    placeMarker5 = (localDayInd3, localPostInd3) => {
+    // placeMarker5 = (localDayInd3, localPostInd3) => {
 
-        this.props.placeMarker6(localDayInd3, localPostInd3)
+    //     this.props.placeMarker6(localDayInd3, localPostInd3)
 
 
-    }
+    // }
 
     deleteMarker5 = () => {
 
@@ -67,7 +67,7 @@ export default class Planner extends Component {
                         {this.props.shiftSet1.map((e, dayInd) => {
                             return (
                                 <Day
-                                    placeMarker4={this.placeMarker5}
+                                    //placeMarker4={this.placeMarker5}
                                     deleteMarker4={this.deleteMarker5}
                                     addShiftToDB4={this.addShiftToDB5}
                                     swapShifts3={this.swapShifts4}

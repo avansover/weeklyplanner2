@@ -36,8 +36,8 @@ export default class App extends Component {
         { id: 124, name: 'draggable 6', color: '#00ffff' },
       ],
 
-      markerPlaceDay: undefined,
-      markerPlacePost: undefined,
+      //markerPlaceDay: undefined,
+      //markerPlacePost: undefined,
 
       markerWorkerID: undefined,
 
@@ -47,20 +47,20 @@ export default class App extends Component {
     }
   }
 
-  placeMarker7 = (localDayInd4, localPostInd4) => {
+  // placeMarker7 = (localDayInd4, localPostInd4) => {
 
-    if (this.state.markerPlaceDay !== localDayInd4 || this.state.markerPlacePost !== localPostInd4) {
+  //   if (this.state.markerPlaceDay !== localDayInd4 || this.state.markerPlacePost !== localPostInd4) {
 
-      //while draging worker ticket over the post componet and...
-      //by compering the local indexes of the post componet to the global index of the mouse
-      //the shift marker will appear in the right day/post while draging over that component
+  //     //while draging worker ticket over the post componet and...
+  //     //by compering the local indexes of the post componet to the global index of the mouse
+  //     //the shift marker will appear in the right day/post while draging over that component
 
-      this.setState({ markerPlaceDay: localDayInd4 })
-      this.setState({ markerPlacePost: localPostInd4 })
+  //     this.setState({ markerPlaceDay: localDayInd4 })
+  //     this.setState({ markerPlacePost: localPostInd4 })
 
-    }
+  //   }
 
-  }
+  // }
 
   deleteMarker7 = () => {
 
@@ -543,7 +543,7 @@ export default class App extends Component {
 
             <Route exact path='/planner' component={() => {
               return <Planner
-                placeMarker6={this.placeMarker7}
+                //placeMarker6={this.placeMarker7}
                 deleteMarker6={this.deleteMarker7}
                 addShiftToDB6={this.addShiftToDB7}
                 bringWorkerID6={this.bringWorkerID7}

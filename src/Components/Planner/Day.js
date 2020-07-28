@@ -4,12 +4,12 @@ import MarkerContextProvider from '../../Context/MarkerContext'
 
 export default class Day extends Component {
 
-    placeMarker3 = (localDayInd2, localPostInd2) => {
+    // placeMarker3 = (localDayInd2, localPostInd2) => {
 
-        this.props.placeMarker4(localDayInd2, localPostInd2)
+    //     this.props.placeMarker4(localDayInd2, localPostInd2)
 
 
-    }
+    // }
 
     deleteMarker3 = () => {
 
@@ -50,7 +50,7 @@ export default class Day extends Component {
                             return (
                                 <MarkerContextProvider key={postInd}>
                                     <Post
-                                        placeMarker2={this.placeMarker3}
+                                        //placeMarker2={this.placeMarker3}
                                         deleteMarker2={this.deleteMarker3}
                                         addShiftToDB2={this.addShiftToDB3}
                                         swapShifts1={this.swapShifts2}
