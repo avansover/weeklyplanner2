@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Post from './Post'
-import MarkerContextProvider from '../../Context/MarkerContext'
+//import { Post } from './Post'
+import DragDataContextProvider from '../../Context/DragDataContext'
 
 export default class Day extends Component {
 
@@ -48,7 +49,7 @@ export default class Day extends Component {
                     <div>
                         {this.props.shiftSet2[this.props.dayInd1].posts.map((e, postInd) => {
                             return (
-                                <MarkerContextProvider key={postInd}>
+                                <DragDataContextProvider key={postInd}>
                                     <Post
                                         //placeMarker2={this.placeMarker3}
                                         deleteMarker2={this.deleteMarker3}
@@ -65,7 +66,7 @@ export default class Day extends Component {
                                         //markerPlacePost3={this.props.markerPlacePost2}
                                         markerWorkerID3={this.props.markerWorkerID2}
                                     />
-                                </MarkerContextProvider>
+                                </DragDataContextProvider>
                             )
                         })}
                     </div>

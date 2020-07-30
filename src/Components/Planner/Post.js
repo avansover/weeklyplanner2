@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import ShiftMarker from './ShiftMarker';
 import Shift from './Shift';
-import { MarkerContext } from '../../Context/MarkerContext';
+import { DragDataContext } from '../../Context/DragDataContext';
+
+
 
 export default class Post extends Component {
 
@@ -20,7 +22,7 @@ export default class Post extends Component {
         }
     }
 
-    static contextType = MarkerContext
+    static contextType = DragDataContext
 
     allowDrop = (ev) => {
 
@@ -101,7 +103,6 @@ export default class Post extends Component {
         // --- from ticket ---
         let src = ev.dataTransfer.getData("src");
 
-
         // --- from shift ---
         let srcClass = ev.dataTransfer.getData("srcClass");
         let workerId = ev.dataTransfer.getData("srcWorkerId");
@@ -109,6 +110,12 @@ export default class Post extends Component {
         if (srcClass === 'ticketDiv' && ev.target.className !== 'shiftDiv') {
 
             // hundle normal clonning from ticket to planner area drop
+
+            const { setCloneData } = this.context
+
+            setCloneData(src, this.props.dayInd2, this.props.postInd1 ,ev.pageX)
+
+            console.log(this.context);
 
             console.log('src ' + src);
             console.log('day ' + this.props.dayInd2);
@@ -230,7 +237,7 @@ export default class Post extends Component {
 
         if (this.props.dayInd2 === globalMarkDay && this.props.postInd1 === globalMarkPost) {
 
-            this.placeMarkerT()
+           
 
             return <ShiftMarker
 
@@ -246,18 +253,7 @@ export default class Post extends Component {
 
     }
 
-    placeMarkerT = () => {
-
-        //let { globalMarkDay, globalMarkPost } = this.context
-
-        // console.log('testing context');
-        // console.log(globalMarkDay);
-        // console.log(globalMarkPost);
-
-
-
-    }
-
+   
 
 
     deleteMarker1 = () => {
@@ -300,13 +296,9 @@ export default class Post extends Component {
         return (
             <div>
 
-
-
                 <div className='postBodyDiv'>
 
                     <div>{this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].name}</div>
-
-
 
                     <div className='dropAreaDiv'
                         style={{ display: 'flex', position: "relative" }}

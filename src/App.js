@@ -12,6 +12,9 @@ import SignUp from './Components/SignUp';
 import Worker from './Components/Personal/Worker';
 
 export default class App extends Component {
+
+
+
   constructor(props) {
     super(props)
 
@@ -266,11 +269,11 @@ export default class App extends Component {
 
     console.log('merging');
 
-    console.log(tempShiftDB);
+    // console.log(tempShiftDB);
 
-    console.log(dayInd1);
-    console.log(postInd1);
-    console.log(workerId1);
+    // console.log(dayInd1);
+    // console.log(postInd1);
+    // console.log(workerId1);
 
     if (workerId2 === undefined) {
 

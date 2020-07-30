@@ -5,6 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { debugContextDevtool } from 'react-context-devtool';
+
+const container = document.getElementById("root");
+
+ReactDOM.render(<App />, container)
+
+debugContextDevtool(container);
+
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
