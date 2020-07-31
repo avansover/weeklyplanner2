@@ -85,13 +85,6 @@ export default class App extends Component {
 
     console.log('swap');
 
-    let tempShiftDB = [...this.state.shiftSet]
-
-    tempShiftDB[srcDay].posts[srcPost].shifts[srcShiftInd].workerId = tgtWorkerId
-    tempShiftDB[srcDay].posts[srcPost].shifts[srcShiftInd].shiftId = srcNewShiftId
-
-    tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].workerId = srcWorkerId
-    tempShiftDB[tgtDay].posts[tgtPost].shifts[tgtShiftInd].shiftId = tgtNewShiftId
 
     //this.mergeShifts(tempShiftDB, srcDay, srcPost, srcWorkerId, tgtDay, tgtPost, tgtWorkerId)
 

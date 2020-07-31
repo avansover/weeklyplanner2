@@ -120,7 +120,7 @@ export default class Post extends Component {
 
         // --- from shift ---
         let srcClass = ev.dataTransfer.getData("srcClass");
-        let workerId = ev.dataTransfer.getData("srcWorkerId");
+
 
         if (srcClass === 'ticketDiv' && ev.target.className !== 'shiftDiv') {
 
@@ -327,17 +327,247 @@ export default class Post extends Component {
 
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'dropAreaDiv') {
 
-            console.log('workerId ' + workerId);
+            console.log('transfer');
+
+            let shiftDB = this.props.shiftSet3
+
             console.log('day ' + this.props.dayInd2);
             console.log('post ' + this.props.postInd1);
             console.log('x ' + ev.pageX);
 
-            console.log('transfer');
+            let workerId = ev.dataTransfer.getData("srcWorkerId");
+            let dayInd = this.props.dayInd2
+            let postInd = this.props.postInd1
+            let axisX = ev.pageX
 
-            
+            shiftLength = 240
+
+            dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
+
+            dropAreaAxisX = axisX - dropAreaLeft
+
+            // making and array for all the starting point of the shifts + the mouse pointer
+
+            shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
+
+            // the 720 is the ending point when there is no shift after the one we just droped
+            shiftStr.push(720)
+            shiftStr.push(dropAreaAxisX)
+
+            // sort the starting points of the shifts + the mouse pointer, inside the post area.
+
+            for (let j = 0; j < shiftStr.length - 1; j++) {
+
+                for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+
+                    if (shiftStr[i] > shiftStr[i + 1]) {
+
+                        let tempI = shiftStr[i]
+                        shiftStr[i] = shiftStr[i + 1]
+                        shiftStr[i + 1] = tempI
+
+                    }
+
+                }
+
+            }
+
+            // in that new sorted array, we check where is mouse pointer is positioned
+
+            for (let i = 0; i < shiftStr.length; i++) {
+
+                if (shiftStr[i] === dropAreaAxisX) {
+                    mouseIndStr = i
+                }
+
+            }
+
+            endLimit = shiftStr[mouseIndStr + 1]
+
+            // sort the starting point of the shifts + the mouse pointer, inside the post area.
+
+            shiftend = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
+
+            // the 0 is the starting point when there is no shift before the one we just droped
+            shiftend.push(0)
+            shiftend.push(dropAreaAxisX)
+
+            // sort the ending points of the shifts + the mouse pointer, inside the post area.
+
+            for (let j = 0; j < shiftend.length - 1; j++) {
+
+                for (let i = 0; i < shiftend.length - 1 - j; i++) {
+
+                    if (shiftend[i] > shiftend[i + 1]) {
+
+                        let tempI = shiftend[i]
+                        shiftend[i] = shiftend[i + 1]
+                        shiftend[i + 1] = tempI
+
+                    }
+
+                }
+
+            }
+
+            // here in that new sorted array, we check again where is mouse pointer is positioned
+
+            for (let i = 0; i < shiftend.length; i++) {
+
+                if (shiftend[i] === dropAreaAxisX) {
+                    mouseIndEnd = i
+                }
+
+            }
+
+            strLimit = shiftend[mouseIndEnd - 1]
+
+            if (dropAreaAxisX < strLimit + 120) {
+
+                shiftStart = strLimit
+                let gap = endLimit - strLimit
+
+                if (gap < 240) {
+
+                    shiftStart = strLimit
+                    shiftLength = endLimit - strLimit
+
+                }
+
+
+            } else if (dropAreaAxisX > endLimit - 120) {
+
+                let gap = endLimit - strLimit
+
+                if (gap >= 240) {
+
+                    shiftStart = endLimit - 240
+
+                } else if (gap < 240) {
+
+                    shiftStart = strLimit
+                    shiftLength = endLimit - strLimit
+
+                }
+
+            } else {
+
+                shiftStart = dropAreaAxisX - 120
+                shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
+
+            }
+
+            shiftDB[dayInd].posts[postInd].shifts.push({ workerId: workerId, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd}p${postInd}s${shiftStart}w${workerId}` })
+
+            //sorting after adding shift
+
+            for (let j = 0; j < shiftDB[dayInd].posts[postInd].shifts.length; j++) {
+
+                for (let i = 0; i < shiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
+
+                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[i + 1]
+
+                    console.log(shiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
+
+                    if (firstShift.shiftStart > secondShift.shiftStart) {
+
+                        let tempShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                        shiftDB[dayInd].posts[postInd].shifts[i] = shiftDB[dayInd].posts[postInd].shifts[i + 1]
+                        shiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
+
+
+                    }
+
+                }
+            }
+
+            let srcId = ev.dataTransfer.getData("srcId");
+            let srcDay = ev.dataTransfer.getData("srcDay");
+            let srcPost = ev.dataTransfer.getData("srcPost");
+            let srcWorkerId = ev.dataTransfer.getData("srcWorkerId");
+
+            console.log('swap');
+
+            console.log('srcDay ' + srcDay);
+            console.log('srcPost ' + srcPost);
+            console.log('srcWorkerId ' + srcWorkerId);
+
+            // need to get the start from this string
+            console.log('srcId ' + srcId);
+
+            console.log(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')));
+
+            let srcShiftStart = parseInt(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')))
+
+            console.log(shiftDB[srcDay].posts[srcPost].shifts.filter((o) => (o.shiftStart === srcShiftStart)));
+
+            let shiftsNearSrc = shiftDB[srcDay].posts[srcPost].shifts
+
+            for (let shiftInd = 0; shiftInd < shiftsNearSrc.length; shiftInd++) {
+
+                if (shiftsNearSrc.filter((o) => (o.shiftStart === srcShiftStart))[0].shiftStart === shiftsNearSrc[shiftInd].shiftStart) {
+
+                    console.log(shiftsNearSrc[shiftInd]);
+                    
+
+                    var shiftToRemoveInd = shiftInd
+
+                }
+
+            }
+
+            shiftsNearSrc.splice(shiftToRemoveInd, 1)
+
 
            
-           
+
+
+
+
+            // merg shifts
+
+            for (let k = 0; k < 2; k++) {
+
+                // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+
+                for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+
+                    console.log(shiftDB[dayInd].posts[postInd].shifts);
+
+                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
+                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+                    // console.log(firstShift);
+                    // console.log(secondShift);
+
+                    if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+                        shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${workerId}` })
+
+                        let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
+
+                        let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+                        shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+                        shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+                        shiftDB[dayInd].posts[postInd].shifts.pop()
+
+                    }
+
+                }
+
+            }
+
+            //console.log(shiftDB);
+
+
+
+
+
+
 
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'shiftDiv') {
 
@@ -420,9 +650,6 @@ export default class Post extends Component {
                     let firstShift = shiftDB[srcDay].posts[srcPost].shifts[shiftInd]
                     let secondShift = shiftDB[srcDay].posts[srcPost].shifts[shiftInd + 1]
 
-                    console.log(firstShift);
-                    console.log(secondShift);
-
                     if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
 
                         shiftDB[srcDay].posts[srcPost].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${srcDay}p${srcPost}s${firstShift.shiftStart}w${firstShift.workerId}` })
@@ -448,9 +675,6 @@ export default class Post extends Component {
                     let firstShift = shiftDB[tgtDay].posts[tgtPost].shifts[shiftInd]
                     let secondShift = shiftDB[tgtDay].posts[tgtPost].shifts[shiftInd + 1]
 
-                    console.log(firstShift);
-                    console.log(secondShift);
-
                     if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
 
                         shiftDB[tgtDay].posts[tgtPost].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${tgtDay}p${tgtPost}s${firstShift.shiftStart}w${firstShift.workerId}` })
@@ -472,9 +696,7 @@ export default class Post extends Component {
             }
 
 
-            console.log(shiftDB[0].posts[0].shifts);
-
-
+            //console.log(shiftDB[0].posts[0].shifts);
 
             //this.props.swapShifts1(srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId)
 
