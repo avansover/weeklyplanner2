@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import WorkerTicket from './WorkerTicket'
+import { Context } from '../../Context/Context';
 
 export default class WorkersBox extends Component {
+
+    static contextType = Context
 
     bringWorkerID3 = (workerID) => {
 
@@ -25,6 +28,8 @@ export default class WorkersBox extends Component {
                         />
                     )
                 })}
+
+                <button onClick={()=>console.log(this.context)}>context</button>
                 
             </div>
         )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import WorkersBox from './WorkersBox'
 import Day from './Day';
+import ContextProvider from '../../Context/Context'
 
 export default class Planner extends Component {
 
@@ -28,7 +29,7 @@ export default class Planner extends Component {
 
     }
 
-  
+
 
     bringWorkerID5 = (workerID) => {
 
@@ -51,14 +52,17 @@ export default class Planner extends Component {
                 <div id='plnWrkBox'>
 
                     <div>
-                        <WorkersBox
-                            bringWorkerID4={this.bringWorkerID5}
+                        <ContextProvider>
+                            <WorkersBox
+                                bringWorkerID4={this.bringWorkerID5}
 
 
-                            workerDB2={this.props.workerDB1}
-                            
-                        />
+                                workerDB2={this.props.workerDB1}
+
+                            />
+                        </ContextProvider>
                     </div>
+
 
                     <div id='plannerDiv'
 

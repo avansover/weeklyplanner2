@@ -1,16 +1,16 @@
 import React, { createContext, Component } from 'react';
-import { ContextDevTool } from 'react-context-devtool';
 
-export const DragDataContext = createContext();
 
-export default class DragDataContextProvider extends Component {
+export const Context = createContext();
+
+export default class ContextProvider extends Component {
 
     state = {
 
         globalMarkDay: undefined,
         globalMarkPost: undefined,
 
-        // normal clone
+        // normal clone Ticket to Drop
         TTD: [{
             workerInd: undefined,
             dayInd: undefined,
@@ -18,16 +18,16 @@ export default class DragDataContextProvider extends Component {
             axisX: undefined
         }],
 
-        //swap
+        //swap Shift to Shift
         STS: [],
 
-        //run over
+        //run over Ticket to Shift
         TTS: [],
 
-        //move
+        //move Shift to Drop
         STD: [],
 
-        //delete
+        //delete Shift to Ticket
         STT: []
 
     }
@@ -65,15 +65,14 @@ export default class DragDataContextProvider extends Component {
 
         return (
 
-            <DragDataContext.Provider value={{
+            <Context.Provider value={{
                 ...this.state,
                 setMarkerInd: this.setMarkerIndCon,
                 setCloneData: this.setCloneDataCon,
             }}>
-                <ContextDevTool context={DragDataContext} id="DragDataContext" displayName="DragDataContext" />
                 {this.props.children}
-
-            </DragDataContext.Provider>
+               
+            </Context.Provider>
 
         )
     }

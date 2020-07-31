@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+
 export default class WorkerTicket extends Component {
 
     drag = (ev) => {
@@ -8,10 +9,15 @@ export default class WorkerTicket extends Component {
 
         // --- getting the index from the workerDB ---
 
-        ev.dataTransfer.setData("src", this.props.workerDB3[this.props.i1].id);
+        ev.dataTransfer.setData("workerId", this.props.workerDB3[this.props.i1].id);
         ev.dataTransfer.setData("srcClass", ev.target.className);
 
         //console.log(ev.target.className);
+
+        ev.dataTransfer.setData("ticketWorkerId", this.props.workerDB3[this.props.i1].id);
+        ev.dataTransfer.setData("ticketClass", ev.target.className);
+
+
 
     }
 
