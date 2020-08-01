@@ -147,6 +147,8 @@ export default class Post extends Component {
 
             var dropAreaAxisX = axisX - dropAreaLeft
 
+
+
             // making and array for all the starting point of the shifts + the mouse pointer
 
             var shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
@@ -421,9 +423,11 @@ export default class Post extends Component {
 
             shiftLength = 240
 
-            dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
+            let dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
             dropAreaAxisX = axisX - dropAreaLeft
+
+            
 
             // making and array for all the starting point of the shifts + the mouse pointer
 

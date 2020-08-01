@@ -59,6 +59,49 @@ export default class Shift extends Component {
 
     }
 
+    resizeShift = (ev) => {
+
+        ev.preventDefault()
+
+
+        let shift = ev.target.parentNode.parentNode
+        console.log(shift);
+
+        let dropArea = ev.target.parentNode.parentNode.parentNode
+        console.log(dropArea);
+
+        window.addEventListener('mousemove', resize)
+        window.addEventListener('mouseup', stopResize)
+
+        let ShiftOldWidth = shift.offsetWidth
+        let shiftOldLeft = shift.offsetLeft
+
+        console.log(ShiftOldWidth);
+        console.log(shiftOldLeft);
+
+        function resize(eve) {
+
+            console.log(eve.pageX);
+            shift.style.width = eve.pageX +'px'
+
+
+
+
+        }
+
+        function stopResize() {
+
+            window.removeEventListener('mousemove', resize)
+            window.removeEventListener('mouseup', stopResize)
+
+            //should do setState while working on resizing the shifts
+
+        }
+        // let element = this.parentNode
+        // console.log(element);
+
+    }
+
     render() {
 
 
@@ -87,16 +130,24 @@ export default class Shift extends Component {
                         zIndex: 1,
                     }
                 }
-
-
             >
 
-                <div
+                <div style={{ display: 'flex', }}>
 
-                    className='shiftDataDiv'
-                    style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', }}
-                >
-                    {this.props.localShifts[this.props.shiftInd1].shiftStart}
+                    <div style={{ backgroundColor: '#888888', width: '5px', height: '100%', cursor: 'ew-resize' }}
+                        id={`d${this.props.dayInd3}p${this.props.postInd2}s${this.props.localShifts[this.props.shiftInd1].shiftStart}w${this.props.shiftData.workerId}LR`}
+                        onMouseDown={this.resizeShift}
+                        
+
+                    ></div>
+
+                    <div
+                        className='shiftDataDiv'
+                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', }}
+                    >
+                        {this.props.localShifts[this.props.shiftInd1].shiftStart}
+                    </div>
+
                 </div>
 
                 <div
