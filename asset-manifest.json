@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/weeklyplanner2/static/css/main.4a34a1ec.chunk.css",
-    "main.js": "/weeklyplanner2/static/js/main.e0508fb9.chunk.js",
-    "main.js.map": "/weeklyplanner2/static/js/main.e0508fb9.chunk.js.map",
+    "main.js": "/weeklyplanner2/static/js/main.79b5a522.chunk.js",
+    "main.js.map": "/weeklyplanner2/static/js/main.79b5a522.chunk.js.map",
     "runtime-main.js": "/weeklyplanner2/static/js/runtime-main.80a79e7d.js",
     "runtime-main.js.map": "/weeklyplanner2/static/js/runtime-main.80a79e7d.js.map",
     "static/css/2.af3c1da9.chunk.css": "/weeklyplanner2/static/css/2.af3c1da9.chunk.css",
     "static/js/2.017b68f9.chunk.js": "/weeklyplanner2/static/js/2.017b68f9.chunk.js",
     "static/js/2.017b68f9.chunk.js.map": "/weeklyplanner2/static/js/2.017b68f9.chunk.js.map",
     "index.html": "/weeklyplanner2/index.html",
-    "precache-manifest.8897a6b686f97cd4a85cf242f6e83780.js": "/weeklyplanner2/precache-manifest.8897a6b686f97cd4a85cf242f6e83780.js",
+    "precache-manifest.0849074f3087f7007904a16d56a1d25e.js": "/weeklyplanner2/precache-manifest.0849074f3087f7007904a16d56a1d25e.js",
     "service-worker.js": "/weeklyplanner2/service-worker.js",
     "static/css/2.af3c1da9.chunk.css.map": "/weeklyplanner2/static/css/2.af3c1da9.chunk.css.map",
     "static/css/main.4a34a1ec.chunk.css.map": "/weeklyplanner2/static/css/main.4a34a1ec.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.af3c1da9.chunk.css",
     "static/js/2.017b68f9.chunk.js",
     "static/css/main.4a34a1ec.chunk.css",
-    "static/js/main.e0508fb9.chunk.js"
+    "static/js/main.79b5a522.chunk.js"
   ]
 }
