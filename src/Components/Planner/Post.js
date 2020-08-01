@@ -3,8 +3,6 @@ import ShiftMarker from './ShiftMarker';
 import Shift from './Shift';
 import { Context } from '../../Context/Context';
 
-
-
 export default class Post extends Component {
 
     constructor(props) {
@@ -126,9 +124,11 @@ export default class Post extends Component {
 
             // hundle normal clonning from ticket to planner area drop
 
+            console.log('clone');
+
             let ticketWorkerId = ev.dataTransfer.getData("ticketWorkerId");
 
-            console.log(this.context);
+            //console.log(this.context);
 
             console.log('ticketWorkerId ' + ticketWorkerId);
             console.log('day ' + this.props.dayInd2);
@@ -325,6 +325,85 @@ export default class Post extends Component {
 
             console.log('run over');
 
+            let ticketWorkerId = ev.dataTransfer.getData("ticketWorkerId");
+
+            console.log('ticketWorkerId ' + ticketWorkerId);
+            console.log('day ' + this.props.dayInd2);
+            console.log('post ' + this.props.postInd1);
+
+            let dayInd = this.props.dayInd2
+            let postInd = this.props.postInd1
+
+            let shiftDB = this.props.shiftSet3
+
+            let tgtShiftId = ev.target.id
+            console.log('tgtId ' + tgtShiftId);
+
+            let tgtWorkerId = tgtShiftId.slice(tgtShiftId.indexOf('w') + 1, tgtShiftId.length)
+            console.log('tgtWorkerId ' + tgtWorkerId);
+
+            console.log(shiftDB);
+
+            for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
+
+                if (shiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId === tgtShiftId) {
+
+                    console.log('tgt found');
+                    console.log(shiftDB[dayInd].posts[postInd].shifts[shiftInd]);
+
+                    var tgtShiftInd2 = shiftInd
+
+                }
+
+            }
+
+            let tgtNewShiftId = tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + ticketWorkerId
+
+            console.log(tgtNewShiftId);
+
+            shiftDB[dayInd].posts[postInd].shifts[tgtShiftInd2].workerId = ticketWorkerId
+            shiftDB[dayInd].posts[postInd].shifts[tgtShiftInd2].shiftId = tgtNewShiftId
+
+            // merg shifts
+
+            for (let k = 0; k < 2; k++) {
+
+                // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+
+                for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+
+                    console.log(shiftDB[dayInd].posts[postInd].shifts);
+
+                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
+                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+                    // console.log(firstShift);
+                    // console.log(secondShift);
+
+                    if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+                        shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${firstShift.workerId}` })
+
+                        let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
+
+                        let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+                        shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+                        shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+                        shiftDB[dayInd].posts[postInd].shifts.pop()
+
+                    }
+
+                }
+
+            }
+
+
+
+
+
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'dropAreaDiv') {
 
             console.log('transfer');
@@ -482,19 +561,15 @@ export default class Post extends Component {
                 }
             }
 
+            // removing the shift from its old place in the shiftDB
+
             let srcId = ev.dataTransfer.getData("srcId");
             let srcDay = ev.dataTransfer.getData("srcDay");
             let srcPost = ev.dataTransfer.getData("srcPost");
-            let srcWorkerId = ev.dataTransfer.getData("srcWorkerId");
 
-            console.log('swap');
-
-            console.log('srcDay ' + srcDay);
-            console.log('srcPost ' + srcPost);
-            console.log('srcWorkerId ' + srcWorkerId);
-
-            // need to get the start from this string
-            console.log('srcId ' + srcId);
+            // console.log('srcId ' + srcId);
+            // console.log('srcDay ' + srcDay);
+            // console.log('srcPost ' + srcPost);
 
             console.log(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')));
 
@@ -509,7 +584,7 @@ export default class Post extends Component {
                 if (shiftsNearSrc.filter((o) => (o.shiftStart === srcShiftStart))[0].shiftStart === shiftsNearSrc[shiftInd].shiftStart) {
 
                     console.log(shiftsNearSrc[shiftInd]);
-                    
+
 
                     var shiftToRemoveInd = shiftInd
 
@@ -518,12 +593,6 @@ export default class Post extends Component {
             }
 
             shiftsNearSrc.splice(shiftToRemoveInd, 1)
-
-
-           
-
-
-
 
             // merg shifts
 
@@ -563,13 +632,9 @@ export default class Post extends Component {
 
             //console.log(shiftDB);
 
-
-
-
-
-
-
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'shiftDiv') {
+
+            console.log('swap');
 
             let srcId = ev.dataTransfer.getData("srcId");
             let srcDay = ev.dataTransfer.getData("srcDay");
@@ -583,16 +648,16 @@ export default class Post extends Component {
             console.log('srcWorkerId ' + srcWorkerId);
 
             let shiftDB = this.props.shiftSet3
-            var tgtShiftId = ev.target.id
+            let tgtShiftId = ev.target.id
             console.log('tgtId ' + tgtShiftId);
 
-            var tgtDay = this.props.dayInd2
+            let tgtDay = this.props.dayInd2
             console.log('tgt day ' + tgtDay);
 
-            var tgtPost = this.props.postInd1
+            let tgtPost = this.props.postInd1
             console.log('tgt post ' + tgtPost);
 
-            var tgtWorkerId = tgtShiftId.slice(tgtShiftId.indexOf('w') + 1, tgtShiftId.length)
+            let tgtWorkerId = tgtShiftId.slice(tgtShiftId.indexOf('w') + 1, tgtShiftId.length)
             console.log('tgtWorkerId ' + tgtWorkerId);
 
 
@@ -609,7 +674,7 @@ export default class Post extends Component {
 
             }
 
-            for (var shiftInd = 0; shiftInd < shiftDB[tgtDay].posts[tgtPost].shifts.length; shiftInd++) {
+            for (let shiftInd = 0; shiftInd < shiftDB[tgtDay].posts[tgtPost].shifts.length; shiftInd++) {
 
                 if (shiftDB[tgtDay].posts[tgtPost].shifts[shiftInd].shiftId === tgtShiftId) {
 
@@ -627,11 +692,11 @@ export default class Post extends Component {
 
             console.log('remaking shiftId ');
 
-            var srcNewShiftId = srcId.slice(0, srcId.indexOf('w') + 1) + tgtWorkerId
+            let srcNewShiftId = srcId.slice(0, srcId.indexOf('w') + 1) + tgtWorkerId
 
             console.log('newSrcId ' + srcNewShiftId);
 
-            var tgtNewShiftId = tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId
+            let tgtNewShiftId = tgtShiftId.slice(0, tgtShiftId.indexOf('w') + 1) + srcWorkerId
 
             console.log('tgtNewShiftId ' + tgtNewShiftId);
 
@@ -694,11 +759,6 @@ export default class Post extends Component {
                 }
 
             }
-
-
-            //console.log(shiftDB[0].posts[0].shifts);
-
-            //this.props.swapShifts1(srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId)
 
 
         }

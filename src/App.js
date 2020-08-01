@@ -39,9 +39,6 @@ export default class App extends Component {
         { id: 124, name: 'draggable 6', color: '#00ffff' },
       ],
 
-      //markerPlaceDay: undefined,
-      //markerPlacePost: undefined,
-
       markerWorkerID: undefined,
 
       higherBarView: 'in'
@@ -49,21 +46,6 @@ export default class App extends Component {
 
     }
   }
-
-  // placeMarker7 = (localDayInd4, localPostInd4) => {
-
-  //   if (this.state.markerPlaceDay !== localDayInd4 || this.state.markerPlacePost !== localPostInd4) {
-
-  //     //while draging worker ticket over the post componet and...
-  //     //by compering the local indexes of the post componet to the global index of the mouse
-  //     //the shift marker will appear in the right day/post while draging over that component
-
-  //     this.setState({ markerPlaceDay: localDayInd4 })
-  //     this.setState({ markerPlacePost: localPostInd4 })
-
-  //   }
-
-  // }
 
   deleteMarker7 = () => {
 
@@ -74,31 +56,6 @@ export default class App extends Component {
     this.setState({ markerPlacePost: undefined })
 
   }
-
-  addShiftToDB7 = () => {
-
-   console.log('old add shift');
-
-  }
-
-  swapShifts6 = (srcDay, srcPost, srcShiftInd, srcWorkerId, srcNewShiftId, tgtDay, tgtPost, tgtShiftInd, tgtWorkerId, tgtNewShiftId) => {
-
-    console.log('swap');
-
-
-    //this.mergeShifts(tempShiftDB, srcDay, srcPost, srcWorkerId, tgtDay, tgtPost, tgtWorkerId)
-
-  }
-
-  mergeShifts = (tempShiftDB, dayInd1, postInd1, workerId1, dayInd2, postInd2, workerId2) => {
-
-    console.log('merging');
-
-  
-    //this.setState({ shiftSet: tempShiftDB })
-
-  }
-
 
   bringWorkerID7 = (workerID) => {
 
@@ -259,18 +216,14 @@ export default class App extends Component {
 
             <Route exact path='/planner' component={() => {
               return <Planner
-                //placeMarker6={this.placeMarker7}
+               
                 deleteMarker6={this.deleteMarker7}
-                //addShiftToDB6={this.addShiftToDB7}
+                
                 bringWorkerID6={this.bringWorkerID7}
-                swapShifts5={this.swapShifts6}
-
+               
                 workerDB1={this.state.workerDB}
                 markerWorkerID1={this.state.markerWorkerID}
                 shiftSet1={this.state.shiftSet}
-
-                //markerPlaceDay1={this.state.markerPlaceDay}
-                //markerPlacePost1={this.state.markerPlacePost}
 
               />
             }} />
