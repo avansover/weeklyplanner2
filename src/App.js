@@ -96,7 +96,7 @@ export default class App extends Component {
 
         <div style={{ display: 'flex', position: "relative" }}>
 
-          <div style={{marginRight: '10px'}}>
+          <div style={{ marginRight: '10px' }}>
             hello user
           </div>
 
@@ -176,8 +176,13 @@ export default class App extends Component {
 
   }
 
+  deleteShift = (shiftDB) => {
+
+    this.setState({shiftSet: shiftDB})
 
 
+
+  }
 
   render() {
 
@@ -216,11 +221,11 @@ export default class App extends Component {
 
             <Route exact path='/planner' component={() => {
               return <Planner
-               
                 deleteMarker6={this.deleteMarker7}
-                
+                deleteShift={this.deleteShift}
+
                 bringWorkerID6={this.bringWorkerID7}
-               
+
                 workerDB1={this.state.workerDB}
                 markerWorkerID1={this.state.markerWorkerID}
                 shiftSet1={this.state.shiftSet}

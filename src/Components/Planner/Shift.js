@@ -53,6 +53,12 @@ export default class Shift extends Component {
 
     }
 
+    rightClick = () => {
+
+        console.log('right click');
+
+    }
+
     render() {
 
 
@@ -66,6 +72,7 @@ export default class Shift extends Component {
                 onDragStart={this.drag}
                 onDrag={this.draging}
                 onMouseDown={this.bring}
+                onAuxClick={this.rightClick}
                 style={
                     {
                         position: "absolute",

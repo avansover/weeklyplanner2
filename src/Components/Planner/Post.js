@@ -114,13 +114,13 @@ export default class Post extends Component {
 
         ev.preventDefault();
 
-        //console.log(ev.target);
+        console.log(ev.target);
 
         // --- from shift ---
         let srcClass = ev.dataTransfer.getData("srcClass");
 
 
-        if (srcClass === 'ticketDiv' && ev.target.className !== 'shiftDiv') {
+        if (srcClass === 'ticketDiv' && ev.target.className === 'dropAreaDiv') {
 
             // hundle normal clonning from ticket to planner area drop
 
@@ -761,7 +761,10 @@ export default class Post extends Component {
             }
 
 
+
         }
+
+        console.log(ev.target.className);
 
         this.deleteMarker1()
 

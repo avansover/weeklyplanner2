@@ -23,8 +23,8 @@ export default class WorkerTicket extends Component {
 
     draging = (ev) => {
 
-        //    console.log(ev.pageX);
-        //    console.log(ev.target);
+        //   console.log(ev.pageX);
+        //   console.log(ev.target);
 
         // via createElement
 
@@ -45,7 +45,10 @@ export default class WorkerTicket extends Component {
         this.props.bringWorkerID2(this.props.workerDB3[this.props.i1].id)
 
     }
+    
+    
 
+    
     render() {
         return (
             <div id={`ticket${this.props.i1}`}
@@ -55,6 +58,8 @@ export default class WorkerTicket extends Component {
                 onDragStart={this.drag}
                 onDrag={this.draging}
                 onMouseDown={this.bringWorkerID1}
+                
+                
             >
 
                 {this.props.workerDB3[this.props.i1].name}
