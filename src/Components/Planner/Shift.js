@@ -63,9 +63,13 @@ export default class Shift extends Component {
 
         ev.preventDefault()
 
+        let resizer = ev.target
+        console.log(resizer.className);
+
 
         let shift = ev.target.parentNode.parentNode
         console.log(shift);
+
 
         let dropArea = ev.target.parentNode.parentNode.parentNode
         console.log(dropArea);
@@ -73,16 +77,50 @@ export default class Shift extends Component {
         window.addEventListener('mousemove', resize)
         window.addEventListener('mouseup', stopResize)
 
+        let dropAreaLeft = dropArea.offsetLeft
         let ShiftOldWidth = shift.offsetWidth
         let shiftOldLeft = shift.offsetLeft
 
-        console.log(ShiftOldWidth);
-        console.log(shiftOldLeft);
+
+        console.log('dropAreaLeft ' + dropAreaLeft);
+        console.log('ShiftOldWidth ' + ShiftOldWidth);
+        console.log('shiftOldLeft ' + shiftOldLeft);
+
+
 
         function resize(eve) {
 
-            console.log(eve.pageX);
-            shift.style.width = eve.pageX +'px'
+            // console.log(eve.pageX - dropAreaLeft);
+            // console.log(shiftOldLeft + ShiftOldWidth);
+
+            if (resizer.className === 'leftResizer') {
+
+                if (eve.pageX > dropAreaLeft && eve.pageX - dropAreaLeft <= shiftOldLeft + ShiftOldWidth) {
+
+                    shift.style.left = eve.pageX - dropAreaLeft + 'px'
+                    shift.style.width = ShiftOldWidth + shiftOldLeft + dropAreaLeft - eve.pageX + 'px'
+
+                } else if (eve.pageX <= dropAreaLeft) {
+
+                    shift.style.left = 0 + 'px'
+                    shift.style.width = ShiftOldWidth + shiftOldLeft + 'px'
+
+                } else if (eve.pageX - dropAreaLeft > shiftOldLeft + ShiftOldWidth) {
+
+
+
+
+                    shift.style.left = shiftOldLeft + ShiftOldWidth - 30 + 'px'
+                    shift.style.width = 30 + 'px'
+
+
+                }
+
+            } else if (resizer.className === 'rightResizer') {
+
+                console.log('right');
+
+            }
 
 
 
@@ -135,9 +173,9 @@ export default class Shift extends Component {
                 <div style={{ display: 'flex', }}>
 
                     <div style={{ backgroundColor: '#888888', width: '5px', height: '100%', cursor: 'ew-resize' }}
-                        id={`d${this.props.dayInd3}p${this.props.postInd2}s${this.props.localShifts[this.props.shiftInd1].shiftStart}w${this.props.shiftData.workerId}LR`}
+                        className='leftResizer'
                         onMouseDown={this.resizeShift}
-                        
+
 
                     ></div>
 
@@ -163,11 +201,21 @@ export default class Shift extends Component {
                     {this.workerName()}
                 </div>
 
-                <div
-                    className='shiftDataDiv'
-                    style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', }}
-                >
-                    {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
+                <div style={{ display: 'flex', }}>
+
+                    <div
+                        className='shiftDataDiv'
+                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', }}
+                    >
+                        {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
+                    </div>
+
+                    <div style={{ backgroundColor: '#888888', width: '5px', height: '100%', cursor: 'ew-resize' }}
+                        className='rightResizer'
+                        onMouseDown={this.resizeShift}
+
+                    ></div>
+
                 </div>
 
             </div>
