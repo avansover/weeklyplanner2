@@ -33,7 +33,7 @@ export default class App extends Component {
 
       workerDB: [
         { id: 0, name: 'Amir Vansover', color: '#ff0000' },
-        { id: 1, name: 'draggable 2', color: '#00aa00' },
+        { id: 1, name: 'drag', color: '#00aa00' },
         { id: 2, name: 'draggable 3', color: '#6666ff' },
         { id: 3, name: 'draggable 4', color: '#aaaa00' },
         { id: 4, name: 'draggable 5', color: '#ff00ff' },
@@ -178,32 +178,42 @@ export default class App extends Component {
 
   }
 
-  setResizeData = (shiftOldLeft, shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
+  setResizeData = (shiftOldLeft, ShiftOldWidth, shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
+
+
 
     var tempShiftDB = [...this.state.shiftSet]
 
-    console.log(tempShiftDB[dayInd].posts[postInd].shifts);
+    // console.log(tempShiftDB[dayInd].posts[postInd].shifts);
 
-    console.log(shiftOldLeft);
+    // console.log(shiftLengthFinal);
 
-    console.log(shiftLeftFinal);
+    // if we just click the resizers, those 2 are undefined
+    if (shiftLeftFinal !== undefined) {
 
+      for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
 
-    for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
+        if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart === shiftOldLeft) {
 
-      if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart === shiftOldLeft) {
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = shiftLeftFinal
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
 
-        console.log(shiftInd);
-
-        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = shiftLeftFinal
-        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
-        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
+        }
 
       }
 
+
+
+
+      //this.setState({ shiftSet: tempShiftDB })
+
     }
 
-    this.setState({shiftSet: tempShiftDB})
+
+
+
+
 
   }
 
@@ -213,7 +223,7 @@ export default class App extends Component {
       //<ContextProvider>
       <div>
 
-
+        <button onClick={() => console.log(this.state.shiftSet)}>log state</button>
 
         <Router>
 

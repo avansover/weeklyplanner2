@@ -135,7 +135,6 @@ export default class Shift extends Component {
         this.setState({ shift, resizer: resizer.className, dropAreaLeft, ShiftOldWidth, shiftOldLeft })
 
 
-
         // let element = this.parentNode
         // console.log(element);
 
@@ -156,7 +155,7 @@ export default class Shift extends Component {
 
         if (resizer === 'leftResizer') {
 
-            if (eve.pageX > dropAreaLeft && eve.pageX - dropAreaLeft <= shiftOldLeft + ShiftOldWidth) {
+            if (eve.pageX > dropAreaLeft && eve.pageX - dropAreaLeft <= shiftOldLeft + ShiftOldWidth - shortestShift) {
 
                 // for the shift div itself
                 shift.style.left = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5 + 'px'
@@ -165,6 +164,8 @@ export default class Shift extends Component {
                 // for the resizing
                 let shiftLeftFinal = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5
                 let shiftLengthFinal = ShiftOldWidth + shiftOldLeft - (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5
+
+
 
                 this.setState({ shiftLength: ShiftOldWidth + shiftOldLeft + dropAreaLeft - eve.pageX })
                 this.setState({ shiftLeftFinal: shiftLeftFinal })
@@ -179,7 +180,7 @@ export default class Shift extends Component {
                 shift.style.width = ShiftOldWidth + shiftOldLeft + 'px'
                 this.setState({ shiftLength: ShiftOldWidth + shiftOldLeft })
 
-            } else if (eve.pageX - dropAreaLeft > shiftOldLeft + ShiftOldWidth) {
+            } else if (eve.pageX - dropAreaLeft > shiftOldLeft + ShiftOldWidth - shortestShift) {
 
 
                 shift.style.left = shiftOldLeft + ShiftOldWidth - shortestShift + 'px'
@@ -193,9 +194,33 @@ export default class Shift extends Component {
 
             console.log('right');
 
+            console.log(eve.pageX - dropAreaLeft);
+
+            if (eve.pageX - dropAreaLeft < 720 && eve.pageX - dropAreaLeft >= shiftOldLeft + shortestShift) {
+
+                shift.style.width = eve.pageX - dropAreaLeft - shiftOldLeft + 'px'
+
+            } else if (eve.pageX - dropAreaLeft >= 720) {
+
+                shift.style.width = 720 - shiftOldLeft + 'px'
+
+            } else if (eve.pageX - dropAreaLeft < shiftOldLeft + shortestShift) {
+
+                shift.style.width = shortestShift + 'px'
+
+            }
+
+
+
+
+
+
+
+
+
+
+
         }
-
-
 
     }
 
@@ -206,11 +231,9 @@ export default class Shift extends Component {
 
         //const { setResizeData } = this.context
 
-
-
-
         this.props.setResizeData(
             this.state.shiftOldLeft,
+            this.state.ShiftOldWidth,
             this.state.shiftLeftFinal,
             this.state.shiftLengthFinal,
             this.props.shiftData.workerId,
@@ -268,7 +291,7 @@ export default class Shift extends Component {
 
                     <div
                         className='shiftDataDiv'
-                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#55aa55' }}
+                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
                         {this.props.localShifts[this.props.shiftInd1].shiftStart}
                     </div>
@@ -292,7 +315,7 @@ export default class Shift extends Component {
 
                     <div
                         className='shiftDataDiv'
-                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#55aa55' }}
+                        style={{ zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
                         {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
                     </div>
