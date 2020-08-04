@@ -167,9 +167,8 @@ export default class Shift extends Component {
                 let shiftLeftFinal = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5
                 let shiftLengthFinal = ShiftOldWidth + shiftOldLeft - (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5
 
-
-
                 this.setState({ shiftLength: shiftLengthFinal })
+
                 this.setState({ shiftLeftFinal: shiftLeftFinal })
                 this.setState({ shiftLengthFinal: shiftLengthFinal })
 
@@ -180,14 +179,22 @@ export default class Shift extends Component {
 
                 shift.style.left = 0 + 'px'
                 shift.style.width = ShiftOldWidth + shiftOldLeft + 'px'
+
                 this.setState({ shiftLength: ShiftOldWidth + shiftOldLeft })
+
+                this.setState({ shiftLeftFinal: 0 })
+                this.setState({ shiftLengthFinal: ShiftOldWidth + shiftOldLeft })
 
             } else if (eve.pageX - dropAreaLeft > shiftOldLeft + ShiftOldWidth - shortestShift) {
 
 
                 shift.style.left = shiftOldLeft + ShiftOldWidth - shortestShift + 'px'
                 shift.style.width = shortestShift + 'px'
+
                 this.setState({ shiftLength: shortestShift })
+
+                this.setState({ shiftLeftFinal: shiftOldLeft + ShiftOldWidth - shortestShift })
+                this.setState({ shiftLengthFinal: shortestShift })
 
 
             }
@@ -207,15 +214,25 @@ export default class Shift extends Component {
                 let shiftLengthFinal = (Math.floor((eve.pageX - dropAreaLeft - shiftOldLeft + 1) / 5)) * 5
 
                 this.setState({ shiftLength: shiftLengthFinal })
+
                 this.setState({ shiftLengthFinal: shiftLengthFinal })
 
             } else if (eve.pageX - dropAreaLeft >= 720) {
 
                 shift.style.width = 720 - shiftOldLeft + 'px'
 
+                this.setState({ shiftLength: 720 - shiftOldLeft })
+
+                this.setState({ shiftLengthFinal: 720 - shiftOldLeft})
+
             } else if (eve.pageX - dropAreaLeft < shiftOldLeft + shortestShift) {
 
                 shift.style.width = shortestShift + 'px'
+
+                this.setState({ shortestShift })
+
+
+                this.setState({ shiftLengthFinal: shortestShift})
 
             }
 
@@ -243,7 +260,7 @@ export default class Shift extends Component {
             this.props.shiftData.workerId,
             this.props.dayInd3,
             this.props.postInd2
-            
+
         )
 
 
