@@ -197,12 +197,13 @@ export default class App extends Component {
 
         tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = shiftLeftFinal
         tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
+        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
 
       }
 
     }
 
-    //this.setState({shiftSet: tempShiftDB})
+    this.setState({shiftSet: tempShiftDB})
 
   }
 
