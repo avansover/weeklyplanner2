@@ -178,9 +178,9 @@ export default class App extends Component {
 
   }
 
-  setResizeData = (shiftOldLeft, ShiftOldWidth, shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
+  setResizeData = (resizer, shiftOldLeft, ShiftOldWidth, shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
 
-
+    console.log(resizer);
 
     var tempShiftDB = [...this.state.shiftSet]
 
@@ -188,8 +188,11 @@ export default class App extends Component {
 
     // console.log(shiftLengthFinal);
 
-    // if we just click the resizers, those 2 are undefined
-    if (shiftLeftFinal !== undefined) {
+    // if we just click the resizers, this one is undefined
+
+    if (resizer === 'leftResizer' && shiftLeftFinal !== undefined) {
+
+      console.log(resizer);
 
       for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
 
@@ -199,16 +202,49 @@ export default class App extends Component {
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
 
+
+          //need to decide what to do with overlaping shifts
+
+          this.setState({ shiftSet: tempShiftDB })
+
         }
 
       }
 
+    } else if (resizer === 'rightResizer' && shiftLengthFinal !== undefined
+    
+    
+    ) {
+
+      console.log(resizer);
+
+      console.log(shiftLengthFinal);
+
+      for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
+
+        if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart === shiftOldLeft) {
 
 
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
 
-      //this.setState({ shiftSet: tempShiftDB })
+
+          //need to decide what to do with overlaping shifts
+
+          this.setState({ shiftSet: tempShiftDB })
+
+        }
+
+      }
 
     }
+
+
+
+
+    //this.setState({ shiftSet: tempShiftDB })
+
+
 
 
 
