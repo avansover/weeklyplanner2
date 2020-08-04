@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "72b82993380327fb307a7b34af61455b",
+    "revision": "cdeb21367bbd69b4b54ce5d612e51701",
     "url": "/weeklyplanner2/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/weeklyplanner2/static/css/2.af3c1da9.chunk.css"
   },
   {
-    "revision": "3366ec541c91c698dd3c",
+    "revision": "abc68288ccd2722f4192",
     "url": "/weeklyplanner2/static/css/main.4a34a1ec.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/weeklyplanner2/static/js/2.71a3838e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "3366ec541c91c698dd3c",
-    "url": "/weeklyplanner2/static/js/main.7478c94d.chunk.js"
+    "revision": "abc68288ccd2722f4192",
+    "url": "/weeklyplanner2/static/js/main.cdba376c.chunk.js"
   },
   {
     "revision": "25b5bdc3160ddaa18edd",
