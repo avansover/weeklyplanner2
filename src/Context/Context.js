@@ -7,8 +7,18 @@ export default class ContextProvider extends Component {
 
     state = {
 
+        // marker
         globalMarkDay: undefined,
         globalMarkPost: undefined,
+
+        // resizing data
+
+        shiftLeftFinal: undefined,
+        shiftLengthFinal: undefined,
+        workerId: undefined,
+        dayInd: undefined,
+        postInd: undefined,
+
 
     }
 
@@ -21,7 +31,11 @@ export default class ContextProvider extends Component {
 
     }
 
+    setResizeDataCon = (shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
 
+        this.setState({ shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd })
+
+    }
 
     render() {
 
@@ -30,6 +44,7 @@ export default class ContextProvider extends Component {
             <Context.Provider value={{
                 ...this.state,
                 setMarkerInd: this.setMarkerIndCon,
+                setResizeData: this.setResizeDataCon,
             }}>
                 {this.props.children}
             </Context.Provider>

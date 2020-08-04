@@ -105,6 +105,7 @@ export default class Planner extends Component {
                             return (
                                 <Day
                                     deleteMarker4={this.deleteMarker5}
+                                    setResizeData={this.props.setResizeData}
 
                                     key={dayInd}
                                     shiftSet2={this.props.shiftSet1}

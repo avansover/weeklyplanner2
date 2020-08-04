@@ -88,6 +88,8 @@ export default class Post extends Component {
 
     }
 
+    
+
     placeMarker1 = () => {
 
         let { globalMarkDay, globalMarkPost } = this.context
@@ -427,7 +429,7 @@ export default class Post extends Component {
 
             dropAreaAxisX = axisX - dropAreaLeft
 
-            
+
 
             // making and array for all the starting point of the shifts + the mouse pointer
 
@@ -775,10 +777,11 @@ export default class Post extends Component {
 
     }
 
+    rightClick = () => {
 
+        console.log('rightClick');
 
-
-
+    }
 
     deleteMarker1 = () => {
 
@@ -835,6 +838,9 @@ export default class Post extends Component {
 
                         {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((o, shiftInd) => {
                             return (<Shift
+                                setResizeData={this.props.setResizeData}
+                                rightClick={this.rightClick}
+
                                 key={shiftInd}
                                 localShifts={this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts}
                                 workerDB4={this.props.workerDB3}

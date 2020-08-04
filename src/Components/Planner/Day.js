@@ -27,6 +27,7 @@ export default class Day extends Component {
                                 <ContextProvider key={postInd}>
                                     <Post                                 
                                         deleteMarker2={this.deleteMarker3}
+                                        setResizeData={this.props.setResizeData}
                                       
                                         key={postInd}
                                         shiftSet3={this.props.shiftSet2}
@@ -42,8 +43,6 @@ export default class Day extends Component {
                     </div>
 
                 </div>
-
-
 
             </div>
         )

@@ -10,10 +10,11 @@ import HomePage from './Components/HomePage.js';
 import Login from './Components/Login';
 import SignUp from './Components/SignUp';
 import Worker from './Components/Personal/Worker';
+//import ContextProvider from './Context/Context.js';
+//import { Context } from './Context/Context';
+// import ContextProvider, { Context } from './Context/Context.js';
 
 export default class App extends Component {
-
-
 
   constructor(props) {
     super(props)
@@ -31,7 +32,7 @@ export default class App extends Component {
       ],
 
       workerDB: [
-        { id: 0, name: 'draggable 1', color: '#ff0000' },
+        { id: 0, name: 'Amir Vansover', color: '#ff0000' },
         { id: 1, name: 'draggable 2', color: '#00aa00' },
         { id: 2, name: 'draggable 3', color: '#6666ff' },
         { id: 3, name: 'draggable 4', color: '#aaaa00' },
@@ -122,8 +123,6 @@ export default class App extends Component {
 
         <div style={{ display: 'flex', position: "relative" }}>
 
-
-
         </div>
 
       )
@@ -164,9 +163,6 @@ export default class App extends Component {
 
     }
 
-
-
-
   }
 
 
@@ -178,15 +174,42 @@ export default class App extends Component {
 
   deleteShift = (shiftDB) => {
 
-    this.setState({shiftSet: shiftDB})
-
-
+    this.setState({ shiftSet: shiftDB })
 
   }
 
-  render() { 
+  setResizeData = (shiftOldLeft, shiftLeftFinal, shiftLengthFinal, workerId, dayInd, postInd) => {
+
+    var tempShiftDB = [...this.state.shiftSet]
+
+    console.log(tempShiftDB[dayInd].posts[postInd].shifts);
+
+    console.log(shiftOldLeft);
+
+    console.log(shiftLeftFinal);
+
+
+    for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
+
+      if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart === shiftOldLeft) {
+
+        console.log(shiftInd);
+
+        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = shiftLeftFinal
+        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
+
+      }
+
+    }
+
+    //this.setState({shiftSet: tempShiftDB})
+
+  }
+
+  render() {
 
     return (
+      //<ContextProvider>
       <div>
 
 
@@ -223,6 +246,7 @@ export default class App extends Component {
               return <Planner
                 deleteMarker6={this.deleteMarker7}
                 deleteShift={this.deleteShift}
+                setResizeData={this.setResizeData}
 
                 bringWorkerID6={this.bringWorkerID7}
 
@@ -287,13 +311,11 @@ export default class App extends Component {
           </Switch>
 
 
-
-
-
-
         </Router>
 
       </div>
+      //</ContextProvider>
+
     )
   }
 }
