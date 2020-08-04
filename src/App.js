@@ -226,7 +226,7 @@ export default class App extends Component {
 
 
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
-          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
+          tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftOldLeft}w${workerId}`
 
 
           //need to decide what to do with overlaping shifts
@@ -240,15 +240,7 @@ export default class App extends Component {
     }
 
 
-
-
     //this.setState({ shiftSet: tempShiftDB })
-
-
-
-
-
-
 
 
   }
