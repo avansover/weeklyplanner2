@@ -21,10 +21,12 @@ export default class Shift extends Component {
             shiftLength: undefined,
             shiftDataVIew: undefined,
 
-            //for resize context
+            //for final resize
             shiftLeftFinal: undefined,
             shiftLengthFinal: undefined,
 
+            //for resizing run over
+            shiftId: undefined
 
         }
     }
@@ -121,9 +123,8 @@ export default class Shift extends Component {
         let resizer = ev.target
         console.log(resizer.className);
 
-
         let shift = ev.target.parentNode.parentNode
-        console.log(shift);
+        let shiftId = ev.target.parentNode.parentNode.id
 
 
         let dropArea = ev.target.parentNode.parentNode.parentNode
@@ -145,7 +146,7 @@ export default class Shift extends Component {
 
         this.resize(ev)
 
-        this.setState({ shift, resizer: resizer.className, dropAreaLeft, ShiftOldWidth, shiftOldLeft })
+        this.setState({ shiftId, shift, resizer: resizer.className, dropAreaLeft, ShiftOldWidth, shiftOldLeft })
 
 
         // let element = this.parentNode
@@ -162,9 +163,21 @@ export default class Shift extends Component {
         let ShiftOldWidth = this.state.ShiftOldWidth;
         let shiftOldLeft = this.state.shiftOldLeft;
 
-
-
         let shortestShift = 5
+
+        let shiftDB = this.props.shiftSet4
+        let dayInd = this.props.dayInd3
+        let postInd = this.props.postInd2
+        let shiftId = this.state.shiftId
+
+        // console.log(shiftDB[dayInd].posts[postInd].shifts);
+
+
+
+
+        //console.log(shiftIdArr);
+
+
 
         if (resizer === 'leftResizer') {
 
@@ -193,7 +206,44 @@ export default class Shift extends Component {
 
                 }
 
-                //console.log(this.context);
+                let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
+
+                let shiftIdArr = []
+
+                // making array of all the shifts
+
+                for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
+
+                    shiftIdArr.push(shiftsObj[shiftInd])
+
+                }
+
+                // pushing the right end of shifts while resizing shift run over them
+
+                for (let i = 0; i < shiftIdArr.length; i++) {
+
+                    let shiftEnd = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength
+                    let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
+
+                    console.log(shiftIdArr[i]);
+                    //console.log(shiftEnd);
+                    //console.log(otherShift);
+
+                    if (shiftIdArr[i].shiftId !== shiftId) {
+
+                        if (shiftLeftFinal < shiftEnd) {
+
+                            otherShift.style.width = shiftLeftFinal - shiftIdArr[i].shiftStart + 'px'
+
+                        } else {
+
+                            otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
+
+                        }
+
+                    }
+
+                }
 
             } else if (eve.pageX <= dropAreaLeft) {
 
@@ -278,10 +328,10 @@ export default class Shift extends Component {
 
         if (this.state.shiftDataVIew !== undefined) {
 
-                return this.state.shiftDataVIew
+            return this.state.shiftDataVIew
 
-        } else  { 
-            
+        } else {
+
             if (this.props.shiftData.shiftLength >= 60) {
 
                 return 'flex'
@@ -322,6 +372,33 @@ export default class Shift extends Component {
 
     }
 
+    showShiftStart = () => {
+
+        if (this.state.shiftLeftFinal === undefined) {
+
+            return this.props.localShifts[this.props.shiftInd1].shiftStart
+
+        } else {
+
+            return this.state.shiftLeftFinal
+
+        }
+
+    }
+
+    showShiftEnd = () => {
+
+        if (this.state.shiftLengthFinal === undefined) {
+
+            return this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength
+
+        } else {
+
+            return this.props.localShifts[this.props.shiftInd1].shiftStart + this.state.shiftLengthFinal
+
+        }
+
+    }
 
 
     render() {
@@ -364,7 +441,7 @@ export default class Shift extends Component {
                         className='shiftDataDiv'
                         style={{ display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
-                        {this.props.localShifts[this.props.shiftInd1].shiftStart}
+                        {this.showShiftStart()}
                     </div>
 
                 </div>
@@ -389,7 +466,7 @@ export default class Shift extends Component {
                         className='shiftDataDiv'
                         style={{ display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
-                        {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
+                        {this.showShiftEnd()}
                     </div>
 
                     <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize' }}

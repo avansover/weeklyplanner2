@@ -44,7 +44,6 @@ export default class App extends Component {
 
       higherBarView: 'in'
 
-
     }
   }
 
@@ -245,13 +244,21 @@ export default class App extends Component {
 
   }
 
+  utility = () => {
+
+    console.log('utility');
+
+    console.log(this.state);
+
+  }
+
   render() {
 
     return (
       //<ContextProvider>
       <div>
 
-        <button onClick={() => console.log(this.state.shiftSet)}>log state</button>
+        <button onClick={() => this.utility()}>log state</button>
 
         <Router>
 
