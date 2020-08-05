@@ -17,8 +17,9 @@ export default class Shift extends Component {
             ShiftOldWidth: undefined,
             shiftOldLeft: undefined,
 
-            //for handlening the name inside the shifts
+            //for handlening the name and data inside the shifts
             shiftLength: undefined,
+            shiftDataVIew: undefined,
 
             //for resize context
             shiftLeftFinal: undefined,
@@ -64,13 +65,13 @@ export default class Shift extends Component {
 
                 return (<div> {workerFromWrokerDB[0].firstName} {workerFromWrokerDB[0].lastName} </div>)
 
-            } else if (shiftLengthInDB < 160 && shiftLengthInDB > 100 ) {
+            } else if (shiftLengthInDB < 160 && shiftLengthInDB > 100) {
 
                 //this won't work till the resizing effect the DB
 
                 return (<div> {workerFromWrokerDB[0].firstName}. {workerFromWrokerDB[0].lastName.charAt(0)} </div>)
 
-            } else if (shiftLengthInDB <= 100 ) {
+            } else if (shiftLengthInDB <= 100) {
 
                 return (<div> {workerFromWrokerDB[0].firstName.charAt(0)}. {workerFromWrokerDB[0].lastName.charAt(0)} </div>)
 
@@ -85,7 +86,7 @@ export default class Shift extends Component {
 
             return (<div> {workerFromWrokerDB[0].firstName}. {workerFromWrokerDB[0].lastName.charAt(0)} </div>)
 
-        } else if (this.state.shiftLength <= 100 ) {
+        } else if (this.state.shiftLength <= 100) {
 
             return (<div> {workerFromWrokerDB[0].firstName.charAt(0)}. {workerFromWrokerDB[0].lastName.charAt(0)} </div>)
 
@@ -163,7 +164,7 @@ export default class Shift extends Component {
 
 
 
-        let shortestShift = 60
+        let shortestShift = 5
 
         if (resizer === 'leftResizer') {
 
@@ -182,6 +183,15 @@ export default class Shift extends Component {
                 this.setState({ shiftLeftFinal: shiftLeftFinal })
                 this.setState({ shiftLengthFinal: shiftLengthFinal })
 
+                if (shiftLengthFinal < 60) {
+
+                    this.setState({ shiftDataVIew: 'none' })
+
+                } else if (shiftLengthFinal >= 60) {
+
+                    this.setState({ shiftDataVIew: 'flex' })
+
+                }
 
                 //console.log(this.context);
 
@@ -227,6 +237,16 @@ export default class Shift extends Component {
 
                 this.setState({ shiftLengthFinal: shiftLengthFinal })
 
+                if (shiftLengthFinal < 60) {
+
+                    this.setState({ shiftDataVIew: 'none' })
+
+                } else if (shiftLengthFinal >= 60) {
+
+                    this.setState({ shiftDataVIew: 'flex' })
+
+                }
+
             } else if (eve.pageX - dropAreaLeft >= 720) {
 
                 shift.style.width = 720 - shiftOldLeft + 'px'
@@ -240,7 +260,6 @@ export default class Shift extends Component {
                 shift.style.width = shortestShift + 'px'
 
                 this.setState({ shortestShift })
-
 
                 this.setState({ shiftLengthFinal: shortestShift })
 
@@ -257,15 +276,24 @@ export default class Shift extends Component {
 
         //console.log(this.props.shiftData.shiftLength);
 
-        if (this.props.shiftData.shiftLength >= 60) {
+        if (this.state.shiftDataVIew !== undefined) {
 
-            return 'flex'
+                return this.state.shiftDataVIew
 
-        } else if (this.props.shiftData.shiftLength < 60) {
+        } else  { 
+            
+            if (this.props.shiftData.shiftLength >= 60) {
 
-            return 'none'
+                return 'flex'
+
+            } else if (this.props.shiftData.shiftLength < 60) {
+
+                return 'none'
+
+            }
 
         }
+
 
     }
 
@@ -327,14 +355,14 @@ export default class Shift extends Component {
 
                 <div style={{ display: 'flex' }}>
 
-                    <div style={{backgroundColor: '#888888', width: '3px', height: '100%', cursor: 'ew-resize' }}
+                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize' }}
                         className='leftResizer'
                         onMouseDown={this.resizeShift}
                     ></div>
 
                     <div
                         className='shiftDataDiv'
-                        style={{display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
+                        style={{ display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
                         {this.props.localShifts[this.props.shiftInd1].shiftStart}
                     </div>
@@ -359,12 +387,12 @@ export default class Shift extends Component {
 
                     <div
                         className='shiftDataDiv'
-                        style={{display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
+                        style={{ display: `${this.dataDivView()}`, zIndex: 0, fontSize: '8px', pointerEvents: 'none', backgroundColor: '#dddddd' }}
                     >
                         {this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength}
                     </div>
 
-                    <div style={{ backgroundColor: '#888888', width: '3px', height: '100%', cursor: 'ew-resize' }}
+                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize' }}
                         className='rightResizer'
                         onMouseDown={this.resizeShift}
 
