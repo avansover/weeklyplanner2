@@ -62,7 +62,7 @@ export default class WorkerTicket extends Component {
                 
             >
 
-                {this.props.workerDB3[this.props.i1].name}
+                {this.props.workerDB3[this.props.i1].firstName} {this.props.workerDB3[this.props.i1].lastName}
 
             </div>
         )

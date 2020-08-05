@@ -32,12 +32,12 @@ export default class App extends Component {
       ],
 
       workerDB: [
-        { id: 0, name: 'Amir Vansover', color: '#ff0000' },
-        { id: 1, name: 'drag', color: '#00aa00' },
-        { id: 2, name: 'draggable 3', color: '#6666ff' },
-        { id: 3, name: 'draggable 4', color: '#aaaa00' },
-        { id: 4, name: 'draggable 5', color: '#ff00ff' },
-        { id: 124, name: 'draggable 6', color: '#00ffff' },
+        { id: 0, firstName: 'first', lastName: 'last', color: '#ff0000' },
+        { id: 1, firstName: 'drag', lastName: 'last', color: '#00aa00' },
+        { id: 2, firstName: 'draggable 3', lastName: 'last', color: '#6666ff' },
+        { id: 3, firstName: 'draggable 4', lastName: 'last', color: '#aaaa00' },
+        { id: 4, firstName: 'draggable 5', lastName: 'last', color: '#ff00ff' },
+        { id: 124, firstName: 'draggable 6', lastName: 'last', color: '#00ffff' },
       ],
 
       markerWorkerID: undefined,
