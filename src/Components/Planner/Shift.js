@@ -165,7 +165,7 @@ export default class Shift extends Component {
 
         let shortestShift = 5
 
-        let shiftDB = this.props.shiftSet4
+        let shiftDB = [...this.props.shiftSet4]
         let dayInd = this.props.dayInd3
         let postInd = this.props.postInd2
         let shiftId = this.state.shiftId
@@ -225,7 +225,7 @@ export default class Shift extends Component {
                     let shiftEnd = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength
                     let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
 
-                    console.log(shiftIdArr[i]);
+
                     //console.log(shiftEnd);
                     //console.log(otherShift);
 
@@ -234,6 +234,24 @@ export default class Shift extends Component {
                         if (shiftLeftFinal < shiftEnd) {
 
                             otherShift.style.width = shiftLeftFinal - shiftIdArr[i].shiftStart + 'px'
+
+                            // I'm not sure what is going to be inside the shift, till then I'll just remove it content
+
+                            if (shiftLeftFinal - shiftIdArr[i].shiftStart < 100 && shiftIdArr[i].shiftStart < shiftLeftFinal) {
+
+                                // console.log(shiftIdArr[i].shiftStart);
+                                // console.log(shiftLeftFinal);
+
+                                const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
+
+                                while (shiftElement.lastElementChild) {
+
+                                    shiftElement.removeChild(shiftElement.lastElementChild);
+
+                                }
+
+                            }
+
 
                         } else {
 
@@ -296,6 +314,84 @@ export default class Shift extends Component {
                     this.setState({ shiftDataVIew: 'flex' })
 
                 }
+
+                let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
+
+                let shiftIdArr = []
+
+                // making array of all the shifts
+
+                for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
+
+                    shiftIdArr.push(shiftsObj[shiftInd])
+
+                }
+
+                //console.log(shiftIdArr);
+
+                for (let i = 0; i < shiftIdArr.length; i++) {
+
+                    let shiftStart = shiftIdArr[i].shiftStart
+                    let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
+
+                    //console.log(shiftStart);
+                    //console.log(otherShift);
+                    //console.log(shiftOldLeft);
+                    //console.log(shiftLengthFinal);
+
+                    if (shiftIdArr[i].shiftId !== shiftId) {
+
+                        if (shiftOldLeft + shiftLengthFinal > shiftStart && shiftOldLeft < shiftStart) {
+
+                            otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
+                            otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
+
+                            // I'm not sure what is going to be inside the shift, till then I'll just remove it content
+
+                            if (shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal < 100) {
+
+                                //             // console.log(shiftIdArr[i].shiftStart);
+                                //             // console.log(shiftLeftFinal);
+
+                                const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
+
+                                while (shiftElement.lastElementChild) {
+
+                                    shiftElement.removeChild(shiftElement.lastElementChild);
+
+                                }
+
+
+                            } else {
+
+                                otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
+                                otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             } else if (eve.pageX - dropAreaLeft >= 720) {
 

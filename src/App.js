@@ -195,29 +195,60 @@ export default class App extends Component {
 
       for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
 
+        // the if here check what shift we resize activly
+
         if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart === shiftOldLeft) {
 
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = shiftLeftFinal
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftLeftFinal}w${workerId}`
 
+          // this.setState({ shiftSet: tempShiftDB })
 
-          //need to decide what to do with overlaping shifts
+          // the if here check what shift we resize passivly
 
-          this.setState({ shiftSet: tempShiftDB })
+        } else if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart < shiftOldLeft) {
+
+          // console.log(tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart);
+          // console.log(tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength);
+
+          let sideShiftStart = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart
+          let sideShiftLength = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength
+
+          if (shiftLeftFinal < sideShiftStart + sideShiftLength) {
+
+            // console.log(tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart);
+            // console.log(tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength);
+
+            let newSideShiftLength = shiftLeftFinal - sideShiftStart
+
+            if (newSideShiftLength > 0) {
+
+              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = newSideShiftLength
+
+            } else if (newSideShiftLength <= 0) {
+
+              console.log(shiftInd);
+              console.log(newSideShiftLength);
+
+              tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd, 1)
+
+              shiftInd--
+
+
+            }
+
+          }
 
         }
 
       }
 
-    } else if (resizer === 'rightResizer' && shiftLengthFinal !== undefined
-    
-    
-    ) {
+    } else if (resizer === 'rightResizer' && shiftLengthFinal !== undefined) {
 
-      console.log(resizer);
+      //console.log(resizer);
 
-      console.log(shiftLengthFinal);
+      //console.log(shiftLengthFinal);
 
       for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length; shiftInd++) {
 
@@ -227,10 +258,41 @@ export default class App extends Component {
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = shiftLengthFinal
           tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${shiftOldLeft}w${workerId}`
 
+          // the if here check what shift we resize passivly
 
-          //need to decide what to do with overlaping shifts
+        } else if (tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart > shiftOldLeft) {
 
-          this.setState({ shiftSet: tempShiftDB })
+          let sideShiftStart = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart
+          let sideShiftLength = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength
+
+
+
+          if (shiftOldLeft + shiftLengthFinal > sideShiftStart) {
+
+            console.log(sideShiftStart);
+            console.log(sideShiftLength);
+
+            let newSideShiftLength = sideShiftStart + sideShiftLength - shiftOldLeft - shiftLengthFinal
+            let newSideShiftLeft = shiftOldLeft + shiftLengthFinal
+
+            if (newSideShiftLength > 0) {
+
+              let SideShiftWorkerId = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].workerId;
+              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = newSideShiftLeft
+              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = newSideShiftLength
+              tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${newSideShiftLeft}w${SideShiftWorkerId}`
+
+            } else if (newSideShiftLength <= 0) {
+
+              tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd, 1)
+
+              shiftInd--
+
+
+            }
+
+
+          }
 
         }
 
@@ -238,9 +300,40 @@ export default class App extends Component {
 
     }
 
+    console.log(tempShiftDB[dayInd].posts[postInd].shifts);
 
-    //this.setState({ shiftSet: tempShiftDB })
+    for (let shiftInd = 0; shiftInd < tempShiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
 
+      //console.log(tempShiftDB[dayInd].posts[postInd].shifts);
+
+      let firstShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd]
+      let secondShift = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+      // console.log(firstShift);
+      // console.log(secondShift);
+
+      if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+        tempShiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${firstShift.workerId}` })
+
+        let localShiftNum = tempShiftDB[dayInd].posts[postInd].shifts.length
+
+        let newMergedShift = tempShiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+        tempShiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+        tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+        tempShiftDB[dayInd].posts[postInd].shifts.pop()
+
+      }
+
+    }
+
+
+
+    // need to merge shifts
+    this.setState({ shiftSet: tempShiftDB })
 
   }
 
@@ -292,7 +385,9 @@ export default class App extends Component {
               return <Planner
                 deleteMarker6={this.deleteMarker7}
                 deleteShift={this.deleteShift}
+
                 setResizeData={this.setResizeData}
+
 
                 bringWorkerID6={this.bringWorkerID7}
 

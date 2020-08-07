@@ -88,7 +88,7 @@ export default class Post extends Component {
 
     }
 
-    
+
 
     placeMarker1 = () => {
 
@@ -143,187 +143,201 @@ export default class Post extends Component {
             let postInd = this.props.postInd1
             let axisX = ev.pageX
 
+
+
             var shiftLength = 240
 
             var dropAreaLeft = document.getElementsByClassName('dropAreaDiv')[0].offsetLeft
 
             var dropAreaAxisX = axisX - dropAreaLeft
 
+            console.log(dropAreaAxisX)
 
+            // this if is to prvent shift drop on the border
 
-            // making and array for all the starting point of the shifts + the mouse pointer
+            if (dropAreaAxisX > -1 && dropAreaAxisX < 720) {
 
-            var shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
+                // making and array for all the starting point of the shifts + the mouse pointer
 
-            // the 720 is the ending point when there is no shift after the one we just droped
-            shiftStr.push(720)
-            shiftStr.push(dropAreaAxisX)
+                var shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
 
-            // sort the starting points of the shifts + the mouse pointer, inside the post area.
+                // the 720 is the ending point when there is no shift after the one we just droped
+                shiftStr.push(720)
+                shiftStr.push(dropAreaAxisX)
 
-            for (let j = 0; j < shiftStr.length - 1; j++) {
+                // sort the starting points of the shifts + the mouse pointer, inside the post area.
 
-                for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+                for (let j = 0; j < shiftStr.length - 1; j++) {
 
-                    if (shiftStr[i] > shiftStr[i + 1]) {
+                    for (let i = 0; i < shiftStr.length - 1 - j; i++) {
 
-                        let tempI = shiftStr[i]
-                        shiftStr[i] = shiftStr[i + 1]
-                        shiftStr[i + 1] = tempI
+                        if (shiftStr[i] > shiftStr[i + 1]) {
 
-                    }
+                            let tempI = shiftStr[i]
+                            shiftStr[i] = shiftStr[i + 1]
+                            shiftStr[i + 1] = tempI
 
-                }
-
-            }
-
-            // in that new sorted array, we check where is mouse pointer is positioned
-
-            for (let i = 0; i < shiftStr.length; i++) {
-
-                if (shiftStr[i] === dropAreaAxisX) {
-                    var mouseIndStr = i
-                }
-
-            }
-
-            var endLimit = shiftStr[mouseIndStr + 1]
-
-            // sort the starting point of the shifts + the mouse pointer, inside the post area.
-
-            var shiftend = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
-
-            // the 0 is the starting point when there is no shift before the one we just droped
-            shiftend.push(0)
-            shiftend.push(dropAreaAxisX)
-
-            // sort the ending points of the shifts + the mouse pointer, inside the post area.
-
-            for (let j = 0; j < shiftend.length - 1; j++) {
-
-                for (let i = 0; i < shiftend.length - 1 - j; i++) {
-
-                    if (shiftend[i] > shiftend[i + 1]) {
-
-                        let tempI = shiftend[i]
-                        shiftend[i] = shiftend[i + 1]
-                        shiftend[i + 1] = tempI
+                        }
 
                     }
 
                 }
 
-            }
+                // in that new sorted array, we check where is mouse pointer is positioned
 
-            // here in that new sorted array, we check again where is mouse pointer is positioned
+                for (let i = 0; i < shiftStr.length; i++) {
 
-            for (let i = 0; i < shiftend.length; i++) {
-
-                if (shiftend[i] === dropAreaAxisX) {
-                    var mouseIndEnd = i
-                }
-
-            }
-
-            var strLimit = shiftend[mouseIndEnd - 1]
-
-            if (dropAreaAxisX < strLimit + 120) {
-
-                var shiftStart = strLimit
-                let gap = endLimit - strLimit
-
-                if (gap < 240) {
-
-                    shiftStart = strLimit
-                    shiftLength = endLimit - strLimit
-
-                }
-
-
-            } else if (dropAreaAxisX > endLimit - 120) {
-
-                let gap = endLimit - strLimit
-
-                if (gap >= 240) {
-
-                    shiftStart = endLimit - 240
-
-                } else if (gap < 240) {
-
-                    shiftStart = strLimit
-                    shiftLength = endLimit - strLimit
-
-                }
-
-            } else {
-
-                shiftStart = dropAreaAxisX - 120
-                shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
-
-            }
-
-            shiftDB[dayInd].posts[postInd].shifts.push({ workerId: workerId, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd}p${postInd}s${shiftStart}w${workerId}` })
-
-            //sorting after adding shift
-
-            for (let j = 0; j < shiftDB[dayInd].posts[postInd].shifts.length; j++) {
-
-                for (let i = 0; i < shiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
-
-                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[i]
-                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[i + 1]
-
-                    console.log(shiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
-
-                    if (firstShift.shiftStart > secondShift.shiftStart) {
-
-                        let tempShift = shiftDB[dayInd].posts[postInd].shifts[i]
-                        shiftDB[dayInd].posts[postInd].shifts[i] = shiftDB[dayInd].posts[postInd].shifts[i + 1]
-                        shiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
-
-
+                    if (shiftStr[i] === dropAreaAxisX) {
+                        var mouseIndStr = i
                     }
 
                 }
-            }
 
-            // merg shifts
+                var endLimit = shiftStr[mouseIndStr + 1]
 
-            for (let k = 0; k < 2; k++) {
+                // sort the starting point of the shifts + the mouse pointer, inside the post area.
 
-                // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+                var shiftend = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
 
-                for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+                // the 0 is the starting point when there is no shift before the one we just droped
+                shiftend.push(0)
+                shiftend.push(dropAreaAxisX)
 
-                    console.log(shiftDB[dayInd].posts[postInd].shifts);
+                // sort the ending points of the shifts + the mouse pointer, inside the post area.
 
-                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
-                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+                for (let j = 0; j < shiftend.length - 1; j++) {
 
-                    // console.log(firstShift);
-                    // console.log(secondShift);
+                    for (let i = 0; i < shiftend.length - 1 - j; i++) {
 
-                    if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+                        if (shiftend[i] > shiftend[i + 1]) {
 
-                        shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${workerId}` })
+                            let tempI = shiftend[i]
+                            shiftend[i] = shiftend[i + 1]
+                            shiftend[i + 1] = tempI
 
-                        let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
-
-                        let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
-
-                        shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
-
-                        shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
-
-                        shiftDB[dayInd].posts[postInd].shifts.pop()
+                        }
 
                     }
 
                 }
 
+                // here in that new sorted array, we check again where is mouse pointer is positioned
+
+                for (let i = 0; i < shiftend.length; i++) {
+
+                    if (shiftend[i] === dropAreaAxisX) {
+                        var mouseIndEnd = i
+                    }
+
+                }
+
+                var strLimit = shiftend[mouseIndEnd - 1]
+
+                if (dropAreaAxisX < strLimit + 120) {
+
+                    var shiftStart = strLimit
+                    let gap = endLimit - strLimit
+
+                    if (gap < 240) {
+
+                        shiftStart = strLimit
+                        shiftLength = endLimit - strLimit
+
+                    }
+
+
+                } else if (dropAreaAxisX > endLimit - 120) {
+
+                    let gap = endLimit - strLimit
+
+                    if (gap >= 240) {
+
+                        shiftStart = endLimit - 240
+
+                    } else if (gap < 240) {
+
+                        shiftStart = strLimit
+                        shiftLength = endLimit - strLimit
+
+                    }
+
+                } else {
+
+                    shiftStart = dropAreaAxisX - 120
+                    shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
+
+                }
+
+                shiftDB[dayInd].posts[postInd].shifts.push({ workerId: workerId, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd}p${postInd}s${shiftStart}w${workerId}` })
+
+                //sorting after adding shift
+
+                for (let j = 0; j < shiftDB[dayInd].posts[postInd].shifts.length; j++) {
+
+                    for (let i = 0; i < shiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
+
+                        let firstShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                        let secondShift = shiftDB[dayInd].posts[postInd].shifts[i + 1]
+
+                        console.log(shiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
+
+                        if (firstShift.shiftStart > secondShift.shiftStart) {
+
+                            let tempShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                            shiftDB[dayInd].posts[postInd].shifts[i] = shiftDB[dayInd].posts[postInd].shifts[i + 1]
+                            shiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
+
+
+                        }
+
+                    }
+                }
+
+                // merg shifts
+
+                for (let k = 0; k < 2; k++) {
+
+                    // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+
+                    for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+
+                        console.log(shiftDB[dayInd].posts[postInd].shifts);
+
+                        let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
+                        let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+                        // console.log(firstShift);
+                        // console.log(secondShift);
+
+                        if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+                            shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${workerId}` })
+
+                            let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
+
+                            let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+                            shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+                            shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+                            shiftDB[dayInd].posts[postInd].shifts.pop()
+
+                        }
+
+                    }
+
+                }
+
+                console.log(shiftDB);
+
+
             }
 
-            console.log(shiftDB);
+
+
+
+
 
         } else if (srcClass === 'ticketDiv' && ev.target.className === 'shiftDiv') {
 
@@ -429,214 +443,221 @@ export default class Post extends Component {
 
             dropAreaAxisX = axisX - dropAreaLeft
 
+            // this if is to prvent shift drop on the border
 
+            if (dropAreaAxisX > -1 && dropAreaAxisX < 720) {
 
-            // making and array for all the starting point of the shifts + the mouse pointer
+                // making and array for all the starting point of the shifts + the mouse pointer
 
-            shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
+                shiftStr = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftStart })
 
-            // the 720 is the ending point when there is no shift after the one we just droped
-            shiftStr.push(720)
-            shiftStr.push(dropAreaAxisX)
+                // the 720 is the ending point when there is no shift after the one we just droped
+                shiftStr.push(720)
+                shiftStr.push(dropAreaAxisX)
 
-            // sort the starting points of the shifts + the mouse pointer, inside the post area.
+                // sort the starting points of the shifts + the mouse pointer, inside the post area.
 
-            for (let j = 0; j < shiftStr.length - 1; j++) {
+                for (let j = 0; j < shiftStr.length - 1; j++) {
 
-                for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+                    for (let i = 0; i < shiftStr.length - 1 - j; i++) {
 
-                    if (shiftStr[i] > shiftStr[i + 1]) {
+                        if (shiftStr[i] > shiftStr[i + 1]) {
 
-                        let tempI = shiftStr[i]
-                        shiftStr[i] = shiftStr[i + 1]
-                        shiftStr[i + 1] = tempI
+                            let tempI = shiftStr[i]
+                            shiftStr[i] = shiftStr[i + 1]
+                            shiftStr[i + 1] = tempI
 
-                    }
-
-                }
-
-            }
-
-            // in that new sorted array, we check where is mouse pointer is positioned
-
-            for (let i = 0; i < shiftStr.length; i++) {
-
-                if (shiftStr[i] === dropAreaAxisX) {
-                    mouseIndStr = i
-                }
-
-            }
-
-            endLimit = shiftStr[mouseIndStr + 1]
-
-            // sort the starting point of the shifts + the mouse pointer, inside the post area.
-
-            shiftend = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
-
-            // the 0 is the starting point when there is no shift before the one we just droped
-            shiftend.push(0)
-            shiftend.push(dropAreaAxisX)
-
-            // sort the ending points of the shifts + the mouse pointer, inside the post area.
-
-            for (let j = 0; j < shiftend.length - 1; j++) {
-
-                for (let i = 0; i < shiftend.length - 1 - j; i++) {
-
-                    if (shiftend[i] > shiftend[i + 1]) {
-
-                        let tempI = shiftend[i]
-                        shiftend[i] = shiftend[i + 1]
-                        shiftend[i + 1] = tempI
+                        }
 
                     }
 
                 }
 
-            }
+                // in that new sorted array, we check where is mouse pointer is positioned
 
-            // here in that new sorted array, we check again where is mouse pointer is positioned
+                for (let i = 0; i < shiftStr.length; i++) {
 
-            for (let i = 0; i < shiftend.length; i++) {
+                    if (shiftStr[i] === dropAreaAxisX) {
+                        mouseIndStr = i
+                    }
 
-                if (shiftend[i] === dropAreaAxisX) {
-                    mouseIndEnd = i
                 }
 
-            }
+                endLimit = shiftStr[mouseIndStr + 1]
 
-            strLimit = shiftend[mouseIndEnd - 1]
+                // sort the starting point of the shifts + the mouse pointer, inside the post area.
 
-            if (dropAreaAxisX < strLimit + 120) {
+                shiftend = shiftDB[dayInd].posts[postInd].shifts.map((o, i) => { return o.shiftLength + o.shiftStart })
 
-                shiftStart = strLimit
-                let gap = endLimit - strLimit
+                // the 0 is the starting point when there is no shift before the one we just droped
+                shiftend.push(0)
+                shiftend.push(dropAreaAxisX)
 
-                if (gap < 240) {
+                // sort the ending points of the shifts + the mouse pointer, inside the post area.
+
+                for (let j = 0; j < shiftend.length - 1; j++) {
+
+                    for (let i = 0; i < shiftend.length - 1 - j; i++) {
+
+                        if (shiftend[i] > shiftend[i + 1]) {
+
+                            let tempI = shiftend[i]
+                            shiftend[i] = shiftend[i + 1]
+                            shiftend[i + 1] = tempI
+
+                        }
+
+                    }
+
+                }
+
+                // here in that new sorted array, we check again where is mouse pointer is positioned
+
+                for (let i = 0; i < shiftend.length; i++) {
+
+                    if (shiftend[i] === dropAreaAxisX) {
+                        mouseIndEnd = i
+                    }
+
+                }
+
+                strLimit = shiftend[mouseIndEnd - 1]
+
+                if (dropAreaAxisX < strLimit + 120) {
 
                     shiftStart = strLimit
-                    shiftLength = endLimit - strLimit
+                    let gap = endLimit - strLimit
 
-                }
+                    if (gap < 240) {
 
-
-            } else if (dropAreaAxisX > endLimit - 120) {
-
-                let gap = endLimit - strLimit
-
-                if (gap >= 240) {
-
-                    shiftStart = endLimit - 240
-
-                } else if (gap < 240) {
-
-                    shiftStart = strLimit
-                    shiftLength = endLimit - strLimit
-
-                }
-
-            } else {
-
-                shiftStart = dropAreaAxisX - 120
-                shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
-
-            }
-
-            shiftDB[dayInd].posts[postInd].shifts.push({ workerId: workerId, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd}p${postInd}s${shiftStart}w${workerId}` })
-
-            //sorting after adding shift
-
-            for (let j = 0; j < shiftDB[dayInd].posts[postInd].shifts.length; j++) {
-
-                for (let i = 0; i < shiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
-
-                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[i]
-                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[i + 1]
-
-                    console.log(shiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
-
-                    if (firstShift.shiftStart > secondShift.shiftStart) {
-
-                        let tempShift = shiftDB[dayInd].posts[postInd].shifts[i]
-                        shiftDB[dayInd].posts[postInd].shifts[i] = shiftDB[dayInd].posts[postInd].shifts[i + 1]
-                        shiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
-
+                        shiftStart = strLimit
+                        shiftLength = endLimit - strLimit
 
                     }
 
-                }
-            }
 
-            // removing the shift from its old place in the shiftDB
+                } else if (dropAreaAxisX > endLimit - 120) {
 
-            let srcId = ev.dataTransfer.getData("srcId");
-            let srcDay = ev.dataTransfer.getData("srcDay");
-            let srcPost = ev.dataTransfer.getData("srcPost");
+                    let gap = endLimit - strLimit
 
-            // console.log('srcId ' + srcId);
-            // console.log('srcDay ' + srcDay);
-            // console.log('srcPost ' + srcPost);
+                    if (gap >= 240) {
 
-            console.log(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')));
+                        shiftStart = endLimit - 240
 
-            let srcShiftStart = parseInt(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')))
+                    } else if (gap < 240) {
 
-            console.log(shiftDB[srcDay].posts[srcPost].shifts.filter((o) => (o.shiftStart === srcShiftStart)));
+                        shiftStart = strLimit
+                        shiftLength = endLimit - strLimit
 
-            let shiftsNearSrc = shiftDB[srcDay].posts[srcPost].shifts
+                    }
 
-            for (let shiftInd = 0; shiftInd < shiftsNearSrc.length; shiftInd++) {
+                } else {
 
-                if (shiftsNearSrc.filter((o) => (o.shiftStart === srcShiftStart))[0].shiftStart === shiftsNearSrc[shiftInd].shiftStart) {
-
-                    console.log(shiftsNearSrc[shiftInd]);
-
-
-                    var shiftToRemoveInd = shiftInd
+                    shiftStart = dropAreaAxisX - 120
+                    shiftStart = (Math.floor((shiftStart + 1) / 5)) * 5
 
                 }
 
-            }
+                shiftDB[dayInd].posts[postInd].shifts.push({ workerId: workerId, shiftStart: shiftStart, shiftLength: shiftLength, shiftId: `d${dayInd}p${postInd}s${shiftStart}w${workerId}` })
 
-            shiftsNearSrc.splice(shiftToRemoveInd, 1)
+                //sorting after adding shift
 
-            // merg shifts
+                for (let j = 0; j < shiftDB[dayInd].posts[postInd].shifts.length; j++) {
 
-            for (let k = 0; k < 2; k++) {
+                    for (let i = 0; i < shiftDB[dayInd].posts[postInd].shifts.length - 1 - j; i++) {
 
-                // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+                        let firstShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                        let secondShift = shiftDB[dayInd].posts[postInd].shifts[i + 1]
 
-                for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+                        console.log(shiftDB[dayInd].posts[postInd].shifts[i].shiftStart);
 
-                    console.log(shiftDB[dayInd].posts[postInd].shifts);
+                        if (firstShift.shiftStart > secondShift.shiftStart) {
 
-                    let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
-                    let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+                            let tempShift = shiftDB[dayInd].posts[postInd].shifts[i]
+                            shiftDB[dayInd].posts[postInd].shifts[i] = shiftDB[dayInd].posts[postInd].shifts[i + 1]
+                            shiftDB[dayInd].posts[postInd].shifts[i + 1] = tempShift
 
-                    // console.log(firstShift);
-                    // console.log(secondShift);
 
-                    if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+                        }
 
-                        shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${workerId}` })
+                    }
+                }
 
-                        let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
+                // removing the shift from its old place in the shiftDB
 
-                        let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+                let srcId = ev.dataTransfer.getData("srcId");
+                let srcDay = ev.dataTransfer.getData("srcDay");
+                let srcPost = ev.dataTransfer.getData("srcPost");
 
-                        shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+                // console.log('srcId ' + srcId);
+                // console.log('srcDay ' + srcDay);
+                // console.log('srcPost ' + srcPost);
 
-                        shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+                console.log(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')));
 
-                        shiftDB[dayInd].posts[postInd].shifts.pop()
+                let srcShiftStart = parseInt(srcId.slice(srcId.indexOf('s') + 1, srcId.indexOf('w')))
+
+                console.log(shiftDB[srcDay].posts[srcPost].shifts.filter((o) => (o.shiftStart === srcShiftStart)));
+
+                let shiftsNearSrc = shiftDB[srcDay].posts[srcPost].shifts
+
+                for (let shiftInd = 0; shiftInd < shiftsNearSrc.length; shiftInd++) {
+
+                    if (shiftsNearSrc.filter((o) => (o.shiftStart === srcShiftStart))[0].shiftStart === shiftsNearSrc[shiftInd].shiftStart) {
+
+                        console.log(shiftsNearSrc[shiftInd]);
+
+
+                        var shiftToRemoveInd = shiftInd
 
                     }
 
                 }
 
+                shiftsNearSrc.splice(shiftToRemoveInd, 1)
+
+                // merg shifts
+
+                for (let k = 0; k < 2; k++) {
+
+                    // --- need to run the whole thing twice in order to account for merging 3 shifts ---
+
+                    for (let shiftInd = 0; shiftInd < shiftDB[dayInd].posts[postInd].shifts.length - 1; shiftInd++) {
+
+                        console.log(shiftDB[dayInd].posts[postInd].shifts);
+
+                        let firstShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd]
+                        let secondShift = shiftDB[dayInd].posts[postInd].shifts[shiftInd + 1]
+
+                        // console.log(firstShift);
+                        // console.log(secondShift);
+
+                        if (firstShift.shiftStart + firstShift.shiftLength === secondShift.shiftStart && firstShift.workerId === secondShift.workerId) {
+
+                            shiftDB[dayInd].posts[postInd].shifts.push({ workerId: firstShift.workerId, shiftStart: firstShift.shiftStart, shiftLength: firstShift.shiftLength + secondShift.shiftLength, shiftId: `d${dayInd}p${postInd}s${firstShift.shiftStart}w${workerId}` })
+
+                            let localShiftNum = shiftDB[dayInd].posts[postInd].shifts.length
+
+                            let newMergedShift = shiftDB[dayInd].posts[postInd].shifts[localShiftNum - 1]
+
+                            shiftDB[dayInd].posts[postInd].shifts[shiftInd] = newMergedShift
+
+                            shiftDB[dayInd].posts[postInd].shifts.splice(shiftInd + 1, 1)
+
+                            shiftDB[dayInd].posts[postInd].shifts.pop()
+
+                        }
+
+                    }
+
+                }
+
+                //console.log(shiftDB);
+
+
             }
 
-            //console.log(shiftDB);
+
 
         } else if (srcClass === 'shiftDiv' && ev.target.className === 'shiftDiv') {
 
@@ -839,6 +860,8 @@ export default class Post extends Component {
                         {this.props.shiftSet3[this.props.dayInd2].posts[this.props.postInd1].shifts.map((o, shiftInd) => {
                             return (<Shift
                                 setResizeData={this.props.setResizeData}
+
+
                                 rightClick={this.rightClick}
 
                                 key={shiftInd}

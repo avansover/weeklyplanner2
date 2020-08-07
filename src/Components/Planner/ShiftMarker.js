@@ -18,137 +18,145 @@ export default class ShiftMarker extends Component {
 
             var dropAreaAxisX = this.props.axisX1 - dropAreaLeft
 
-            //console.log(dropAreaAxisX);
+            // this if is to prvent shift drop on the border
 
-            var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
+            if (dropAreaAxisX > -1 && dropAreaAxisX < 720) {
 
-            shiftStr.push(720)
-            shiftStr.push(dropAreaAxisX)
+                //console.log(dropAreaAxisX);
 
-            //console.log(shiftStr);
+                var shiftStr = this.props.localShifts.map((o) => { return o.shiftStart })
 
-            for (let j = 0; j < shiftStr.length - 1; j++) {
+                shiftStr.push(720)
+                shiftStr.push(dropAreaAxisX)
 
-                for (let i = 0; i < shiftStr.length - 1 - j; i++) {
+                //console.log(shiftStr);
 
-                    if (shiftStr[i] > shiftStr[i + 1]) {
+                for (let j = 0; j < shiftStr.length - 1; j++) {
 
-                        let tempI = shiftStr[i]
-                        shiftStr[i] = shiftStr[i + 1]
-                        shiftStr[i + 1] = tempI
+                    for (let i = 0; i < shiftStr.length - 1 - j; i++) {
 
-                    }
+                        if (shiftStr[i] > shiftStr[i + 1]) {
 
-                }
+                            let tempI = shiftStr[i]
+                            shiftStr[i] = shiftStr[i + 1]
+                            shiftStr[i + 1] = tempI
 
-            }
-
-            //console.log(shiftStr);
-
-            for (let i = 0; i < shiftStr.length; i++) {
-
-                if (shiftStr[i] === dropAreaAxisX) {
-                    var mouseIndStr = i
-                }
-
-            }
-
-            //console.log(mouseIndStr);
-
-            var endLimit = shiftStr[mouseIndStr + 1]
-
-            //console.log(endLimit);
-
-            // --------------------------------------------------- //
-
-            var shiftend = this.props.localShifts.map((o) => { return o.shiftLength + o.shiftStart })
-
-            shiftend.push(0)
-            shiftend.push(dropAreaAxisX)
-
-            for (let j = 0; j < shiftend.length - 1; j++) {
-
-                for (let i = 0; i < shiftend.length - 1 - j; i++) {
-
-                    if (shiftend[i] > shiftend[i + 1]) {
-
-                        let tempI = shiftend[i]
-                        shiftend[i] = shiftend[i + 1]
-                        shiftend[i + 1] = tempI
+                        }
 
                     }
 
                 }
 
-            }
+                //console.log(shiftStr);
 
-            for (let i = 0; i < shiftend.length; i++) {
+                for (let i = 0; i < shiftStr.length; i++) {
 
-                if (shiftend[i] === dropAreaAxisX) {
-                    var mouseIndEnd = i
+                    if (shiftStr[i] === dropAreaAxisX) {
+                        var mouseIndStr = i
+                    }
+
                 }
 
-            }
+                //console.log(mouseIndStr);
 
-            //console.log(shiftend);
+                var endLimit = shiftStr[mouseIndStr + 1]
 
-            var strLimit = shiftend[mouseIndEnd - 1]
+                //console.log(endLimit);
 
-            //console.log(strLimit);
+                // --------------------------------------------------- //
 
-            // --------------------------------------------------- //
+                var shiftend = this.props.localShifts.map((o) => { return o.shiftLength + o.shiftStart })
 
-            if (dropAreaAxisX < strLimit + 120) {
+                shiftend.push(0)
+                shiftend.push(dropAreaAxisX)
 
-                markerStart = strLimit
+                for (let j = 0; j < shiftend.length - 1; j++) {
 
-                markerLength = 240
+                    for (let i = 0; i < shiftend.length - 1 - j; i++) {
 
-                let gap = endLimit - strLimit
+                        if (shiftend[i] > shiftend[i + 1]) {
 
-                if (gap < 240) {
+                            let tempI = shiftend[i]
+                            shiftend[i] = shiftend[i + 1]
+                            shiftend[i + 1] = tempI
+
+                        }
+
+                    }
+
+                }
+
+                for (let i = 0; i < shiftend.length; i++) {
+
+                    if (shiftend[i] === dropAreaAxisX) {
+                        var mouseIndEnd = i
+                    }
+
+                }
+
+                //console.log(shiftend);
+
+                var strLimit = shiftend[mouseIndEnd - 1]
+
+                //console.log(strLimit);
+
+                // --------------------------------------------------- //
+
+                if (dropAreaAxisX < strLimit + 120) {
 
                     markerStart = strLimit
-
-                    markerLength = endLimit - strLimit
-
-                }
-
-            } else if (dropAreaAxisX > endLimit - 120) {
-
-                let gap = endLimit - strLimit
-
-                //console.log(gap);
-
-                if (gap >= 240) {
-
-                    markerStart = endLimit - 240
 
                     markerLength = 240
 
-                } else if (gap < 240) {
+                    let gap = endLimit - strLimit
 
-                    markerStart = strLimit
+                    if (gap < 240) {
 
-                    markerLength = endLimit - strLimit
+                        markerStart = strLimit
+
+                        markerLength = endLimit - strLimit
+
+                    }
+
+                } else if (dropAreaAxisX > endLimit - 120) {
+
+                    let gap = endLimit - strLimit
+
+                    //console.log(gap);
+
+                    if (gap >= 240) {
+
+                        markerStart = endLimit - 240
+
+                        markerLength = 240
+
+                    } else if (gap < 240) {
+
+                        markerStart = strLimit
+
+                        markerLength = endLimit - strLimit
+
+                    }
+
+                } else {
+
+                    markerStart = dropAreaAxisX - 120
+
+                    markerLength = 240
+
+                    markerStart = (Math.floor((markerStart + 1) / 5)) * 5
 
                 }
 
-            } else {
 
-                markerStart = dropAreaAxisX - 120
-
-                markerLength = 240
-
-                markerStart = (Math.floor((markerStart + 1) / 5)) * 5
 
             }
 
-         
+            return { mrkStr: markerStart, mrkLnth: markerLength }
 
         }
 
-        return { mrkStr: markerStart, mrkLnth: markerLength }
+
 
     }
 
