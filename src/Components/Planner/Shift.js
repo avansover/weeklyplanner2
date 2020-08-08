@@ -305,7 +305,6 @@ export default class Shift extends Component {
 
                 }
 
-
             }
 
             if (eve.pageX - dropAreaLeft < 720 && eve.pageX - dropAreaLeft >= shiftOldLeft + shortestShift) {
@@ -313,7 +312,7 @@ export default class Shift extends Component {
                 // for the shift div itself
                 shift.style.width = (Math.floor((eve.pageX - dropAreaLeft - shiftOldLeft + 1) / 5)) * 5 + 'px'
 
-                // for the resizing function
+                // a variable the resizing function need to put in the timed state
                 let shiftLengthFinal = (Math.floor((eve.pageX - dropAreaLeft - shiftOldLeft + 1) / 5)) * 5
 
                 this.setState({ shiftLength: shiftLengthFinal })
@@ -337,55 +336,52 @@ export default class Shift extends Component {
                     let shiftStart = shiftIdArr[i].shiftStart
                     let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
 
-                    if (shiftIdArr[i].shiftId !== shiftId) {
+                    if (eve.pageX - dropAreaLeft > shiftStart && eve.pageX - dropAreaLeft < shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength) {
 
-                        console.log(eve.pageX - dropAreaLeft);
-                        console.log(shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength);
 
-                        if (eve.pageX - dropAreaLeft > shiftStart) {
 
+                        otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
+                        otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
+
+                        // I'm not sure what is going to be inside the shift, till then I'll just remove it content
+
+                        // need to take care of rapid mouse movment
+
+                        if (shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal < 100) {
+
+                            const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
+
+                            while (shiftElement.lastElementChild) {
+
+                                shiftElement.removeChild(shiftElement.lastElementChild);
+
+                            }
+
+                        } else {
 
                             otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
                             otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
 
-                            // I'm not sure what is going to be inside the shift, till then I'll just remove it content
-
-                            // need to take care of rapid mouse movment
-
-                            if (shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal < 100) {
-
-                                const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
-
-                                while (shiftElement.lastElementChild) {
-
-                                    shiftElement.removeChild(shiftElement.lastElementChild);
-
-                                }
-
-
-                            } else {
-
-                                otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
-                                otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
-
-                            }
-
-                            // I had some problem when resizing the right edge too fast, so I needed to bolster it conditions
-
-                        } else if (eve.pageX - dropAreaLeft >= shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength) {
-
-                            console.log(shiftIdArr[i]);
-
-                            otherShift.style.width = 0 + 'px'
-
-                        } else {
-
-                            otherShift.style.left = shiftIdArr[i].shiftStart + 'px'
-                            otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
-
                         }
 
+                        // I had some problem when resizing the right edge too fast, so I needed to bolster it conditions
+
+                    } else if (eve.pageX - dropAreaLeft >= shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength) {
+
+                        // console.log(shiftIdArr[i]);
+
+                        otherShift.style.width = 0 + 'px'
+
+                    } else {
+
+                        // console.log(shiftIdArr[i]);
+
+                        otherShift.style.left = shiftIdArr[i].shiftStart + 'px'
+                        otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
+
                     }
+
+
 
                 }
 
@@ -414,7 +410,11 @@ export default class Shift extends Component {
 
                 }
 
-            } else if (eve.pageX - dropAreaLeft < shiftOldLeft + shortestShift) {
+            } else if (eve.pageX - dropAreaLeft - shortestShift < shiftOldLeft) {
+
+                // should research how to hundel when mouse move realy fast to the left side
+
+                console.log(eve.pageX - dropAreaLeft);
 
                 shift.style.width = shortestShift + 'px'
 
