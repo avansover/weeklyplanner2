@@ -269,6 +269,8 @@ export default class App extends Component {
 
           if (shiftOldLeft + shiftLengthFinal > sideShiftStart) {
 
+
+
             console.log(sideShiftStart);
             console.log(sideShiftLength);
 
@@ -278,6 +280,7 @@ export default class App extends Component {
             if (newSideShiftLength > 0) {
 
               let SideShiftWorkerId = tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].workerId;
+
               tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart = newSideShiftLeft
               tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftLength = newSideShiftLength
               tempShiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftId = `d${dayInd}p${postInd}s${newSideShiftLeft}w${SideShiftWorkerId}`
@@ -287,7 +290,6 @@ export default class App extends Component {
               tempShiftDB[dayInd].posts[postInd].shifts.splice(shiftInd, 1)
 
               shiftInd--
-
 
             }
 

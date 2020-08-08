@@ -163,7 +163,7 @@ export default class Shift extends Component {
         let ShiftOldWidth = this.state.ShiftOldWidth;
         let shiftOldLeft = this.state.shiftOldLeft;
 
-        let shortestShift = 5
+        let shortestShift = 10
 
         let shiftDB = [...this.props.shiftSet4]
         let dayInd = this.props.dayInd3
@@ -293,6 +293,21 @@ export default class Shift extends Component {
 
             //console.log(eve.pageX - dropAreaLeft);
 
+            let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
+
+            let shiftIdArr = []
+
+            for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
+
+                if (shiftOldLeft < shiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart) {
+
+                    shiftIdArr.push(shiftsObj[shiftInd])
+
+                }
+
+
+            }
+
             if (eve.pageX - dropAreaLeft < 720 && eve.pageX - dropAreaLeft >= shiftOldLeft + shortestShift) {
 
                 // for the shift div itself
@@ -315,43 +330,29 @@ export default class Shift extends Component {
 
                 }
 
-                let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
-
-                let shiftIdArr = []
-
-                // making array of all the shifts
-
-                for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
-
-                    shiftIdArr.push(shiftsObj[shiftInd])
-
-                }
-
-                //console.log(shiftIdArr);
+                // console.log(shiftIdArr);
 
                 for (let i = 0; i < shiftIdArr.length; i++) {
 
                     let shiftStart = shiftIdArr[i].shiftStart
                     let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
 
-                    //console.log(shiftStart);
-                    //console.log(otherShift);
-                    //console.log(shiftOldLeft);
-                    //console.log(shiftLengthFinal);
-
                     if (shiftIdArr[i].shiftId !== shiftId) {
 
-                        if (shiftOldLeft + shiftLengthFinal > shiftStart && shiftOldLeft < shiftStart) {
+                        console.log(eve.pageX - dropAreaLeft);
+                        console.log(shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength);
+
+                        if (eve.pageX - dropAreaLeft > shiftStart) {
+
 
                             otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
                             otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
 
                             // I'm not sure what is going to be inside the shift, till then I'll just remove it content
 
-                            if (shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal < 100) {
+                            // need to take care of rapid mouse movment
 
-                                //             // console.log(shiftIdArr[i].shiftStart);
-                                //             // console.log(shiftLeftFinal);
+                            if (shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal < 100) {
 
                                 const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
 
@@ -369,6 +370,19 @@ export default class Shift extends Component {
 
                             }
 
+                            // I had some problem when resizing the right edge too fast, so I needed to bolster it conditions
+
+                        } else if (eve.pageX - dropAreaLeft >= shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength) {
+
+                            console.log(shiftIdArr[i]);
+
+                            otherShift.style.width = 0 + 'px'
+
+                        } else {
+
+                            otherShift.style.left = shiftIdArr[i].shiftStart + 'px'
+                            otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
+
                         }
 
                     }
@@ -376,30 +390,29 @@ export default class Shift extends Component {
                 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             } else if (eve.pageX - dropAreaLeft >= 720) {
+
+                // we need to get all the side shifts in here and zero them
 
                 shift.style.width = 720 - shiftOldLeft + 'px'
 
                 this.setState({ shiftLength: 720 - shiftOldLeft })
 
                 this.setState({ shiftLengthFinal: 720 - shiftOldLeft })
+
+                for (let i = 0; i < shiftIdArr.length; i++) {
+
+                    let shiftStart = shiftIdArr[i].shiftStart
+                    let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
+
+                    otherShift.style.left = shiftStart + 'px' // my own paranoia
+
+                    otherShift.style.width = 0 + 'px'
+
+                    // I'm not sure what is going to be inside the shift, till then I'll just remove it content
+
+
+                }
 
             } else if (eve.pageX - dropAreaLeft < shiftOldLeft + shortestShift) {
 
@@ -526,9 +539,9 @@ export default class Shift extends Component {
                 }
             >
 
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', pointerEvents: 'none' }}>
 
-                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize' }}
+                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize', pointerEvents: 'initial' }}
                         className='leftResizer'
                         onMouseDown={this.resizeShift}
                     ></div>
@@ -556,7 +569,7 @@ export default class Shift extends Component {
                     {this.workerName()}
                 </div>
 
-                <div style={{ display: 'flex', }}>
+                <div style={{ display: 'flex', pointerEvents: 'none' }}>
 
                     <div
                         className='shiftDataDiv'
@@ -565,7 +578,7 @@ export default class Shift extends Component {
                         {this.showShiftEnd()}
                     </div>
 
-                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize' }}
+                    <div style={{ backgroundColor: '#888888', width: '2px', height: '100%', cursor: 'ew-resize', pointerEvents: 'initial' }}
                         className='rightResizer'
                         onMouseDown={this.resizeShift}
 
