@@ -134,8 +134,18 @@ export default class Shift extends Component {
         window.addEventListener('mouseup', this.stopResize)
 
         let dropAreaLeft = dropArea.offsetLeft
-        let ShiftOldWidth = shift.offsetWidth
-        let shiftOldLeft = shift.offsetLeft
+
+        //let otherOldWidth = shift.getBoundingClientRect().width
+        //console.log(otherOldWidth);
+
+        //let ShiftOldWidth = shift.offsetWidth
+        let ShiftOldWidth = shift.getBoundingClientRect().width
+
+        // this vlaue sometime give me one less then it should
+        // let shiftOldLeft = shift.offsetLeft
+
+        // I should try this, if it won't work, I'll find a solution from the modulus realm
+        let shiftOldLeft = shift.getBoundingClientRect().left - dropAreaLeft - 0.625
 
 
         console.log('dropAreaLeft ' + dropAreaLeft);
@@ -168,7 +178,7 @@ export default class Shift extends Component {
         let shiftDB = [...this.props.shiftSet4]
         let dayInd = this.props.dayInd3
         let postInd = this.props.postInd2
-        let shiftId = this.state.shiftId
+        // let shiftId = this.state.shiftId
 
         // console.log(shiftDB[dayInd].posts[postInd].shifts);
 
@@ -181,7 +191,28 @@ export default class Shift extends Component {
 
         if (resizer === 'leftResizer') {
 
+            let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
+
+            let shiftIdArr = []
+
+            for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
+
+                if (shiftOldLeft > shiftDB[dayInd].posts[postInd].shifts[shiftInd].shiftStart) {
+
+                    shiftIdArr.push(shiftsObj[shiftInd])
+
+                }
+
+            }
+
+            // console.log(shiftIdArr);
+
             if (eve.pageX > dropAreaLeft && eve.pageX - dropAreaLeft <= shiftOldLeft + ShiftOldWidth - shortestShift) {
+
+                console.log((Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5);
+
+                // I need correct a bug when shift end some times at 1 pixel more or less then needed
+                //the consol reveal that the propblem is with the shiftOldLeft
 
                 // for the shift div itself
                 shift.style.left = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5 + 'px'
@@ -196,6 +227,10 @@ export default class Shift extends Component {
                 this.setState({ shiftLeftFinal: shiftLeftFinal })
                 this.setState({ shiftLengthFinal: shiftLengthFinal })
 
+
+
+
+
                 if (shiftLengthFinal < 60) {
 
                     this.setState({ shiftDataVIew: 'none' })
@@ -206,18 +241,6 @@ export default class Shift extends Component {
 
                 }
 
-                let shiftsObj = shiftDB[dayInd].posts[postInd].shifts
-
-                let shiftIdArr = []
-
-                // making array of all the shifts
-
-                for (let shiftInd = 0; shiftInd < shiftsObj.length; shiftInd++) {
-
-                    shiftIdArr.push(shiftsObj[shiftInd])
-
-                }
-
                 // pushing the right end of shifts while resizing shift run over them
 
                 for (let i = 0; i < shiftIdArr.length; i++) {
@@ -225,41 +248,38 @@ export default class Shift extends Component {
                     let shiftEnd = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength
                     let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
 
-
                     //console.log(shiftEnd);
                     //console.log(otherShift);
 
-                    if (shiftIdArr[i].shiftId !== shiftId) {
+                    if (shiftLeftFinal < shiftEnd) {
 
-                        if (shiftLeftFinal < shiftEnd) {
+                        otherShift.style.width = shiftLeftFinal - shiftIdArr[i].shiftStart + 'px'
 
-                            otherShift.style.width = shiftLeftFinal - shiftIdArr[i].shiftStart + 'px'
+                        // I'm not sure what is going to be inside the shift, till then I'll just remove it content
 
-                            // I'm not sure what is going to be inside the shift, till then I'll just remove it content
+                        if (shiftLeftFinal - shiftIdArr[i].shiftStart < 100 && shiftIdArr[i].shiftStart < shiftLeftFinal) {
 
-                            if (shiftLeftFinal - shiftIdArr[i].shiftStart < 100 && shiftIdArr[i].shiftStart < shiftLeftFinal) {
+                            // console.log(shiftIdArr[i].shiftStart);
+                            // console.log(shiftLeftFinal);
 
-                                // console.log(shiftIdArr[i].shiftStart);
-                                // console.log(shiftLeftFinal);
+                            const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
 
-                                const shiftElement = document.getElementById(`${shiftIdArr[i].shiftId}`);
+                            while (shiftElement.lastElementChild) {
 
-                                while (shiftElement.lastElementChild) {
-
-                                    shiftElement.removeChild(shiftElement.lastElementChild);
-
-                                }
+                                shiftElement.removeChild(shiftElement.lastElementChild);
 
                             }
 
-
-                        } else {
-
-                            otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
-
                         }
 
+
+                    } else {
+
+                        otherShift.style.width = shiftIdArr[i].shiftLength + 'px'
+
                     }
+
+
 
                 }
 
@@ -337,8 +357,6 @@ export default class Shift extends Component {
                     let otherShift = document.getElementById(`${shiftIdArr[i].shiftId}`)
 
                     if (eve.pageX - dropAreaLeft > shiftStart && eve.pageX - dropAreaLeft < shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength) {
-
-
 
                         otherShift.style.left = shiftOldLeft + shiftLengthFinal + 'px'
                         otherShift.style.width = shiftIdArr[i].shiftStart + shiftIdArr[i].shiftLength - shiftOldLeft - shiftLengthFinal + 'px'
@@ -497,15 +515,21 @@ export default class Shift extends Component {
 
     showShiftEnd = () => {
 
-        if (this.state.shiftLengthFinal === undefined) {
+        if (this.state.shiftLeftFinal === undefined && this.state.shiftLengthFinal === undefined) {
 
             return this.props.localShifts[this.props.shiftInd1].shiftStart + this.props.localShifts[this.props.shiftInd1].shiftLength
 
-        } else {
+        } else if (this.state.shiftLeftFinal === undefined && this.state.shiftLengthFinal !== undefined) {
 
             return this.props.localShifts[this.props.shiftInd1].shiftStart + this.state.shiftLengthFinal
 
+        } else if (this.state.shiftLeftFinal !== undefined && this.state.shiftLengthFinal !== undefined) {
+
+            return this.state.shiftLeftFinal + this.state.shiftLengthFinal
+
         }
+
+
 
     }
 

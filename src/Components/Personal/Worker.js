@@ -28,6 +28,8 @@ export default class Worker extends Component {
                     Worker id is {this.props.workerID}
 
                 </div>
+
+
             </div>
         )
     }

@@ -1,30 +1,66 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
+import AddWorker from './AddWorker';
+import PersonalStat from './PersonalStat';
 
 export default class Presonal extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+
+            addWorkerWindow: false
+
+        }
+        
+    }
+
+    addWorkerView = () => {
+
+        if (this.state.addWorkerWindow){
+
+            return <AddWorker />
+
+        } else {
+
+            return <PersonalStat />
+
+        }
+
+    }
+
     render() {
+
         return (
             <div style={{ display: 'flex', position: "relative" }}>
-               
-               
-               <div>
 
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+
+                <div>
+
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Dropdown Button
                             </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
+                        <Dropdown.Menu>
 
-                        {this.props.workerDB.map((o, i)=>{return(<Dropdown.Item href={`#/worker${o.id}`} key={i}>{o.id}</Dropdown.Item>)})}
+                            {this.props.workerDB.map((o, i) => { return (<Dropdown.Item href={`#/worker${o.id}`} key={i}>{o.id}</Dropdown.Item>) })}
 
-                    </Dropdown.Menu>
-                </Dropdown>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                    <button onClick={() => this.setState({ addWorkerWindow: !this.state.addWorkerWindow })}>Add worker</button>
 
                 </div>
 
 
-                <div>workers data</div>
+                <div>{this.addWorkerView()}</div>
+
+                
+
+
+
 
             </div>
         )
