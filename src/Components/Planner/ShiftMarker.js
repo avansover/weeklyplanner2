@@ -173,7 +173,7 @@ export default class ShiftMarker extends Component {
 
         } else {
 
-            return '#ffaaaa'
+            return '#aaaaaa'
 
         }
 

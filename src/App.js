@@ -348,10 +348,10 @@ export default class App extends Component {
 
   }
 
-  addWorker = (a) => {
+  addWorker = (id, firstName, lastName, identification, phone, secondPhone, address, email) => {
 
-
-    console.log(a);
+    let newWorker = { id: Date.now().toString(), firstName, lastName, color: '#a55a5a' }
+    this.setState({ workerDB: [...this.state.workerDB, newWorker] })
 
   }
 

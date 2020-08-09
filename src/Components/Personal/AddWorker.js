@@ -20,11 +20,7 @@ export default class AddWorker extends Component {
 
         }
 
-
-
     }
-
-
 
     render() {
 
@@ -40,7 +36,16 @@ export default class AddWorker extends Component {
                 <div><input placeholder='Address' onChange={(ev) => this.setState({ address: ev.target.value })} ></input></div>
                 <div><input placeholder='Email' onChange={(ev) => this.setState({ email: ev.target.value })} ></input></div>
 
-                <button onClick={()=>this.props.addWorker(this.state.firstName)}>add worker</button>
+                <button onClick={()=>this.props.addWorker(
+                    this.state.firstName,
+                    this.state.lastName,
+                    this.state.identification,
+                    this.state.phone,
+                    this.state.secondPhone,
+                    this.state.address,
+                    this.state.email,
+                
+                    )}>add worker</button>
 
 
 
