@@ -36,7 +36,7 @@ export default class Shift extends Component {
 
     shiftColor = () => {
 
-        var workerId = parseInt(this.props.shiftData.workerId)
+        var workerId = this.props.shiftData.workerId
 
         // console.log(workerId)
 
@@ -55,7 +55,7 @@ export default class Shift extends Component {
 
     workerName = () => {
 
-        let workerId = parseInt(this.props.shiftData.workerId)
+        let workerId = this.props.shiftData.workerId
 
         let workerFromWrokerDB = this.props.workerDB4.filter((o) => (o.id === workerId))
 
@@ -209,7 +209,7 @@ export default class Shift extends Component {
 
             if (eve.pageX > dropAreaLeft && eve.pageX - dropAreaLeft <= shiftOldLeft + ShiftOldWidth - shortestShift) {
 
-                console.log((Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5);
+
 
                 // I need correct a bug when shift end some times at 1 pixel more or less then needed
                 //the consol reveal that the propblem is with the shiftOldLeft
@@ -217,6 +217,8 @@ export default class Shift extends Component {
                 // for the shift div itself
                 shift.style.left = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5 + 'px'
                 shift.style.width = ShiftOldWidth + shiftOldLeft - (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5 + 'px'
+
+
 
                 // for the resizing function
                 let shiftLeftFinal = (Math.floor((eve.pageX - dropAreaLeft + 1) / 5)) * 5
@@ -285,6 +287,8 @@ export default class Shift extends Component {
 
             } else if (eve.pageX <= dropAreaLeft) {
 
+
+
                 shift.style.left = 0 + 'px'
                 shift.style.width = ShiftOldWidth + shiftOldLeft + 'px'
 
@@ -293,8 +297,15 @@ export default class Shift extends Component {
                 this.setState({ shiftLeftFinal: 0 })
                 this.setState({ shiftLengthFinal: ShiftOldWidth + shiftOldLeft })
 
+              
+
+                  
+
+              
+
             } else if (eve.pageX - dropAreaLeft > shiftOldLeft + ShiftOldWidth - shortestShift) {
 
+                console.log(shiftOldLeft + ShiftOldWidth - shortestShift);
 
                 shift.style.left = shiftOldLeft + ShiftOldWidth - shortestShift + 'px'
                 shift.style.width = shortestShift + 'px'
@@ -303,6 +314,9 @@ export default class Shift extends Component {
 
                 this.setState({ shiftLeftFinal: shiftOldLeft + ShiftOldWidth - shortestShift })
                 this.setState({ shiftLengthFinal: shortestShift })
+
+                // for handling realy realy realt fast mouse movment
+                this.setState({ shiftDataVIew: 'none' })
 
 
             }
@@ -439,6 +453,9 @@ export default class Shift extends Component {
                 this.setState({ shortestShift })
 
                 this.setState({ shiftLengthFinal: shortestShift })
+
+                // for handling realy realy realt fast mouse movment
+                this.setState({ shiftDataVIew: 'none' })
 
             }
 

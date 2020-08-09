@@ -32,12 +32,12 @@ export default class App extends Component {
       ],
 
       workerDB: [
-        { id: 0, firstName: 'first', lastName: 'last', color: '#ff0000' },
-        { id: 1, firstName: 'drag', lastName: 'last', color: '#00aa00' },
-        { id: 2, firstName: 'draggable 3', lastName: 'last', color: '#6666ff' },
-        { id: 3, firstName: 'draggable 4', lastName: 'last', color: '#aaaa00' },
-        { id: 4, firstName: 'draggable 5', lastName: 'last', color: '#ff00ff' },
-        { id: 124, firstName: 'draggable 6', lastName: 'last', color: '#00ffff' },
+        { id: '0', firstName: 'first', lastName: 'last', color: '#ff0000' },
+        { id: '1', firstName: 'drag', lastName: 'last', color: '#00aa00' },
+        { id: '2', firstName: 'draggable 3', lastName: 'last', color: '#6666ff' },
+        { id: '3', firstName: 'draggable 4', lastName: 'last', color: '#aaaa00' },
+        { id: '4', firstName: 'draggable 5', lastName: 'last', color: '#ff00ff' },
+        { id: '124', firstName: 'draggable 6', lastName: 'last', color: '#00ffff' },
       ],
 
       markerWorkerID: undefined,
@@ -45,6 +45,7 @@ export default class App extends Component {
       higherBarView: 'in'
 
     }
+
   }
 
   deleteMarker7 = () => {
@@ -347,6 +348,13 @@ export default class App extends Component {
 
   }
 
+  addWorker = (a) => {
+
+
+    console.log(a);
+
+  }
+
   render() {
 
     return (
@@ -402,6 +410,8 @@ export default class App extends Component {
 
             <Route exact path='/personal' component={() => {
               return <Personal
+                addWorker={this.addWorker}
+
                 workerDB={this.state.workerDB}
 
               />

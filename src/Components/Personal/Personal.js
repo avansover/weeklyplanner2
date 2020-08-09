@@ -10,21 +10,37 @@ export default class Presonal extends Component {
 
         this.state = {
 
-            addWorkerWindow: false
+            addWorkerWindow: false,
 
         }
-        
+
     }
 
     addWorkerView = () => {
 
-        if (this.state.addWorkerWindow){
+        if (this.state.addWorkerWindow) {
 
-            return <AddWorker />
+            return <AddWorker
+            addWorker={this.props.addWorker}
+            />
 
         } else {
 
             return <PersonalStat />
+
+        }
+
+    }
+
+    buttonText = () => {
+
+        if (this.state.addWorkerWindow) {
+
+            return 'Personal Stat'
+
+        } else {
+
+            return 'Add worker'
 
         }
 
@@ -50,19 +66,15 @@ export default class Presonal extends Component {
                         </Dropdown.Menu>
                     </Dropdown>
 
-                    <button onClick={() => this.setState({ addWorkerWindow: !this.state.addWorkerWindow })}>Add worker</button>
+                    <button onClick={() => this.setState({ addWorkerWindow: !this.state.addWorkerWindow })}>{this.buttonText()}</button>
 
                 </div>
 
 
                 <div>{this.addWorkerView()}</div>
 
-                
-
-
-
-
             </div>
+
         )
     }
 }
